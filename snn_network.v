@@ -229,7 +229,7 @@ always @(posedge clk or posedge rst) begin
                 else
                     w1[i] <= new_w1[1:0];
 
-                // NEURON 1
+                // NEURON 2
                 dw2 = 4'sd0;
 
                 // CASE 1: if postsynaptic spike & presynaptic spike 1 cycle ago, then potentiate +2
