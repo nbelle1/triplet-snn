@@ -12,12 +12,12 @@ wire [7:0] V1, V2;
 wire       spike1, spike2;
 
 // spike patterns for each color pixel (20 bits each, MSB first)
-//localparam [19:0] WHITE = 20'b01000000100000000010;
-//localparam [19:0] BLACK = 20'b01010100010101000101;
+localparam [19:0] WHITE = 20'b01000000100000000010;
+localparam [19:0] BLACK = 20'b01010100010101000101;
 
 // experimented with these to make one-pass training work
-localparam [19:0] WHITE = 20'b01000010000000000000;
-localparam [19:0] BLACK = 20'b01010100010001000101;
+//localparam [19:0] WHITE = 20'b01000010000000000000;
+//localparam [19:0] BLACK = 20'b01010100010001000101;
 
 // zero training image
 localparam [24:0] TRAIN_0 = 25'b00000_01110_01010_01110_00000;
