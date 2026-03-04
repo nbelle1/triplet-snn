@@ -1,6 +1,3 @@
-# Makefile for SNN Network Simulation
-# ECE 274 Winter 2026 - Assignment 4
-
 # Verilog compiler
 IVERILOG = iverilog
 VVP = vvp
@@ -28,12 +25,17 @@ wave-train: snn_training.vcd
 wave-test: snn_testing.vcd
 	gtkwave snn_testing.vcd &
 
+# Verbose debug run (uses snn_network_tb_verbose.v)
+verbose: snn_network.v snn_network_tb_verbose.v
+	$(IVERILOG) -o snn_verbose snn_network.v snn_network_tb_verbose.v
+	$(VVP) snn_verbose
+
 # Generate weight heatmaps
 plot: $(SOURCES)
 	python3 plot_weights.py
 
 # Clean build artifacts
 clean:
-	rm -f snn_train snn_test *.vcd *.png
+	rm -f snn_train snn_test snn_verbose *.vcd *.png
 
-.PHONY: all train test wave-train wave-test plot clean
+.PHONY: all train test wave-train wave-test verbose plot clean
