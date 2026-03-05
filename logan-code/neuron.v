@@ -138,6 +138,7 @@ module neuron_train ( input       [6:0] excitation,
                       input             rst,
                       input             inhibit_in,
                       output reg  [2:0] spike_sr,
+                      output reg        output_spike,
                       output reg  [6:0] v_membrane,
                       output reg  [6:0] spike_count);
   // Set fixed parameters
@@ -151,37 +152,96 @@ module neuron_train ( input       [6:0] excitation,
     spike_count   <=  7'b0000000;
   end
   // Main logic
+  // always @ (posedge clk or posedge rst) begin
+  //   // If reset or inhibit signal from other neuron, reset
+  //   // to the rest voltage and clear the output spike
+  //   if (rst) begin
+  //     spike_sr      <=  3'b000;
+  //     v_membrane    <=  V_rest;
+  //     spike_count   <=  7'b0000000;
+  //     output_spike  <=  1'b0;
+  //   end else if (inhibit_in) begin
+  //     spike_sr      <=  {spike_sr[1:0], 1'b0};
+  //     output_spike  <=  1'b0;
+  //     v_membrane    <=  V_rest;
+  //   // end else if (v_membrane <= 1'b0) begin
+  //   //   v_membrane  <=  V_rest;
+  //   end else begin
+  //     // If the next step will bring the voltage to below rest, put the 
+  //     // neuron voltage to rest
+  //     if (v_membrane + excitation <= V_rest) begin
+  //       v_membrane    <=  V_rest;
+  //       spike_sr      <=  {spike_sr[1:0], 1'b0};
+  //     // Otherwise, update the neuron voltage using the FE rule
+  //     // If v_membrane (updated value) is over threshold, output spike and
+  //     // make the next value of v_membrane be V_rest
+  //     end else begin
+  //       if (v_membrane >= V_thresh) begin
+  //         if (output_spike) begin
+  //           v_membrane    <=  V_rest;
+  //           spike_sr      <=  {spike_sr[1:0], 1'b0};
+  //           output_spike  <=  1'b0;
+  //         // end else begin
+  //         //   spike_sr      <=  {spike_sr[1:0], 0'b1};
+  //         //   output_spike  <=  1'b1;
+  //         // end
+  //       end else begin
+          
+  //         if ((v_membrane + excitation) >= V_thresh) begin
+  //           v_membrane    <=  v_membrane + excitation;
+  //           spike_sr      <=  {spike_sr[1:0], 1'b1};
+  //           spike_count   <=  spike_count + 7'b0000001;
+  //           output_spike  <=  1'b1;
+  //         end else begin
+  //           v_membrane    <=  v_membrane + excitation;
+  //           spike_sr      <=  {spike_sr[1:0], 1'b0};
+  //           output_spike  <=  1'b0;
+  //         //   if ((v_membrane) >= V_thresh) begin
+              
+  //         //   // Otherwise, put the output_spike to 0 and update v_membrane 
+  //         //   // using the FE rule
+  //         // end else begin
+  //         //   v_membrane    <= v_membrane + excitation;
+  //         //   spike_sr      <=  {spike_sr[1:0], 1'b0};
+  //         // end
+  //         end
+  //       end
+  //     end
+  //   end
+  // end
+  // 
+  // Revised Main Logic for neuron_train
   always @ (posedge clk or posedge rst) begin
-    // If reset or inhibit signal from other neuron, reset
-    // to the rest voltage and clear the output spike
     if (rst) begin
-      spike_sr      <=  3'b000;
-      v_membrane    <=  V_rest;
-      spike_count   <=  7'b0000000;
-    end else if (inhibit_in) begin
-      spike_sr      <=  {spike_sr[1:0], 1'b0};
-      v_membrane    <=  V_rest;
-    // end else if (v_membrane <= 1'b0) begin
-    //   v_membrane  <=  V_rest;
+      spike_sr      <= 3'b000;
+      v_membrane    <= V_rest;
+      spike_count   <= 7'b0000000;
+      output_spike  <= 1'b0;
     end else begin
-      // If the next step will bring the voltage to below rest, put the 
-      // neuron voltage to rest
-      if (v_membrane + excitation <= V_rest) begin
-        v_membrane    <=  V_rest;
-        spike_sr      <=  {spike_sr[1:0], 1'b0};
-      // Otherwise, update the neuron voltage using the FE rule
-      // If v_membrane (updated value) is over threshold, output spike and
-      // make the next value of v_membrane be V_rest
-      end else begin
-        if ((v_membrane + excitation) >= V_thresh) begin
-          v_membrane    <=  V_rest;
-          spike_sr      <=  {spike_sr[1:0], 1'b1};
-          spike_count   <=  spike_count + 7'b0000001;
-          // Otherwise, put the output_spike to 0 and update v_membrane 
-          // using the FE rule
+      // 1. HANDLE RESET (Highest Priority)
+      // Reset happens if the neuron spiked in the PREVIOUS cycle 
+      // or was inhibited in the PREVIOUS cycle.
+      if (output_spike || inhibit_in) begin
+        v_membrane    <= V_rest;
+        output_spike  <= 1'b0;
+        spike_sr      <= {spike_sr[1:0], 1'b0};
+      end 
+      // 2. HANDLE EXCITATION & SPIKING
+      else begin
+        if (v_membrane + excitation >= V_thresh) begin
+          // Maintain the high potential for this cycle
+          v_membrane    <= v_membrane + excitation; 
+          output_spike  <= 1'b1;
+          spike_count   <= spike_count + 7'b0000001;
+          spike_sr      <= {spike_sr[1:0], 1'b1};
+        end else if (v_membrane + excitation <= V_rest) begin
+          v_membrane    <= V_rest; // Floor at V_rest per instructions
+          output_spike  <= 1'b0;
+          spike_sr      <= {spike_sr[1:0], 1'b0};
         end else begin
           v_membrane    <= v_membrane + excitation;
-          spike_sr      <=  {spike_sr[1:0], 1'b0};
+          output_spike  <= 1'b0;
+          spike_sr      <= {spike_sr[1:0], 1'b0};
         end
       end
     end
