@@ -1,0 +1,26 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Wed Mar  4 20:02:59 2026
+[*]
+[dumpfile] "/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test_1_output.vcd"
+[dumpfile_mtime] "Wed Mar  4 20:01:47 2026"
+[dumpfile_size] 5012
+[savefile] "/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test_1_view.gtkw"
+[timestart] 0
+[size] 1428 729
+[pos] -23 28
+*-6.286304 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] testbench_test_1.
+[treeopen] testbench_test_1.test_inst.
+[sst_width] 214
+[signals_width] 182
+[sst_expanded] 1
+[sst_vpaned_height] 197
+@22
+testbench_test_1.test_inst.v_memb_l2_1[6:0]
+testbench_test_1.test_inst.v_memb_l2_2[6:0]
+testbench_test_1.test_inst.spike_cnt_l2_1[6:0]
+@23
+testbench_test_1.test_inst.spike_cnt_l2_2[6:0]
+[pattern_trace] 1
+[pattern_trace] 0
