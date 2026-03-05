@@ -105,8 +105,8 @@ always @(*) begin
     wsum1 = 8'd0;
     wsum2 = 8'd0;
     for (i = 0; i < 25; i = i + 1) begin
-        wsum1 = wsum1 + (K_SYN * w1[i] * S_in[i]);
-        wsum2 = wsum2 + (K_SYN * w2[i] * S_in[i]);
+        wsum1 = wsum1 + (K_SYN * w1[i] * in_spike_prev1_n1[i]);
+        wsum2 = wsum2 + (K_SYN * w2[i] * in_spike_prev1_n2[i]);
     end
 end
 
