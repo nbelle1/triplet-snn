@@ -1,1 +1,6 @@
 .venv
+*.vcd
+*.png
+snn_train
+snn_test
+snn_verbose
