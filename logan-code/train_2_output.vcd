@@ -1,5 +1,5 @@
 $date
-	Thu Mar  5 12:25:46 2026
+	Thu Mar  5 17:40:36 2026
 $end
 $version
 	Icarus Verilog
@@ -61,9 +61,9 @@ $var reg 3 E spike_sr [2:0] $end
 $var reg 7 F v_membrane [6:0] $end
 $upscope $end
 $upscope $end
-$scope begin $ivl_for_loop2 $end
+$scope begin $ivl_for_loop0 $end
 $var integer 32 G i [31:0] $end
-$scope begin $ivl_for_loop3 $end
+$scope begin $ivl_for_loop1 $end
 $var integer 32 H j [31:0] $end
 $upscope $end
 $upscope $end

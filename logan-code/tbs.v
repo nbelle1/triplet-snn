@@ -2,73 +2,6 @@
 // Time precision: 1ns
 `timescale 1ns/1ns
 
-module base_testbench #(
-  parameter SPIKE_FILE = "spikes.mem",
-  parameter VCD_NAME = "wave.vcd",
-  parameter INIT_WEIGHTS_N1_PATH = "init_weights_n1.mem",
-  parameter INIT_WEIGHTS_N2_PATH = "init_weights_n2.mem"
-) ();
-
-  reg clk;
-  reg rst;
-  reg [24:0] input_bus;
-  reg [19:0] spike_mat [0:24];
-
-  wire        out_spike_l2_1;
-  wire [6:0]  v_memb_l2_1;
-  wire [6:0]  spike_cnt_l2_1;
-
-  wire        out_spike_l2_2;
-  wire [6:0]  v_memb_l2_2;
-  wire [6:0]  spike_cnt_l2_2;
-
-  // Instantiate DUT (the spiking neural network)
-  snn_input_hidden snn0 ( .input_spikes   (input_bus),
-                          .clk            (clk),
-                          .rst            (rst),
-                          .out_spike_l2_1(out_spike_l2_1),
-                          .v_memb_l2_1(v_memb_l2_1),
-                          .spike_cnt_l2_1(spike_cnt_l2_1),
-                          .out_spike_l2_2(out_spike_l2_2),
-                          .v_memb_l2_2(v_memb_l2_2),
-                          .spike_cnt_l2_2(spike_cnt_l2_2));
-  // Clock flips polarity every 10 ns
-  always begin
-    #5 clk = ~clk;
-  end
-  // Uninitialized values are X
-  // Need an initial block for initialization
-  initial begin
-    $dumpfile(VCD_NAME);
-    $dumpvars(0, base_testbench);
-    $readmemb(SPIKE_FILE, spike_mat);
-    input_bus     =   25'b0;
-    clk           =   1'b0;
-    // Assert reset
-    rst           <=  1'b1;
-    #20;
-    // Release reset
-    rst           <=  1'b0;
-    // Loop through inputs, starting with MSB
-    for (integer i = 19; i >= 0; i = i - 1) begin
-      @(posedge clk);
-      for (integer j = 0; j < 25; j = j + 1) begin
-        input_bus[j] <= spike_mat[j][i];
-      end
-    end
-    #20;
-
-    $finish;
-  end
-endmodule
-
-module testbench_train_0;
-  base_testbench #(
-    .SPIKE_FILE("spike_mat_train_1.mem"),
-    .VCD_NAME("train_1_output.vcd")
-  ) test_inst ();
-endmodule
-
 module base_testbench_train #(
   parameter SPIKE_FILE = "spikes.mem",
   parameter VCD_NAME = "wave.vcd",
@@ -134,7 +67,8 @@ module base_testbench_train #(
     rst           = 1'b0;
 
     // Loop through the 20 time steps (columns of the matrix)
-    // Starting from MSB (index 19) down to LSB (index 0)
+    // starting from MSB (index 19) down to LSB (index 0)
+    // to get the input_bus
     for (integer i = 19; i >= 0; i = i - 1) begin
       @(posedge clk);
       for (integer j = 0; j < 25; j = j + 1) begin
@@ -143,7 +77,7 @@ module base_testbench_train #(
       end
     end
     input_bus = 25'b0;
-    // Simulation cool-down period
+    // Simulation cooldown period
     #70;
     if (IS_TRAIN) begin
       $writememb(TRAINED_PATH_N1, snn0.w_1i);
@@ -200,6 +134,6 @@ module testbench_test_2;
 endmodule
 
 // Run this
-// iverilog -o sim neuron.v tbs.v -s testbench_3
-// vvp sim
-// gtkwave wave.vcd
+// ./run_train.sh
+// ./view_train.sh (wip)
+// ./view_test.sh (wip)
