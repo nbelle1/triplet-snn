@@ -18,12 +18,12 @@ module snn_network #(
 
 // constants
 parameter V_REST      = 13'd6;
-parameter V_THRESHOLD = 13'd65;
+parameter V_THRESHOLD = 13'd150;
 parameter K_SYN       = 1;
 
 // 1D Array for weights to easily use $readmemb. 
 // Index using: [n * N_SIZE + i]
-reg [1:0] weights [0:(NUM_OUT*N_SIZE)-1];
+reg [5:0] weights [0:(NUM_OUT*N_SIZE)-1];
 
 // Shared input spike history traces
 reg [N_SIZE-1:0] in_spike_prev1;
@@ -134,7 +134,7 @@ always @(posedge clk or posedge rst) begin
                     else if (new_w > 63)
                         weights[n * N_SIZE + i] <= 6'd63;
                     else
-                        weights[n * N_SIZE + i] <= new_w[1:0];
+                        weights[n * N_SIZE + i] <= new_w[5:0];
                 end
             end
         end

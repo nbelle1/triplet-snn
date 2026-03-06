@@ -40,7 +40,7 @@ verbose: $(RTL_SRC) $(TB_VERBOSE_SRC)
 
 # Generate weight heatmaps
 plot:
-	python3 $(VIZ_DIR)/plot_weights.py
+	python $(VIZ_DIR)/plot_weights.py
 
 # Clean build artifacts
 clean:
