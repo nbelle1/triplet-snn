@@ -11,9 +11,12 @@ module snn_stdp (
     output reg         spike_out2    // Output neuron 2 spike
 );
 
+    // STEP 0: Initialize
+
     // IF neuron parameters (no leak)
     localparam [7:0] V_REST  = 8'd6;
     localparam [7:0] V_THETA = 8'd65;
+    localparam       K_SYN   = 1;
     localparam       N_SYN   = 25;  // Number of input synapses (5x5 pixel grid)
 
     // Weight storage: N_SYN synapses per output neuron, 2-bit each (0-3)
@@ -61,6 +64,7 @@ module snn_stdp (
         w2[20]=2'd2; w2[21]=2'd3; w2[22]=2'd1; w2[23]=2'd3; w2[24]=2'd0;
     end
 
+    // STEP 1: Reset module
     always @(posedge clk or posedge rst) begin
         if (rst) begin
             V_mem1       <= V_REST;
@@ -77,8 +81,8 @@ module snn_stdp (
             inhibit2_pending <= 1'b0;
         end else begin
 
-            // STEP 1: Compute synaptic currents (blocking)
-            // I_syn = K_SYN * sum(w_ij * S_j), K_SYN = 1
+            // STEP 2: Compute synaptic currents (blocking)
+            // I_syn = K_SYN * sum(w_ij * S_j)
             // Uses the spikes 1 cycle ago
             I_syn1 = 8'd0;
             I_syn2 = 8'd0;
@@ -89,7 +93,10 @@ module snn_stdp (
                 end
             end
 
-            // STEP 2: Compute V_new
+            I_syn1 = I_syn1 * K_SYN;
+            I_syn2 = I_syn2 * K_SYN;
+
+            // STEP 3: Compute V_new
             // If pending reset (fired or inhibited last cycle): V_new = V_REST + I_syn
             // Otherwise: V_new = V_mem + I_syn
             // Make sure to allow for bit addition overflow
@@ -103,29 +110,19 @@ module snn_stdp (
             else
                 V_new2 = {1'b0, V_mem2} + {1'b0, I_syn2};
 
-            // STEP 3: Threshold check (blocking)
+            // STEP 4: Threshold check (blocking)
             fire1 = (V_new1 >= {1'b0, V_THETA});
             fire2 = (V_new2 >= {1'b0, V_THETA});
 
-            // STEP 4: Update V_mem and spike_out
+            // STEP 5: Update V_mem and spike_out
             // On fire: maintain V_new (reset happens next cycle)
-            if (fire1) begin
-                V_mem1     <= V_new1[7:0];
-                spike_out1 <= 1'b1;
-            end else begin
-                V_mem1     <= V_new1[7:0];
-                spike_out1 <= 1'b0;
-            end
+            V_mem1     <= V_new1[7:0];
+            spike_out1 <= fire1;
 
-            if (fire2) begin
-                V_mem2     <= V_new2[7:0];
-                spike_out2 <= 1'b1;
-            end else begin
-                V_mem2     <= V_new2[7:0];
-                spike_out2 <= 1'b0;
-            end
+            V_mem2     <= V_new2[7:0];
+            spike_out2 <= fire2;
 
-            // STEP 5: Lateral inhibition (sets flags for next cycle)
+            // STEP 6: Lateral inhibition (sets flags for next cycle)
             // Only one fires -> inhibit the other
             // Both fire or neither -> no inhibition
             if (fire1 && !fire2) begin
@@ -139,7 +136,7 @@ module snn_stdp (
                 inhibit2_pending <= 1'b0;
             end
 
-            // STEP 6: Update spike history (shift registers)
+            // STEP 7: Update spike history (shift registers)
             S_in_prev2   <= S_in_prev1;
             S_in_prev1   <= S_in;
             spike1_prev2 <= spike1_prev1;
@@ -147,7 +144,7 @@ module snn_stdp (
             spike2_prev2 <= spike2_prev1;
             spike2_prev1 <= fire2;
 
-            // STEP 7: STDP weight updates (training only)
+            // STEP 8: STDP weight updates (training only)
             // dt = t_post - t_pre
             //   dt=+1: dw=+2
             //   dt=+2: dw=+1

@@ -65,6 +65,16 @@ module tb_snn_stdp;
         5'b00110   // row 0
     };
 
+    // Flattened weight vectors for waveform viewing
+    reg [49:0] w1_flat, w2_flat;
+    integer fi;
+    always @(*) begin
+        for (fi = 0; fi < 25; fi = fi + 1) begin
+            w1_flat[fi*2 +: 2] = uut.w1[fi];
+            w2_flat[fi*2 +: 2] = uut.w2[fi];
+        end
+    end
+
     // Spike counters
     integer cnt1, cnt2;
 
