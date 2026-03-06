@@ -19,6 +19,7 @@ module neuron_train ( input       [6:0] excitation,
     spike_sr      <=  3'b000;
     v_membrane    <=  V_rest;
     spike_count   <=  7'b0000000;
+    output_spike  <=  1'b0;
   end
   
   always @ (posedge clk or posedge rst) begin
@@ -43,7 +44,7 @@ module neuron_train ( input       [6:0] excitation,
           spike_count   <= spike_count + 7'b0000001;
           spike_sr      <= {spike_sr[1:0], 1'b1};
         end else if (v_membrane + excitation <= V_rest) begin
-          v_membrane    <= V_rest; // Floor at V_rest per instructions
+          v_membrane    <= V_rest;
           output_spike  <= 1'b0;
           spike_sr      <= {spike_sr[1:0], 1'b0};
         end else begin
@@ -64,9 +65,11 @@ module snn_train_1 #(
                       input         rst,
                       input         train_en,
                       output [2:0]  out_spike_sr_1,
+                      output        out_spike_1,
                       output [6:0]  v_memb_l2_1,
                       output [6:0]  spike_cnt_l2_1,
                       output [2:0]  out_spike_sr_2,
+                      output        out_spike_2,
                       output [6:0]  v_memb_l2_2,
                       output [6:0]  spike_cnt_l2_2
                       ); 
@@ -140,7 +143,8 @@ module snn_train_1 #(
         dw2 = 0;
 
 
-        if (out_spike_sr_1[0] && !out_spike_sr_1[1]) begin
+        // if (out_spike_sr_1[0] && !out_spike_sr_1[1]) begin
+        if (out_spike_sr_1[0]) begin
             // LTP: check if pre fired 1 or 2 cycles ago
             if      (pre_spike_sr[j][1]) dw1 = dw1 + 2;
             else if (pre_spike_sr[j][2]) dw1 = dw1 + 1;
@@ -151,7 +155,8 @@ module snn_train_1 #(
             else if (out_spike_sr_1[2]) dw1 = dw1 - 1;
         end
 
-        if (out_spike_sr_2[0] && !out_spike_sr_2[1]) begin
+        // if (out_spike_sr_2[0] && !out_spike_sr_2[1]) begin
+        if (out_spike_sr_2[0]) begin
             // LTP: check if pre fired 1 or 2 cycles ago
             if      (pre_spike_sr[j][1]) dw2 = dw2 + 2;
             else if (pre_spike_sr[j][2]) dw2 = dw2 + 1;
@@ -162,10 +167,7 @@ module snn_train_1 #(
             else if (out_spike_sr_2[2]) dw2 = dw2 - 1;
         end
 
-        if (j == 11) begin
-          $display("[%0t] Synapse %0d updated | dw1: %0d, dw2: %0d | pre_SR: %b | out_SR1: %b | out_SR2: %b", 
-                   $time, j, dw1, dw2, pre_spike_sr[j], out_spike_sr_1, out_spike_sr_2);
-        end
+        
         temp_w1 = temp_w1 + dw1;
         temp_w2 = temp_w2 + dw2;
 
@@ -196,6 +198,7 @@ module snn_train_1 #(
   neuron_train n_1  ( .excitation(excite_l2_1), 
                       .clk(clk),
                       .rst(rst),
+                      .output_spike(out_spike_1),
                       .inhibit_in(inhibit_1),
                       .spike_sr(out_spike_sr_1),
                       .v_membrane(v_memb_l2_1),
@@ -203,6 +206,7 @@ module snn_train_1 #(
   neuron_train n_2  ( .excitation(excite_l2_2), 
                       .clk(clk),
                       .rst(rst),
+                      .output_spike(out_spike_2),
                       .inhibit_in(inhibit_2),
                       .spike_sr(out_spike_sr_2),
                       .v_membrane(v_memb_l2_2),

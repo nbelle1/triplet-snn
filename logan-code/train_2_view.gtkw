@@ -1,26 +1,30 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Wed Mar  4 01:24:21 2026
+[*] Fri Mar  6 02:54:08 2026
 [*]
-[dumpfile] "/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/train_2_output.vcd"
-[dumpfile_mtime] "Wed Mar  4 01:23:23 2026"
-[dumpfile_size] 5321
-[savefile] "/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/train_2_view.gtkw"
+[dumpfile] "/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn/logan-code/train_2_output.vcd"
+[dumpfile_mtime] "Fri Mar  6 02:52:27 2026"
+[dumpfile_size] 6961
+[savefile] "/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn/logan-code/train_2_view.gtkw"
 [timestart] 0
 [size] 1428 729
 [pos] 32767 32767
-*-6.543692 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-6.138328 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] testbench_train_2.
 [treeopen] testbench_train_2.test_inst.
 [treeopen] testbench_train_2.test_inst.snn0.
 [sst_width] 214
-[signals_width] 274
+[signals_width] 208
 [sst_expanded] 1
 [sst_vpaned_height] 197
+@28
+testbench_train_2.test_inst.snn0.out_spike_1
 @24
 testbench_train_2.test_inst.snn0.spike_cnt_l2_1[6:0]
-testbench_train_2.test_inst.snn0.spike_cnt_l2_2[6:0]
 testbench_train_2.test_inst.snn0.v_memb_l2_1[6:0]
+testbench_train_2.test_inst.snn0.out_spike_2
+testbench_train_2.test_inst.snn0.spike_cnt_l2_2[6:0]
+@25
 testbench_train_2.test_inst.snn0.v_memb_l2_2[6:0]
 [pattern_trace] 1
 [pattern_trace] 0
