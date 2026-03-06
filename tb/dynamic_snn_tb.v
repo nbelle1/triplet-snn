@@ -1,30 +1,30 @@
-// testbench for SNN; perform training and testing in one run
+// testbench for Dynamic SNN; perform training and testing in one run
+// Set W_BITS via -DW_BITS=2 or -DW_BITS=4 at compile time (default: 4)
 
 `timescale 1ns/1ps
 
-module snn_network_tb;
+`ifndef W_BITS
+`define W_BITS 4
+`endif
+
+module dynamic_snn_tb;
+
+localparam W_BITS = `W_BITS;
+localparam V_BITS = W_BITS + 6;
 
 // signals
-reg        clk, rst;
-reg [24:0] S_in;
-reg        train;
-wire [7:0] V1, V2;
-wire       spike1, spike2;
+reg              clk, rst;
+reg [24:0]       S_in;
+reg              train;
+wire [V_BITS-1:0] V1, V2;
+wire             spike1, spike2;
 
 // spike patterns for each color pixel (40 bits each, MSB first)
-// original evenly-spaced patterns (20-bit)
-// localparam [19:0] WHITE = 20'b01000000100000000010;
-// localparam [19:0] BLACK = 20'b01010100010101000101;
-
 // bursty patterns to showcase triplet STDP (pre-post-pre / post-pre-post)
 // BLACK: bursts of 2 every 5 cycles (16 spikes in 40 steps)
 // WHITE: single spikes every 10 cycles (4 spikes in 40 steps)
 localparam [39:0] WHITE = 40'b1000000000100000000010000000001000000000;
 localparam [39:0] BLACK = 40'b1100110000001100110000001100110000001100;
-
-// experimented with these to make one-pass training work
-//localparam [19:0] WHITE = 20'b01000010000000000000;
-//localparam [19:0] BLACK = 20'b01010100010001000101;
 
 // zero training image
 localparam [24:0] TRAIN_0 = 25'b00000_01110_01010_01110_00000;
@@ -41,8 +41,8 @@ localparam [24:0] TEST_1  = 25'b01100_00100_00100_00100_00100;
 // spike firing counters
 integer count1, count2;
 
-// instantiate dut
-snn_network dut (
+// instantiate dut with parameterized weight precision
+snn_dynamic #(.W_BITS(W_BITS)) dut (
     .clk(clk),
     .rst(rst),
     .S_in(S_in),
@@ -136,14 +136,27 @@ task run_phase;
 endtask
 
 // main simulation
+integer d;
 initial begin
     `ifdef TEST_ONLY
-    $dumpfile("snn_testing.vcd");
-    $dumpvars(0, snn_network_tb);
+    $dumpfile("dynamic_snn_testing.vcd");
+    $dumpvars(0, dynamic_snn_tb);
+    for (d = 0; d < 25; d = d + 1) begin
+        $dumpvars(0, dut.r1[d]);
+        $dumpvars(0, dut.r2[d]);
+        $dumpvars(0, dut.w1[d]);
+        $dumpvars(0, dut.w2[d]);
+    end
     $dumpoff;
     `else
-    $dumpfile("snn_training.vcd");
-    $dumpvars(0, snn_network_tb);
+    $dumpfile("dynamic_snn_training.vcd");
+    $dumpvars(0, dynamic_snn_tb);
+    for (d = 0; d < 25; d = d + 1) begin
+        $dumpvars(0, dut.r1[d]);
+        $dumpvars(0, dut.r2[d]);
+        $dumpvars(0, dut.w1[d]);
+        $dumpvars(0, dut.w2[d]);
+    end
     `endif
 
     // Phase 1: Train with '0' image

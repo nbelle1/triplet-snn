@@ -1,8 +1,8 @@
-// testbench for SNN; perform training and testing in one run
+// testbench for Triplet SNN; perform training and testing in one run
 
 `timescale 1ns/1ps
 
-module snn_network_tb;
+module triplet_snn_tb;
 
 // signals
 reg        clk, rst;
@@ -22,10 +22,6 @@ wire       spike1, spike2;
 localparam [39:0] WHITE = 40'b1000000000100000000010000000001000000000;
 localparam [39:0] BLACK = 40'b1100110000001100110000001100110000001100;
 
-// experimented with these to make one-pass training work
-//localparam [19:0] WHITE = 20'b01000010000000000000;
-//localparam [19:0] BLACK = 20'b01010100010001000101;
-
 // zero training image
 localparam [24:0] TRAIN_0 = 25'b00000_01110_01010_01110_00000;
 
@@ -42,7 +38,7 @@ localparam [24:0] TEST_1  = 25'b01100_00100_00100_00100_00100;
 integer count1, count2;
 
 // instantiate dut
-snn_network dut (
+triplet_snn dut (
     .clk(clk),
     .rst(rst),
     .S_in(S_in),
@@ -136,14 +132,28 @@ task run_phase;
 endtask
 
 // main simulation
+integer d;
 initial begin
     `ifdef TEST_ONLY
-    $dumpfile("snn_testing.vcd");
-    $dumpvars(0, snn_network_tb);
+    $dumpfile("triplet_snn_testing.vcd");
+    $dumpvars(0, triplet_snn_tb);
+    // dump memory arrays (iverilog does not include these in $dumpvars)
+    for (d = 0; d < 25; d = d + 1) begin
+        $dumpvars(0, dut.r1[d]);
+        $dumpvars(0, dut.r2[d]);
+        $dumpvars(0, dut.w1[d]);
+        $dumpvars(0, dut.w2[d]);
+    end
     $dumpoff;
     `else
-    $dumpfile("snn_training.vcd");
-    $dumpvars(0, snn_network_tb);
+    $dumpfile("triplet_snn_training.vcd");
+    $dumpvars(0, triplet_snn_tb);
+    for (d = 0; d < 25; d = d + 1) begin
+        $dumpvars(0, dut.r1[d]);
+        $dumpvars(0, dut.r2[d]);
+        $dumpvars(0, dut.w1[d]);
+        $dumpvars(0, dut.w2[d]);
+    end
     `endif
 
     // Phase 1: Train with '0' image
