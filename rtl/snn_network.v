@@ -1,293 +1,154 @@
 // SNN using IF neurons and STDP
-
-module snn_network (
-    input  wire        clk,
-    input  wire        rst,
-    input  wire [24:0] S_in,    // input spikes
-    input  wire        train,   // boolean to toggle to freeze weights between train and test
-    output reg  [7:0]  V1, V2,  // membrane potentials
-    output reg         spike1, spike2
+module snn_network #(
+    parameter SPIKE_FILE = "data/spikes.mem",
+    parameter VCD_NAME = "data/wave.vcd",
+    parameter INIT_WEIGHTS_PATH = "data/init_weights.mem",
+    parameter TRAINED_PATH_N1 = "data/trained_weights.mem",
+    parameter N_SIZE = 784,
+    parameter NUM_OUT = 10
+)
+(
+    input  wire               clk,
+    input  wire               rst,
+    input  wire [N_SIZE-1:0]  S_in,      
+    input  wire               train,          // boolean for train or test
+    output reg  [12:0]        V [0:NUM_OUT-1], // membrane potentials
+    output reg  [NUM_OUT-1:0] spike
 );
 
 // constants
-parameter V_REST      = 8'd6;
-parameter V_THRESHOLD = 8'd65;
+parameter V_REST      = 13'd6;
+parameter V_THRESHOLD = 13'd65;
 parameter K_SYN       = 1;
 
-// weight arrays for the two output neuron synapses (each connected to 25 input neurons)
-reg [1:0] w1 [0:24];
-reg [1:0] w2 [0:24];
+// 1D Array for weights to easily use $readmemb. 
+// Index using: [n * N_SIZE + i]
+reg [1:0] weights [0:(NUM_OUT*N_SIZE)-1];
 
-// spike history traces (two steps back; shift registers)
-reg [24:0] in_spike_prev1_n1, in_spike_prev2_n1;  // tracks what S_in was one and two cycles ago for potentiation after output neuron 1 fires
-reg [24:0] in_spike_prev1_n2, in_spike_prev2_n2;  // tracks what S_in was one and two cycles ago for potentiation after output neuron 2 fires
-reg        out1_spike_prev1, out1_spike_prev2;  // tracks if output neuron 1 spike one or two cycles ago for depression after an input spike
-reg        out2_spike_prev1, out2_spike_prev2;  // tracks if output neuron 2 spike one or two cycles ago for depression after an input spike
+// Shared input spike history traces
+reg [N_SIZE-1:0] in_spike_prev1;
+reg [N_SIZE-1:0] in_spike_prev2;
 
-// delayed reset flags
-reg need_reset_1, need_reset_2;
+// Output spike history traces
+reg [NUM_OUT-1:0] out_spike_prev1;
+reg [NUM_OUT-1:0] out_spike_prev2;
 
-// wires to calculate intermediate weight sums
-reg [7:0] wsum1, wsum2;
-integer i;
+// Delayed reset flags
+reg [NUM_OUT-1:0] need_reset;
 
-// initial weight maps
+// Intermediate weight sums
+reg [12:0] wsum [0:NUM_OUT-1];
+
+// Loop variables
+integer n, i, j;
+integer dw, new_w;
+
+// Initialize weights from .mem file
 initial begin
-    // Output neuron 1: 
-    // {1,0,0,1,2,
-    //  0,3,2,3,0,
-    //  2,2,1,3,3, 
-    //  1,3,0,0,2, 
-    //  3,1,1,0,1}
-
-    w1[0] = 2'd1; 
-    w1[1] = 2'd0; 
-    w1[2] = 2'd0; 
-    w1[3] = 2'd1; 
-    w1[4] = 2'd2;
-    w1[5] = 2'd0; 
-    w1[6] = 2'd3; 
-    w1[7] = 2'd2; 
-    w1[8] = 2'd3; 
-    w1[9] = 2'd0;
-    w1[10] = 2'd2; 
-    w1[11] = 2'd2; 
-    w1[12] = 2'd1; 
-    w1[13] = 2'd3; 
-    w1[14] = 2'd3;
-    w1[15] = 2'd1; 
-    w1[16] = 2'd3; 
-    w1[17] = 2'd0; 
-    w1[18] = 2'd0; 
-    w1[19] = 2'd2;
-    w1[20] = 2'd3; 
-    w1[21] = 2'd1; 
-    w1[22] = 2'd1; 
-    w1[23] = 2'd0; 
-    w1[24] = 2'd1;
-
-    // Output neuron 2: 
-    // {0,2,3,0,1, 
-    //  2,0,2,0,0, 
-    //  1,2,3,1,2, 
-    //  0,1,1,0,1, 
-    //  2,3,1,3,0}
-
-    w2[0] = 2'd0; 
-    w2[1] = 2'd2; 
-    w2[2] = 2'd3; 
-    w2[3] = 2'd0; 
-    w2[4] = 2'd1;
-    w2[5] = 2'd2; 
-    w2[6] = 2'd0; 
-    w2[7] = 2'd2; 
-    w2[8] = 2'd0; 
-    w2[9] = 2'd0;
-    w2[10] = 2'd1; 
-    w2[11] = 2'd2; 
-    w2[12] = 2'd3; 
-    w2[13] = 2'd1; 
-    w2[14] = 2'd2;
-    w2[15] = 2'd0; 
-    w2[16] = 2'd1; 
-    w2[17] = 2'd1; 
-    w2[18] = 2'd0; 
-    w2[19] = 2'd1;
-    w2[20] = 2'd2; 
-    w2[21] = 2'd3; 
-    w2[22] = 2'd1; 
-    w2[23] = 2'd3; 
-    w2[24] = 2'd0;
+    $readmemb(INIT_WEIGHTS_PATH, weights);
 end
 
-// combinational to compute weighted sums
+// Combinational logic to compute weighted sums
 always @(*) begin
-    wsum1 = 8'd0;
-    wsum2 = 8'd0;
-    for (i = 0; i < 25; i = i + 1) begin
-        wsum1 = wsum1 + (K_SYN * w1[i] * in_spike_prev1_n1[i]);
-        wsum2 = wsum2 + (K_SYN * w2[i] * in_spike_prev1_n2[i]);
+    for (n = 0; n < NUM_OUT; n = n + 1) begin
+        wsum[n] = 13'd0;
+        for (i = 0; i < N_SIZE; i = i + 1) begin
+            wsum[n] = wsum[n] + (K_SYN * weights[n * N_SIZE + i] * in_spike_prev1[i]);
+        end
     end
 end
 
-// sequential logic
+// Sequential logic
 always @(posedge clk or posedge rst) begin
     if (rst) begin
-        V1 <= V_REST;
-        V2 <= V_REST;
-        spike1 <= 1'b0;
-        spike2 <= 1'b0;
-        need_reset_1 <= 1'b0;
-        need_reset_2 <= 1'b0;
-        in_spike_prev1_n1 <= 25'b0;
-        in_spike_prev2_n1 <= 25'b0;
-        in_spike_prev1_n2 <= 25'b0;
-        in_spike_prev2_n2 <= 25'b0;
-        out1_spike_prev1 <= 1'b0;
-        out1_spike_prev2 <= 1'b0;
-        out2_spike_prev1 <= 1'b0;
-        out2_spike_prev2 <= 1'b0;
+        for (n = 0; n < NUM_OUT; n = n + 1) begin
+            V[n] <= V_REST;
+            spike[n] <= 1'b0;
+            need_reset[n] <= 1'b0;
+            out_spike_prev1[n] <= 1'b0;
+            out_spike_prev2[n] <= 1'b0;
+        end
+        in_spike_prev1 <= {N_SIZE{1'b0}};
+        in_spike_prev2 <= {N_SIZE{1'b0}};
     end
     else begin
-        // CASE 1: Neuron 1 update
-        if (need_reset_1) begin
-            V1 <= V_REST;
-            spike1 <= 1'b0;
-            need_reset_1 <= 1'b0;
-        end
-        else begin
-            // if spike, set flag for reset in cycle n+1
-            if (V1 + wsum1 >= V_THRESHOLD) begin
-                V1 <= V1 + wsum1;
-                spike1 <= 1'b1;
-                need_reset_1 <= 1'b1;
+        // 1. NEURON UPDATES
+        for (n = 0; n < NUM_OUT; n = n + 1) begin
+            if (need_reset[n]) begin
+                V[n] <= V_REST;
+                spike[n] <= 1'b0;
+                need_reset[n] <= 1'b0;
             end
-            // clamp membrane potential to the resting value
-            else if (V1 + wsum1 < V_REST) begin
-                V1 <= V_REST;
-                spike1 <= 1'b0;
-            end
-            // simple increment by weight sum
             else begin
-                V1 <= V1 + wsum1;
-                spike1 <= 1'b0;
+                if (V[n] + wsum[n] >= V_THRESHOLD) begin
+                    V[n] <= V[n] + wsum[n];
+                    spike[n] <= 1'b1;
+                    need_reset[n] <= 1'b1;
+                end
+                else if (V[n] + wsum[n] < V_REST) begin
+                    V[n] <= V_REST;
+                    spike[n] <= 1'b0;
+                end
+                else begin
+                    V[n] <= V[n] + wsum[n];
+                    spike[n] <= 1'b0;
+                end
             end
         end
 
-        // CASE 2: Neuron 2 update
-        if (need_reset_2) begin
-            V2 <= V_REST;
-            spike2 <= 1'b0;
-            need_reset_2 <= 1'b0;
-        end
-        else begin
-            // if spike, set flag for reset in cycle n+1
-            if (V2 + wsum2 >= V_THRESHOLD) begin
-                V2 <= V2 + wsum2;
-                spike2 <= 1'b1;
-                need_reset_2 <= 1'b1;
-            end
-            // clamp membrane potential to the resting value
-            else if (V2 + wsum2 < V_REST) begin
-                V2 <= V_REST;
-                spike2 <= 1'b0;
-            end
-            // simple increment by weight sum
-            else begin
-                V2 <= V2 + wsum2;
-                spike2 <= 1'b0;
+        // 2. LATERAL INHIBITION (Winner-Takes-All)
+        // If a neuron crosses the threshold, reset all other neurons
+        for (n = 0; n < NUM_OUT; n = n + 1) begin
+            if (!need_reset[n] && (V[n] + wsum[n] >= V_THRESHOLD)) begin
+                for (j = 0; j < NUM_OUT; j = j + 1) begin
+                    if (j != n) begin
+                        need_reset[j] <= 1'b1;
+                    end
+                end
             end
         end
 
-        // lateral inhibition: if neuron 1 fires alone, reset neuron 2 next cycle
-        if (!need_reset_1 && (V1 + wsum1 >= V_THRESHOLD) &&
-            (need_reset_2 || !(V2 + wsum2 >= V_THRESHOLD))) begin
-            // make sure flag wasn't already set
-            if (!need_reset_2)
-                need_reset_2 <= 1'b1;
-        end
-
-        // lateral inhibition: if neuron 2 fires alone, reset neuron 1 next cycle
-        if (!need_reset_2 && (V2 + wsum2 >= V_THRESHOLD) &&
-            (need_reset_1 || !(V1 + wsum1 >= V_THRESHOLD))) begin
-            if (!need_reset_1)
-                need_reset_1 <= 1'b1;
-        end
-
-        // STDP weight updates
+        // 3. STDP WEIGHT UPDATES
         if (train) begin
-            for (i = 0; i < 25; i = i + 1) begin : stdp_loop
-                reg signed [3:0] dw1, dw2;
-                reg signed [4:0] new_w1, new_w2;
+            for (n = 0; n < NUM_OUT; n = n + 1) begin
+                for (i = 0; i < N_SIZE; i = i + 1) begin
+                    dw = 0;
 
-                // NEURON 1
-                dw1 = 4'sd0;
+                    // Potentiation (post-synaptic spike follows pre-synaptic)
+                    if (!need_reset[n] && (V[n] + wsum[n] >= V_THRESHOLD) && in_spike_prev1[i])
+                        dw = dw + 2;
+                    if (!need_reset[n] && (V[n] + wsum[n] >= V_THRESHOLD) && in_spike_prev2[i])
+                        dw = dw + 1;
+                        
+                    // Depression (pre-synaptic spike follows post-synaptic)
+                    if (S_in[i] && out_spike_prev1[n])
+                        dw = dw - 2;
+                    if (S_in[i] && out_spike_prev2[n])
+                        dw = dw - 1;
 
-                // CASE 1: if postsynaptic spike & presynaptic spike 1 cycle ago, then potentiate +2
-                if (!need_reset_1 && (V1 + wsum1 >= V_THRESHOLD) && in_spike_prev1_n1[i])
-                    dw1 = dw1 + 4'sd2;
-                // CASE 2: if postsynaptic spike & presynaptic spike 2 cycle ago, then potentiate +1
-                if (!need_reset_1 && (V1 + wsum1 >= V_THRESHOLD) && in_spike_prev2_n1[i])
-                    dw1 = dw1 + 4'sd1;
-                // CASE 3: if presynaptic spike & postsynaptic spike 1 cycle ago, then potentiate +2
-                if (S_in[i] && out1_spike_prev1)
-                    dw1 = dw1 - 4'sd2;
-                // CASE 4: if presynaptic spike & postsynaptic spike 2 cycle ago, then potentiate +1
-                if (S_in[i] && out1_spike_prev2)
-                    dw1 = dw1 - 4'sd1;
-
-                // handle overflow by adding 0 bit to w1 and new_w1 is 5 bits signed
-                new_w1 = $signed({1'b0, w1[i]}) + dw1;
-
-                // clamp weights to zero if negative
-                if (new_w1 < 0)
-                    w1[i] <= 2'd0;
-                // clamp to 3 if above
-                else if (new_w1 > 3)
-                    w1[i] <= 2'd3;
-                //use bottom two bits regularly
-                else
-                    w1[i] <= new_w1[1:0];
-
-                // NEURON 2
-                dw2 = 4'sd0;
-
-                // CASE 1: if postsynaptic spike & presynaptic spike 1 cycle ago, then potentiate +2
-                if (!need_reset_2 && (V2 + wsum2 >= V_THRESHOLD) && in_spike_prev1_n2[i])
-                    dw2 = dw2 + 4'sd2;
-                // CASE 2: if postsynaptic spike & presynaptic spike 2 cycle ago, then potentiate +1
-                if (!need_reset_2 && (V2 + wsum2 >= V_THRESHOLD) && in_spike_prev2_n2[i])
-                    dw2 = dw2 + 4'sd1;
-                // CASE 3: if presynaptic spike & postsynaptic spike 1 cycle ago, then potentiate +2
-                if (S_in[i] && out2_spike_prev1)
-                    dw2 = dw2 - 4'sd2;
-                // CASE 4: if presynaptic spike & postsynaptic spike 2 cycle ago, then potentiate +1
-                if (S_in[i] && out2_spike_prev2)
-                    dw2 = dw2 - 4'sd1;
-
-                // handle overflow and clamping
-                new_w2 = $signed({1'b0, w2[i]}) + dw2;
-                if (new_w2 < 0)
-                    w2[i] <= 2'd0;
-                else if (new_w2 > 3)
-                    w2[i] <= 2'd3;
-                else
-                    w2[i] <= new_w2[1:0];
+                    // Calculate new weight and clamp
+                    new_w = weights[n * N_SIZE + i] + dw;
+                    
+                    if (new_w < 0)
+                        weights[n * N_SIZE + i] <= 6'd0;
+                    else if (new_w > 63)
+                        weights[n * N_SIZE + i] <= 6'd63;
+                    else
+                        weights[n * N_SIZE + i] <= new_w[1:0];
+                end
             end
         end
 
-        // shift spike histroy registers
+        // 4. SHIFT HISTORY REGISTERS
+        in_spike_prev2 <= in_spike_prev1;
+        in_spike_prev1 <= S_in;
 
-        // INPUT HISTORY (POTENTIATION)
-        // neuron 1 shift in from S_in
-        in_spike_prev2_n1 <= in_spike_prev1_n1;
-        in_spike_prev1_n1 <= S_in;
-
-        // neuron 2 shift in from S_in
-        in_spike_prev2_n2 <= in_spike_prev1_n2;
-        in_spike_prev1_n2 <= S_in;
-
-        // OUTPUT HISTORY (DEPRESSION)
-        // check if output neuron 1 generated a spike this cycle and shift in a 1
-        if (!need_reset_1 && (V1 + wsum1 >= V_THRESHOLD)) begin
-            out1_spike_prev2 <= out1_spike_prev1;
-            out1_spike_prev1 <= 1'b1;
-        end
-        // if no spike, shift in a 0
-        else begin
-            out1_spike_prev2 <= out1_spike_prev1;
-            out1_spike_prev1 <= 1'b0;
-        end
-
-        // check if output neuron 2 generated a spike this cycle and shift in a 1
-        if (!need_reset_2 && (V2 + wsum2 >= V_THRESHOLD)) begin
-            out2_spike_prev2 <= out2_spike_prev1;
-            out2_spike_prev1 <= 1'b1;
-        end
-        // if no spike, shift in a 0
-        else begin
-            out2_spike_prev2 <= out2_spike_prev1;
-            out2_spike_prev1 <= 1'b0;
+        for (n = 0; n < NUM_OUT; n = n + 1) begin
+            out_spike_prev2[n] <= out_spike_prev1[n];
+            if (!need_reset[n] && (V[n] + wsum[n] >= V_THRESHOLD))
+                out_spike_prev1[n] <= 1'b1;
+            else
+                out_spike_prev1[n] <= 1'b0;
         end
     end
 end

@@ -35,7 +35,7 @@ wave-test: snn_testing.vcd
 
 # Verbose debug run (uses snn_network_tb_verbose.v)
 verbose: $(RTL_SRC) $(TB_VERBOSE_SRC)
-	$(IVERILOG) -o snn_verbose $(RTL_SRC) $(TB_VERBOSE_SRC)
+	$(IVERILOG) -g2012 -o snn_verbose $(RTL_SRC) $(TB_VERBOSE_SRC)
 	$(VVP) snn_verbose
 
 # Generate weight heatmaps
