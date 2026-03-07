@@ -5,7 +5,7 @@ from pathlib import Path
 # User configuration
 GRID_SIZE = 28
 BIT_WIDTH = 6
-OUTPUT_FILE = Path("weights.mem")
+OUTPUT_FILE = Path("weights/weights.mem")
 
 
 def generate_weight_grid(grid_size: int, bit_width: int) -> list[list[int]]:
@@ -30,6 +30,7 @@ def main() -> None:
         raise ValueError("BIT_WIDTH must be greater than 0.")
 
     weights = generate_weight_grid(GRID_SIZE, BIT_WIDTH)
+    OUTPUT_FILE.parent.mkdir(exist_ok=True)
     write_weight_grid(OUTPUT_FILE, weights, BIT_WIDTH)
     print(
         f"Wrote a {GRID_SIZE}x{GRID_SIZE} grid of random {BIT_WIDTH}-bit weights to {OUTPUT_FILE}"
