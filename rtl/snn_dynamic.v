@@ -4,7 +4,12 @@
 // Supports both all-to-all (MODE=0) and nearest-neighbor (MODE=1) modes
 
 module snn_dynamic #(
-    parameter W_BITS = 4   // weight bit-width (2 = original precision, 4 = extended)
+    parameter W_BITS      = 4,  // weight bit-width (2 = original precision, 4 = extended)
+    parameter MODE        = 0,  // 0 = all-to-all, 1 = nearest-neighbor
+    parameter TRIPLET_EN  = 1,  // 1 = triplet STDP, 0 = pair-based only
+    parameter TRACE_BITS  = 4,  // trace register width (2 = 2-cycle window, 4 = 4-cycle window)
+    parameter LEAK_EN     = 1,  // 1 = LIF (leaky), 0 = IF (no leak, matches original snn_network)
+    parameter SYMMETRIC   = 0   // 1 = symmetric LTP/LTD (A2_MINUS = A2_PLUS), 0 = use asymmetric A params
 ) (
     input  wire              clk,
     input  wire              rst,
@@ -19,33 +24,33 @@ localparam W_MAX          = (1 << W_BITS) - 1;        // max weight value
 localparam W_SCALE_FACTOR = (1 << (W_BITS - 2));      // multiplier from original 2-bit values
 localparam V_BITS         = W_BITS + 6;                // membrane potential width
 localparam WSUM_BITS      = W_BITS + 5;                // weighted sum width (W_MAX * 25)
+localparam TRACE_MAX      = (1 << TRACE_BITS) - 1;    // max trace value
 
 // neuron parameters (base values scaled by W_SCALE_FACTOR)
 parameter V_REST      = 6 * W_SCALE_FACTOR;
 parameter V_THRESHOLD = 65 * W_SCALE_FACTOR;
 parameter K_SYN       = 1;
-parameter V_LEAK      = 1 * W_SCALE_FACTOR;
+parameter V_LEAK      = LEAK_EN ? 1 * W_SCALE_FACTOR : 0;
 
-// triplet STDP parameters
-parameter MODE      = 0;      // 0 = all-to-all, 1 = nearest-neighbor
-parameter A2_PLUS   = 4'd1;   // pair-based LTP magnitude
-parameter A2_MINUS  = 4'd3;   // pair-based LTD magnitude
-parameter A3_PLUS   = 4'd1;   // triplet LTP magnitude (modulated by o2)
-parameter A3_MINUS  = 4'd4;   // triplet LTD magnitude (modulated by r2)
-parameter DW_SCALE  = 2;      // right-shift to scale weight updates
-parameter TRACE_INC = 4'd8;   // trace increment for all-to-all mode
+// STDP parameters
+parameter A2_PLUS   = 4'd1;                          // pair-based LTP magnitude
+parameter A2_MINUS  = SYMMETRIC ? A2_PLUS : 4'd3;    // symmetric: LTD = LTP; asymmetric: LTD = 3
+parameter A3_PLUS   = 4'd1;                          // triplet LTP magnitude (modulated by o2)
+parameter A3_MINUS  = 4'd4;                          // triplet LTD magnitude (modulated by r2)
+parameter DW_SCALE  = TRACE_BITS - 2;                 // right-shift to scale weight updates (scales with trace width)
+parameter TRACE_INC = (1 << (TRACE_BITS - 1));       // trace increment (half of max → 2 decay steps per spike)
 
 // weight arrays (parameterized width)
 reg [W_BITS-1:0] w1 [0:24];
 reg [W_BITS-1:0] w2 [0:24];
 
-// pre-synaptic traces (4-bit, independent of weight precision)
-reg [3:0] r1 [0:24];   // fast pre-synaptic trace (decays by >>1 each cycle)
-reg [3:0] r2 [0:24];   // slow pre-synaptic trace (decays by -2 each cycle)
+// pre-synaptic traces (width controlled by TRACE_BITS)
+reg [TRACE_BITS-1:0] r1 [0:24];   // fast pre-synaptic trace (decays by >>1 each cycle)
+reg [TRACE_BITS-1:0] r2 [0:24];   // slow pre-synaptic trace (decays by -2 each cycle)
 
 // post-synaptic traces (per output neuron)
-reg [3:0] o1_1, o1_2;  // fast post-synaptic trace (decays by >>1)
-reg [3:0] o2_1, o2_2;  // slow post-synaptic trace (decays by -2)
+reg [TRACE_BITS-1:0] o1_1, o1_2;  // fast post-synaptic trace (decays by >>1)
+reg [TRACE_BITS-1:0] o2_1, o2_2;  // slow post-synaptic trace (decays by -2)
 
 // 1-cycle delayed input for weighted sum (matches original behavior)
 reg [24:0] S_in_prev;
@@ -100,13 +105,13 @@ always @(posedge clk or posedge rst) begin
         need_reset_1 <= 1'b0;
         need_reset_2 <= 1'b0;
         S_in_prev <= 25'b0;
-        o1_1 <= 4'd0;
-        o1_2 <= 4'd0;
-        o2_1 <= 4'd0;
-        o2_2 <= 4'd0;
+        o1_1 <= 0;
+        o1_2 <= 0;
+        o2_1 <= 0;
+        o2_2 <= 0;
         for (i = 0; i < 25; i = i + 1) begin
-            r1[i] <= 4'd0;
-            r2[i] <= 4'd0;
+            r1[i] <= 0;
+            r2[i] <= 0;
         end
     end
     else begin
@@ -181,10 +186,10 @@ always @(posedge clk or posedge rst) begin
                 dep_raw1 = 12'd0;
 
                 if (spike1_now)
-                    pot_raw1 = r1[i] * A2_PLUS + ((r1[i] * o2_1) >> 4) * A3_PLUS;
+                    pot_raw1 = r1[i] * A2_PLUS + (TRIPLET_EN ? ((r1[i] * o2_1) >> TRACE_BITS) * A3_PLUS : 0);
 
                 if (S_in[i])
-                    dep_raw1 = o1_1 * A2_MINUS + ((o1_1 * r2[i]) >> 4) * A3_MINUS;
+                    dep_raw1 = o1_1 * A2_MINUS + (TRIPLET_EN ? ((o1_1 * r2[i]) >> TRACE_BITS) * A3_MINUS : 0);
 
                 // scale and clamp to weight range
                 pot_shift1 = pot_raw1 >> DW_SCALE;
@@ -207,10 +212,10 @@ always @(posedge clk or posedge rst) begin
                 dep_raw2 = 12'd0;
 
                 if (spike2_now)
-                    pot_raw2 = r1[i] * A2_PLUS + ((r1[i] * o2_2) >> 4) * A3_PLUS;
+                    pot_raw2 = r1[i] * A2_PLUS + (TRIPLET_EN ? ((r1[i] * o2_2) >> TRACE_BITS) * A3_PLUS : 0);
 
                 if (S_in[i])
-                    dep_raw2 = o1_2 * A2_MINUS + ((o1_2 * r2[i]) >> 4) * A3_MINUS;
+                    dep_raw2 = o1_2 * A2_MINUS + (TRIPLET_EN ? ((o1_2 * r2[i]) >> TRACE_BITS) * A3_MINUS : 0);
 
                 pot_shift2 = pot_raw2 >> DW_SCALE;
                 dep_shift2 = dep_raw2 >> DW_SCALE;
@@ -233,9 +238,9 @@ always @(posedge clk or posedge rst) begin
         for (i = 0; i < 25; i = i + 1) begin : trace_pre_update
             if (S_in[i]) begin
                 if (MODE == 1)
-                    r1[i] <= 4'd15;
+                    r1[i] <= TRACE_INC;
                 else
-                    r1[i] <= (r1[i] + TRACE_INC > 4'd15) ? 4'd15 : r1[i] + TRACE_INC;
+                    r1[i] <= (r1[i] + TRACE_INC > TRACE_MAX) ? TRACE_MAX[TRACE_BITS-1:0] : r1[i] + TRACE_INC;
             end
             else begin
                 r1[i] <= r1[i] >> 1;
@@ -243,44 +248,44 @@ always @(posedge clk or posedge rst) begin
 
             if (S_in[i]) begin
                 if (MODE == 1)
-                    r2[i] <= 4'd15;
+                    r2[i] <= TRACE_INC;
                 else
-                    r2[i] <= (r2[i] + TRACE_INC > 4'd15) ? 4'd15 : r2[i] + TRACE_INC;
+                    r2[i] <= (r2[i] + TRACE_INC > TRACE_MAX) ? TRACE_MAX[TRACE_BITS-1:0] : r2[i] + TRACE_INC;
             end
             else begin
-                r2[i] <= (r2[i] > 4'd1) ? r2[i] - 4'd2 : 4'd0;
+                r2[i] <= (r2[i] > 1) ? r2[i] - 2 : 0;
             end
         end
 
         // --- Update post-synaptic traces ---
         if (spike1_now) begin
             if (MODE == 1) begin
-                o1_1 <= 4'd15;
-                o2_1 <= 4'd15;
+                o1_1 <= TRACE_INC;
+                o2_1 <= TRACE_INC;
             end
             else begin
-                o1_1 <= (o1_1 + TRACE_INC > 4'd15) ? 4'd15 : o1_1 + TRACE_INC;
-                o2_1 <= (o2_1 + TRACE_INC > 4'd15) ? 4'd15 : o2_1 + TRACE_INC;
+                o1_1 <= (o1_1 + TRACE_INC > TRACE_MAX) ? TRACE_MAX[TRACE_BITS-1:0] : o1_1 + TRACE_INC;
+                o2_1 <= (o2_1 + TRACE_INC > TRACE_MAX) ? TRACE_MAX[TRACE_BITS-1:0] : o2_1 + TRACE_INC;
             end
         end
         else begin
             o1_1 <= o1_1 >> 1;
-            o2_1 <= (o2_1 > 4'd1) ? o2_1 - 4'd2 : 4'd0;
+            o2_1 <= (o2_1 > 1) ? o2_1 - 2 : 0;
         end
 
         if (spike2_now) begin
             if (MODE == 1) begin
-                o1_2 <= 4'd15;
-                o2_2 <= 4'd15;
+                o1_2 <= TRACE_INC;
+                o2_2 <= TRACE_INC;
             end
             else begin
-                o1_2 <= (o1_2 + TRACE_INC > 4'd15) ? 4'd15 : o1_2 + TRACE_INC;
-                o2_2 <= (o2_2 + TRACE_INC > 4'd15) ? 4'd15 : o2_2 + TRACE_INC;
+                o1_2 <= (o1_2 + TRACE_INC > TRACE_MAX) ? TRACE_MAX[TRACE_BITS-1:0] : o1_2 + TRACE_INC;
+                o2_2 <= (o2_2 + TRACE_INC > TRACE_MAX) ? TRACE_MAX[TRACE_BITS-1:0] : o2_2 + TRACE_INC;
             end
         end
         else begin
             o1_2 <= o1_2 >> 1;
-            o2_2 <= (o2_2 > 4'd1) ? o2_2 - 4'd2 : 4'd0;
+            o2_2 <= (o2_2 > 1) ? o2_2 - 2 : 0;
         end
 
         S_in_prev <= S_in;

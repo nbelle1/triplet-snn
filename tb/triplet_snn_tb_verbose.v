@@ -8,7 +8,7 @@ module triplet_snn_tb;
 reg        clk, rst;
 reg [24:0] S_in;
 reg        train;
-wire [7:0] V1, V2;
+wire [9:0] V1, V2;
 wire       spike1, spike2;
 
 // spike patterns for each color pixel (40 bits each, MSB first)

@@ -65,20 +65,40 @@ triplet-verbose: $(TRIPLET_RTL_SRC) $(TRIPLET_TB_VERBOSE_SRC)
 	$(IVERILOG) -o triplet_snn_verbose $(TRIPLET_RTL_SRC) $(TRIPLET_TB_VERBOSE_SRC)
 	$(VVP) triplet_snn_verbose
 
-# Dynamic SNN: compile and run training (default W_BITS=4)
-dynamic-train: $(DYNAMIC_RTL_SRC) $(DYNAMIC_TB_SRC)
-	$(IVERILOG) -o dynamic_snn_train $(DYNAMIC_RTL_SRC) $(DYNAMIC_TB_SRC)
-	$(VVP) dynamic_snn_train
+# ============================================================
+# Dynamic SNN ablation framework
+# ============================================================
+# Defaults (override on command line)
+W_BITS     ?= 4
+TRACE_BITS ?= 4
+TRIPLET_EN ?= 1
+MODE       ?= 0
+LEAK_EN    ?= 1
+SYMMETRIC  ?= 0
+NUM_EPOCHS ?= 1
 
-# Dynamic SNN: compile and run testing (default W_BITS=4)
-dynamic-test: $(DYNAMIC_RTL_SRC) $(DYNAMIC_TB_SRC)
-	$(IVERILOG) -DTEST_ONLY -o dynamic_snn_test $(DYNAMIC_RTL_SRC) $(DYNAMIC_TB_SRC)
-	$(VVP) dynamic_snn_test
+# Build -D flags from variables
+DFLAGS = -DW_BITS=$(W_BITS) -DTRACE_BITS=$(TRACE_BITS) -DTRIPLET_EN=$(TRIPLET_EN) \
+         -DMODE=$(MODE) -DLEAK_EN=$(LEAK_EN) -DSYMMETRIC=$(SYMMETRIC) -DNUM_EPOCHS=$(NUM_EPOCHS)
 
-# Dynamic SNN: 2-bit weight ablation
-dynamic-test-2bit: $(DYNAMIC_RTL_SRC) $(DYNAMIC_TB_SRC)
-	$(IVERILOG) -DTEST_ONLY -DW_BITS=2 -o dynamic_snn_test_2bit $(DYNAMIC_RTL_SRC) $(DYNAMIC_TB_SRC)
-	$(VVP) dynamic_snn_test_2bit
+# Generic ablation target: pass any combination of parameters
+#   make ablation W_BITS=2 TRIPLET_EN=0 TRACE_BITS=2 LEAK_EN=0
+ablation: $(DYNAMIC_RTL_SRC) $(DYNAMIC_TB_SRC)
+	$(IVERILOG) $(DFLAGS) -o dynamic_snn_ablation $(DYNAMIC_RTL_SRC) $(DYNAMIC_TB_SRC)
+	$(VVP) dynamic_snn_ablation
+
+# Named presets for common configurations
+ablation-original: ## Original snn_network equivalent
+	$(MAKE) ablation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SYMMETRIC=1
+
+ablation-pair: ## Trace-based pair STDP (4-bit, LIF)
+	$(MAKE) ablation TRIPLET_EN=0
+
+ablation-triplet: ## Triplet STDP (4-bit, LIF) — default
+	$(MAKE) ablation
+
+ablation-nn: ## Nearest-neighbor triplet
+	$(MAKE) ablation MODE=1
 
 # Generate weight heatmaps
 plot:
@@ -86,6 +106,6 @@ plot:
 
 # Clean build artifacts
 clean:
-	rm -f snn_train snn_test snn_verbose triplet_snn_train triplet_snn_test triplet_snn_verbose dynamic_snn_train dynamic_snn_test dynamic_snn_test_2bit *.vcd *.png
+	rm -f snn_train snn_test snn_verbose triplet_snn_train triplet_snn_test triplet_snn_verbose dynamic_snn_ablation *.vcd *.png
 
-.PHONY: all train test wave-train wave-test verbose triplet-train triplet-test wave-triplet-train wave-triplet-test triplet-verbose dynamic-train dynamic-test dynamic-test-2bit plot clean
+.PHONY: all train test wave-train wave-test verbose triplet-train triplet-test wave-triplet-train wave-triplet-test triplet-verbose ablation ablation-original ablation-pair ablation-triplet ablation-nn plot clean

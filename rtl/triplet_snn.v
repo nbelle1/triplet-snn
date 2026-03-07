@@ -7,15 +7,15 @@ module triplet_snn (
     input  wire        rst,
     input  wire [24:0] S_in,    // input spikes
     input  wire        train,   // toggle to freeze weights between train and test
-    output reg  [7:0]  V1, V2,  // membrane potentials
+    output reg  [9:0]  V1, V2,  // membrane potentials (widened to match 4-bit weight range)
     output reg         spike1, spike2
 );
 
-// neuron parameters
-parameter V_REST      = 8'd6;
-parameter V_THRESHOLD = 8'd65;
+// neuron parameters (scaled by 4x to match 4-bit weights without lossy W_SCALE)
+parameter V_REST      = 10'd24;   // 6 * 4
+parameter V_THRESHOLD = 10'd260;  // 65 * 4
 parameter K_SYN       = 1;
-parameter V_LEAK      = 8'd1;
+parameter V_LEAK      = 10'd4;    // 1 * 4
 
 // triplet STDP parameters
 parameter MODE      = 0;      // 0 = all-to-all, 1 = nearest-neighbor
@@ -25,7 +25,6 @@ parameter A3_PLUS   = 4'd1;   // triplet LTP magnitude (modulated by o2)
 parameter A3_MINUS  = 4'd4;   // triplet LTD magnitude (modulated by r2)
 parameter DW_SCALE  = 2;      // right-shift to scale weight updates
 parameter TRACE_INC = 4'd8;   // trace increment for all-to-all mode
-parameter W_SCALE   = 2;      // right-shift wsum to fit 8-bit membrane potential
 
 // 4-bit weight arrays (0-15 range for finer STDP granularity)
 reg [3:0] w1 [0:24];
@@ -45,13 +44,11 @@ reg [24:0] S_in_prev;
 // delayed reset flags
 reg need_reset_1, need_reset_2;
 
-// intermediate calculations (10-bit to handle 4-bit weights * 25 inputs)
-reg [9:0] wsum1_full, wsum2_full;
-wire [7:0] wsum1 = wsum1_full >> W_SCALE;
-wire [7:0] wsum2 = wsum2_full >> W_SCALE;
+// weighted sums (9-bit: max 15 * 25 = 375)
+reg [8:0] wsum1, wsum2;
 integer i;
 
-// spike detection (post-leak threshold check, uses scaled wsum)
+// spike detection (post-leak threshold check)
 wire spike1_now = !need_reset_1 && (V1 + wsum1 >= V_THRESHOLD + V_LEAK);
 wire spike2_now = !need_reset_2 && (V2 + wsum2 >= V_THRESHOLD + V_LEAK);
 
@@ -76,11 +73,11 @@ end
 
 // combinational weighted sums (uses 1-cycle delayed input, same as original)
 always @(*) begin
-    wsum1_full = 10'd0;
-    wsum2_full = 10'd0;
+    wsum1 = 9'd0;
+    wsum2 = 9'd0;
     for (i = 0; i < 25; i = i + 1) begin
-        wsum1_full = wsum1_full + (K_SYN * w1[i] * S_in_prev[i]);
-        wsum2_full = wsum2_full + (K_SYN * w2[i] * S_in_prev[i]);
+        wsum1 = wsum1 + (K_SYN * w1[i] * S_in_prev[i]);
+        wsum2 = wsum2 + (K_SYN * w2[i] * S_in_prev[i]);
     end
 end
 
@@ -233,8 +230,8 @@ always @(posedge clk or posedge rst) begin
         for (i = 0; i < 25; i = i + 1) begin : trace_pre_update
             // fast pre trace (r1): fast decay via >>1, bump on input spike
             if (S_in[i]) begin
-                if (MODE == 1)  // nearest-neighbor: set to max
-                    r1[i] <= 4'd15;
+                if (MODE == 1)  // nearest-neighbor: reset to single-spike value
+                    r1[i] <= TRACE_INC;
                 else            // all-to-all: saturating add
                     r1[i] <= (r1[i] + TRACE_INC > 4'd15) ? 4'd15 : r1[i] + TRACE_INC;
             end
@@ -245,7 +242,7 @@ always @(posedge clk or posedge rst) begin
             // slow pre trace (r2): slow decay via -2, bump on input spike
             if (S_in[i]) begin
                 if (MODE == 1)
-                    r2[i] <= 4'd15;
+                    r2[i] <= TRACE_INC;
                 else
                     r2[i] <= (r2[i] + TRACE_INC > 4'd15) ? 4'd15 : r2[i] + TRACE_INC;
             end
@@ -258,8 +255,8 @@ always @(posedge clk or posedge rst) begin
         // Neuron 1
         if (spike1_now) begin
             if (MODE == 1) begin
-                o1_1 <= 4'd15;
-                o2_1 <= 4'd15;
+                o1_1 <= TRACE_INC;
+                o2_1 <= TRACE_INC;
             end
             else begin
                 o1_1 <= (o1_1 + TRACE_INC > 4'd15) ? 4'd15 : o1_1 + TRACE_INC;
@@ -274,8 +271,8 @@ always @(posedge clk or posedge rst) begin
         // Neuron 2
         if (spike2_now) begin
             if (MODE == 1) begin
-                o1_2 <= 4'd15;
-                o2_2 <= 4'd15;
+                o1_2 <= TRACE_INC;
+                o2_2 <= TRACE_INC;
             end
             else begin
                 o1_2 <= (o1_2 + TRACE_INC > 4'd15) ? 4'd15 : o1_2 + TRACE_INC;
