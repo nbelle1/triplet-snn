@@ -4,7 +4,8 @@
 // Usage examples:
 //   make ablation                                          # default: 4-bit triplet LIF
 //   make ablation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0  # original pair-based IF
-//   make ablation NUM_STEPS=80 NUM_EPOCHS=3                # longer training
+//   make ablation NUM_STEPS=80 NUM_EPOCHS=3         
+//   # longer training
 
 `timescale 1ns/1ps
 
@@ -63,46 +64,12 @@ reg              train;
 wire [V_BITS-1:0] V1, V2;
 wire             spike1, spike2;
 
-// spike patterns for each color pixel (MSB first)
-// BLACK: bursts of 2 every 5 cycles (16 spikes in 40 steps)
-// WHITE: single spikes every 10 cycles (4 spikes in 40 steps)
 // NUM_STEPS is derived from pattern length — change pattern width to adjust
 localparam NUM_STEPS = 40;
 
-// test4.png with 2 bits (bad)
-// localparam [NUM_STEPS-1:0] WHITE = 40'b1000000000100000000010000000001000000000;
-// localparam [NUM_STEPS-1:0] BLACK = 40'b1111111111111111111111111111111111111111;
-
-// test5.png with 2 bits (bad)
-// localparam [NUM_STEPS-1:0] WHITE = 40'b1000000000100000000010000000001000000000;
-// localparam [NUM_STEPS-1:0] BLACK = 40'b0101001010100101010010101001010100101010;
-
-// test6.png with 4 bits (base case: works)
-// localparam [NUM_STEPS-1:0] WHITE = 40'b1000000000100000000010000000001000000000;
-// localparam [NUM_STEPS-1:0] BLACK = 40'b1100110000001100110000001100110000001100;
-
-// test7.png with 4 bits (worse)
-// localparam [NUM_STEPS-1:0] WHITE = 40'b1000000000100000000010000000001000000000;
-// localparam [NUM_STEPS-1:0] BLACK = 40'b1000100000001000100000001000100000001000;
-
-// test8.png with 4 bits (worse)
-// localparam [NUM_STEPS-1:0] WHITE = 40'b0000000000000000000000000000000000000000;
-// localparam [NUM_STEPS-1:0] BLACK = 40'b1100110000001100110000001100110000001100;
-
-// test9.png with 4 bits (kinda works) (LOTS BETTER FOR TRIPLET test10.png)
-// Triple tap burst
-// localparam [NUM_STEPS-1:0] WHITE = 40'b0000100000000001000000000010000000000010;
-// localparam [NUM_STEPS-1:0] BLACK = 40'b1110000011100000111000001110000011100000;
-
-// test11.png with 4 bits (doesn't work) (lots better for triplet test12.png)
-// The "Prime and Fire" Motif
-// localparam [NUM_STEPS-1:0] WHITE = 40'b0000010000000000001000000000000100000000;
-// localparam [NUM_STEPS-1:0] BLACK = 40'b1011000000101100000010110000001011000000;
-
-// test13.png with 4 bits (doesn't really work) (works really well for triplet test14.png)
-// The "High-Frequency Chatter"
-localparam [NUM_STEPS-1:0] WHITE = 40'b0000000100000000000010000000000000010000;
-localparam [NUM_STEPS-1:0] BLACK = 40'b1010100000101010000010101000001010100000;
+// Update: Use the preprocessor macros passed via command line flags
+localparam [NUM_STEPS-1:0] WHITE = `SPIKE_WHITE;
+localparam [NUM_STEPS-1:0] BLACK = `SPIKE_BLACK;
 
 // zero training image
 localparam [24:0] TRAIN_0 = 25'b00000_01110_01010_01110_00000;
@@ -186,6 +153,7 @@ task run_phase;
         train = is_train;
         rst = 1;
         S_in = 25'b0;
+
         @(posedge clk);
         #1;
         rst = 0;
@@ -218,6 +186,7 @@ integer d, epoch;
 initial begin
     $dumpfile("dynamic_snn.vcd");
     $dumpvars(0, dynamic_snn_tb);
+
     for (d = 0; d < 25; d = d + 1) begin
         $dumpvars(0, dut.r1[d]);
         $dumpvars(0, dut.r2[d]);
