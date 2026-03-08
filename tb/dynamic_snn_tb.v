@@ -37,6 +37,14 @@
 `define NUM_EPOCHS 1
 `endif
 
+`ifndef SPIKE_WHITE
+`define SPIKE_WHITE 40'b1000000000100000000010000000001000000000
+`endif
+
+`ifndef SPIKE_BLACK
+`define SPIKE_BLACK 40'b1100110000001100110000001100110000001100
+`endif
+
 module dynamic_snn_tb;
 
 localparam W_BITS      = `W_BITS;
