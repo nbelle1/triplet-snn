@@ -59,9 +59,14 @@ wire             spike1, spike2;
 // BLACK: bursts of 2 every 5 cycles (16 spikes in 40 steps)
 // WHITE: single spikes every 10 cycles (4 spikes in 40 steps)
 // NUM_STEPS is derived from pattern length — change pattern width to adjust
-localparam NUM_STEPS = 40;
-localparam [NUM_STEPS-1:0] WHITE = 40'b1000000000100000000010000000001000000000;
-localparam [NUM_STEPS-1:0] BLACK = 40'b1100110000001100110000001100110000001100;
+// localparam NUM_STEPS = 40;
+// localparam [NUM_STEPS-1:0] WHITE = 40'b1000000000100000000010000000001000000000;
+// localparam [NUM_STEPS-1:0] BLACK = 40'b1100110000001100110000001100110000001100;
+
+localparam NUM_STEPS = 20;
+localparam [NUM_STEPS-1:0] WHITE = 20'b01000000100000000010;
+localparam [NUM_STEPS-1:0] BLACK = 20'b01010100010101000101;
+
 
 // zero training image
 localparam [24:0] TRAIN_0 = 25'b00000_01110_01010_01110_00000;
