@@ -100,12 +100,18 @@ ablation-triplet: ## Triplet STDP (4-bit, LIF) — default
 ablation-nn: ## Nearest-neighbor triplet
 	$(MAKE) ablation MODE=1
 
-# Generate weight heatmaps
+# Generate weight heatmaps (use: make plot, make plot-triplet, make plot-dynamic)
 plot:
-	python3 $(VIZ_DIR)/plot_weights.py
+	python3 $(VIZ_DIR)/plot_weights.py snn
+
+plot-triplet:
+	python3 $(VIZ_DIR)/plot_weights.py triplet
+
+plot-dynamic:
+	python3 $(VIZ_DIR)/plot_weights.py dynamic --make-args W_BITS=$(W_BITS) TRACE_BITS=$(TRACE_BITS) TRIPLET_EN=$(TRIPLET_EN) MODE=$(MODE) LEAK_EN=$(LEAK_EN) SYMMETRIC=$(SYMMETRIC) NUM_EPOCHS=$(NUM_EPOCHS)
 
 # Clean build artifacts
 clean:
 	rm -f snn_train snn_test snn_verbose triplet_snn_train triplet_snn_test triplet_snn_verbose dynamic_snn_ablation *.vcd *.png
 
-.PHONY: all train test wave-train wave-test verbose triplet-train triplet-test wave-triplet-train wave-triplet-test triplet-verbose ablation ablation-original ablation-pair ablation-triplet ablation-nn plot clean
+.PHONY: all train test wave-train wave-test verbose triplet-train triplet-test wave-triplet-train wave-triplet-test triplet-verbose ablation ablation-original ablation-pair ablation-triplet ablation-nn plot plot-triplet plot-dynamic clean
