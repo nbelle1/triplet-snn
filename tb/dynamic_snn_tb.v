@@ -60,8 +60,41 @@ wire             spike1, spike2;
 // WHITE: single spikes every 10 cycles (4 spikes in 40 steps)
 // NUM_STEPS is derived from pattern length — change pattern width to adjust
 localparam NUM_STEPS = 40;
-localparam [NUM_STEPS-1:0] WHITE = 40'b1000000000100000000010000000001000000000;
-localparam [NUM_STEPS-1:0] BLACK = 40'b1100110000001100110000001100110000001100;
+
+// test4.png with 2 bits (bad)
+// localparam [NUM_STEPS-1:0] WHITE = 40'b1000000000100000000010000000001000000000;
+// localparam [NUM_STEPS-1:0] BLACK = 40'b1111111111111111111111111111111111111111;
+
+// test5.png with 2 bits (bad)
+// localparam [NUM_STEPS-1:0] WHITE = 40'b1000000000100000000010000000001000000000;
+// localparam [NUM_STEPS-1:0] BLACK = 40'b0101001010100101010010101001010100101010;
+
+// test6.png with 4 bits (base case: works)
+// localparam [NUM_STEPS-1:0] WHITE = 40'b1000000000100000000010000000001000000000;
+// localparam [NUM_STEPS-1:0] BLACK = 40'b1100110000001100110000001100110000001100;
+
+// test7.png with 4 bits (worse)
+// localparam [NUM_STEPS-1:0] WHITE = 40'b1000000000100000000010000000001000000000;
+// localparam [NUM_STEPS-1:0] BLACK = 40'b1000100000001000100000001000100000001000;
+
+// test8.png with 4 bits (worse)
+// localparam [NUM_STEPS-1:0] WHITE = 40'b0000000000000000000000000000000000000000;
+// localparam [NUM_STEPS-1:0] BLACK = 40'b1100110000001100110000001100110000001100;
+
+// test9.png with 4 bits (kinda works) (LOTS BETTER FOR TRIPLET test10.png)
+// Triple tap burst
+// localparam [NUM_STEPS-1:0] WHITE = 40'b0000100000000001000000000010000000000010;
+// localparam [NUM_STEPS-1:0] BLACK = 40'b1110000011100000111000001110000011100000;
+
+// test11.png with 4 bits (doesn't work) (lots better for triplet test12.png)
+// The "Prime and Fire" Motif
+// localparam [NUM_STEPS-1:0] WHITE = 40'b0000010000000000001000000000000100000000;
+// localparam [NUM_STEPS-1:0] BLACK = 40'b1011000000101100000010110000001011000000;
+
+// test13.png with 4 bits (doesn't really work) (works really well for triplet test14.png)
+// The "High-Frequency Chatter"
+localparam [NUM_STEPS-1:0] WHITE = 40'b0000000100000000000010000000000000010000;
+localparam [NUM_STEPS-1:0] BLACK = 40'b1010100000101010000010101000001010100000;
 
 // zero training image
 localparam [24:0] TRAIN_0 = 25'b00000_01110_01010_01110_00000;
