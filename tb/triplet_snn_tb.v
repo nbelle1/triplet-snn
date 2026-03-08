@@ -19,8 +19,16 @@ wire       spike1, spike2;
 // bursty patterns to showcase triplet STDP (pre-post-pre / post-pre-post)
 // BLACK: bursts of 2 every 5 cycles (16 spikes in 40 steps)
 // WHITE: single spikes every 10 cycles (4 spikes in 40 steps)
+`ifndef SPIKE_WHITE
 localparam [39:0] WHITE = 40'b1000000000100000000010000000001000000000;
+`else
+localparam [39:0] WHITE = `SPIKE_WHITE;
+`endif
+`ifndef SPIKE_BLACK
 localparam [39:0] BLACK = 40'b1100110000001100110000001100110000001100;
+`else
+localparam [39:0] BLACK = `SPIKE_BLACK;
+`endif
 
 // zero training image
 localparam [24:0] TRAIN_0 = 25'b00000_01110_01010_01110_00000;

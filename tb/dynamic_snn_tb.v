@@ -37,6 +37,14 @@
 `define NUM_EPOCHS 1
 `endif
 
+`ifndef SPIKE_WHITE
+`define SPIKE_WHITE 40'b1000000000100000000010000000001000000000
+`endif
+
+`ifndef SPIKE_BLACK
+`define SPIKE_BLACK 40'b1100110000001100110000001100110000001100
+`endif
+
 module dynamic_snn_tb;
 
 localparam W_BITS      = `W_BITS;
@@ -60,8 +68,8 @@ wire             spike1, spike2;
 // WHITE: single spikes every 10 cycles (4 spikes in 40 steps)
 // NUM_STEPS is derived from pattern length — change pattern width to adjust
 localparam NUM_STEPS = 40;
-localparam [NUM_STEPS-1:0] WHITE = 40'b1000000000100000000010000000001000000000;
-localparam [NUM_STEPS-1:0] BLACK = 40'b1100110000001100110000001100110000001100;
+localparam [NUM_STEPS-1:0] WHITE = `SPIKE_WHITE;
+localparam [NUM_STEPS-1:0] BLACK = `SPIKE_BLACK;
 
 // zero training image
 localparam [24:0] TRAIN_0 = 25'b00000_01110_01010_01110_00000;
