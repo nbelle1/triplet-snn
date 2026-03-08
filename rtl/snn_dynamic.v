@@ -171,6 +171,16 @@ always @(posedge clk or posedge rst) begin
                 need_reset_1 <= 1'b1;
         end
 
+
+        // if (spike1_now && spike2_now) begin
+        //     // If both spike, arbitrarily let N1 win and reset N2
+        //     if (!need_reset_2) need_reset_2 <= 1'b1;
+        // end else if (!need_reset_1 && spike1_now) begin
+        //     if (!need_reset_2) need_reset_2 <= 1'b1;
+        // end else if (!need_reset_2 && spike2_now) begin
+        //     if (!need_reset_1) need_reset_1 <= 1'b1;
+        // end
+
         // --- Triplet STDP weight updates ---
         if (train) begin
             for (i = 0; i < 25; i = i + 1) begin : stdp_loop
@@ -256,6 +266,31 @@ always @(posedge clk or posedge rst) begin
                 r2[i] <= (r2[i] > 1) ? r2[i] - 2 : 0;
             end
         end
+
+        // // --- Update pre-synaptic traces ---
+        // for (i = 0; i < 25; i = i + 1) begin : trace_pre_update
+        //     if (S_in_prev[i]) begin // <--- CHANGED FROM S_in[i]
+        //         if (MODE == 1)
+        //             r1[i] <= TRACE_INC;
+        //         else
+        //             r1[i] <= (r1[i] + TRACE_INC > TRACE_MAX) ?
+        //                      TRACE_MAX[TRACE_BITS-1:0] : r1[i] + TRACE_INC;
+        //     end
+        //     else begin
+        //         r1[i] <= r1[i] >> 1;
+        //     end
+
+        //     if (S_in_prev[i]) begin // <--- CHANGED FROM S_in[i]
+        //         if (MODE == 1)
+        //             r2[i] <= TRACE_INC;
+        //         else
+        //             r2[i] <= (r2[i] + TRACE_INC > TRACE_MAX) ?
+        //                      TRACE_MAX[TRACE_BITS-1:0] : r2[i] + TRACE_INC;
+        //     end
+        //     else begin
+        //         r2[i] <= (r2[i] > 1) ? r2[i] - 2 : 0;
+        //     end
+        // end
 
         // --- Update post-synaptic traces ---
         if (spike1_now) begin
