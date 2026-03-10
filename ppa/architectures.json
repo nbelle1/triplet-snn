@@ -1,0 +1,140 @@
+{
+  "architectures": {
+    "original_pair": {
+      "label": "Original Pair",
+      "group": "baseline",
+      "description": "HW4 pair-based STDP (2-bit weights, IF neurons, symmetric)",
+      "rtl_file": "snn_network.v",
+      "synth_parameters": {},
+      "sim_parameters": {
+        "W_BITS": 2,
+        "TRACE_BITS": 2,
+        "TRIPLET_EN": 0,
+        "LEAK_EN": 0
+      },
+      "make_target": "ablation-original"
+    },
+    "pair": {
+      "label": "Pair",
+      "group": "baseline",
+      "description": "Extended pair STDP (4-bit weights, LIF neurons, asymmetric)",
+      "rtl_file": "snn_dynamic.v",
+      "synth_parameters": {
+        "TRIPLET_EN": 0,
+        "LEAK_EN": 1,
+        "W_BITS": 4,
+        "MODE": 0
+      },
+      "sim_parameters": {
+        "TRIPLET_EN": 0
+      },
+      "make_target": "ablation-pair"
+    },
+    "triplet": {
+      "label": "Triplet",
+      "group": "baseline",
+      "description": "Triplet STDP (4-bit weights, LIF neurons, asymmetric)",
+      "rtl_file": "snn_dynamic.v",
+      "synth_parameters": {
+        "TRIPLET_EN": 1,
+        "LEAK_EN": 1,
+        "W_BITS": 4,
+        "MODE": 0
+      },
+      "sim_parameters": {},
+      "make_target": "ablation-triplet"
+    },
+    "triplet_optimized": {
+      "label": "Triplet Optimized",
+      "group": "optimized",
+      "description": "Optimized triplet STDP (same params as triplet, optimized RTL, no spike gating)",
+      "rtl_file": "snn_dynamic_optimized.v",
+      "synth_parameters": {
+        "TRIPLET_EN": 1,
+        "LEAK_EN": 1,
+        "W_BITS": 4,
+        "MODE": 0,
+        "SPIKE_GATE_EN": 0
+      },
+      "sim_parameters": {},
+      "make_target": null
+    },
+    "triplet_optimized_spike_gated": {
+      "label": "Triplet Opt. Spike-Gated",
+      "group": "optimized",
+      "description": "Optimized triplet with spike-gated clock enable",
+      "rtl_file": "snn_dynamic_optimized.v",
+      "synth_parameters": {
+        "TRIPLET_EN": 1,
+        "LEAK_EN": 1,
+        "W_BITS": 4,
+        "MODE": 0,
+        "SPIKE_GATE_EN": 1
+      },
+      "sim_parameters": {
+        "SPIKE_GATE_EN": 1
+      },
+      "make_target": null
+    },
+    "triplet_optimized_nn": {
+      "label": "Triplet Opt. Nearest-Neighbor",
+      "group": "optimized",
+      "description": "Optimized triplet with nearest-neighbor trace mode",
+      "rtl_file": "snn_dynamic_optimized.v",
+      "synth_parameters": {
+        "TRIPLET_EN": 1,
+        "LEAK_EN": 1,
+        "W_BITS": 4,
+        "MODE": 1
+      },
+      "sim_parameters": {
+        "MODE": 1
+      },
+      "make_target": null
+    },
+    "triplet_optimized_seg_adder": {
+      "label": "Triplet Opt. Seg. Adder",
+      "group": "optimized",
+      "description": "Optimized triplet with approximate segmented adder for weighted sum",
+      "rtl_file": "snn_dynamic_optimized.v",
+      "synth_parameters": {
+        "TRIPLET_EN": 1,
+        "LEAK_EN": 1,
+        "W_BITS": 4,
+        "MODE": 0,
+        "SEG_ADDER_EN": 1
+      },
+      "sim_parameters": {
+        "SEG_ADDER_EN": 1
+      },
+      "make_target": null
+    },
+    "triplet_optimized_lut_stdp": {
+      "label": "Triplet Opt. LUT-STDP",
+      "group": "optimized",
+      "description": "Optimized triplet with LUT-based STDP weight updates (ROM replaces multipliers)",
+      "rtl_file": "snn_dynamic_optimized.v",
+      "synth_parameters": {
+        "TRIPLET_EN": 1,
+        "LEAK_EN": 1,
+        "W_BITS": 4,
+        "MODE": 0,
+        "SPIKE_GATE_EN": 1,
+        "LUT_STDP_EN": 1
+      },
+      "sim_parameters": {
+        "SPIKE_GATE_EN": 1,
+        "LUT_STDP_EN": 1
+      },
+      "verilog_include_dirs": ["../../lut"],
+      "make_target": null
+    }
+  },
+  "defaults": {
+    "clock_period": 25,
+    "clock_port": "clk",
+    "rtl_dir": "../rtl",
+    "verilog_defines": ["SYNTHESIS"],
+    "error_on_synth_checks": false
+  }
+}
