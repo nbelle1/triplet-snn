@@ -1,0 +1,36 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Tue Mar 10 19:29:46 2026
+[*]
+[dumpfile] "/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn/dynamic_snn.vcd"
+[dumpfile_mtime] "Tue Mar 10 19:21:50 2026"
+[dumpfile_size] 105578
+[savefile] "/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn/logan_view.gtkw"
+[timestart] 0
+[size] 2548 1335
+[pos] -123 -265
+*-17.251919 231700 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] dynamic_snn_tb.
+[treeopen] dynamic_snn_tb.dut.
+[sst_width] 214
+[signals_width] 160
+[sst_expanded] 1
+[sst_vpaned_height] 410
+@28
+dynamic_snn_tb.dut.spike1
+@8024
+dynamic_snn_tb.dut.V1[7:0]
+@20000
+-
+-
+-
+@28
+dynamic_snn_tb.dut.spike2
+@8420
+dynamic_snn_tb.dut.V2[7:0]
+@20000
+-
+-
+-
+[pattern_trace] 1
+[pattern_trace] 0
