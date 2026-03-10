@@ -1,0 +1,103 @@
+Script started on 2026-03-10 08:06:04-07:00 [TERM="xterm-256color" TTY="/dev/pts/3" COLUMNS="179" LINES="46"]
+^[[B[?2004h(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ exitmake ablation-original SPIKE_WHITE=01000000100000000010 SPIKE_BLACK=01000000100000000010[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ exit[K
+
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cmake ablation-original SPIKE_WHITE=01000000100000000010 SPIKE_BLACK=01000000100000000010[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K
+
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cexit[Kmake plot-dynamic SPIKE_WHITE=0000001000000000100000000010000000001000 SPIKE_BLACK=1100001100001100011000110000110000110001[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[Cablation SPIKE_WHITE=0000001000000000100000000010000000[C[C[4P[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[Cplot-dynamic TRIPLET_EN=0 SPIKE_WHITE=00000010000000001[C[C[17@00000001000000000[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[Cablation TRIPLET_EN=0 SPIKE_WHITE=000000100000000010000[C[C[C[C[C[4P[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[Cplot-dynamic TRIPLET_EN=0 SPIKE_WHITE=00000010000000001[C[C[C[C[C[4@0000[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[Cablation TRIPLET_EN=0 SPIKE_WHITE=000000100000000010000[C[C[C[C[C[4P[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[Cplot-dynamic SPIKE_WHITE=000001000000000100000000010000[C[C[C[C[C[C[C[C[C[C[9P SPIKE_BLACK=1100011000011000011000110001100001100011[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[Cablation TRIPLET_EN=0 SPIKE_WHITE=000000100000000010000[C[C[C[C[C[C[C[C[C[C000001000 SPIKE_BLACK=1100001100001100011000110000110000110001[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[Cplot-dynamic TRIPLET_EN=0 SPIKE_WHITE=00000010000000001[C[C[C[C[C[4@0000[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [K
+
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[7make ablation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 S[27m[7mP[27m[7mIKE_WHITE=01000000100000000010 SPIKE_BLACK=01010100010101000101[27m[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ ake ablation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_WHITE=01000000100000000010 SPIKE_BLACK=01010100010101000101[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ make ablation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 S[1@P[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C
+
+
+[?2004l
+iverilog -DW_BITS=2 -DTRACE_BITS=2 -DTRIPLET_EN=0 -DMODE=0 -DLEAK_EN=0 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b01000000100000000010" "-DSPIKE_BLACK=40'b01010100010101000101" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=2  TRACE_BITS=2  TRIPLET_EN=0  MODE=0  LEAK_EN=0  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 1 0 0 1 2 0 3 2 3 0 2 2 1 3 3 1 3 0 0 2 3 1 1 0 1
+BEFORE W2: 0 2 3 0 1 2 0 2 0 0 1 2 3 1 2 0 1 1 0 1 2 3 1 3 0
+AFTER W1: 0 0 0 0 1 0 3 3 3 0 1 3 0 3 2 0 3 3 3 1 2 0 0 0 0
+AFTER W2: 0 2 3 0 1 2 0 2 0 0 1 2 3 1 2 0 1 1 0 1 2 3 1 3 0
+Firing counts: Neuron 1 = 2, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 0 0 0 0 1 0 3 3 3 0 1 3 0 3 2 0 3 3 3 1 2 0 0 0 0
+BEFORE W2: 0 2 3 0 1 2 0 2 0 0 1 2 3 1 2 0 1 1 0 1 2 3 1 3 0
+AFTER W1: 0 0 0 0 1 0 3 3 3 0 1 3 0 3 2 0 3 3 3 1 2 0 0 0 0
+AFTER W2: 0 3 3 0 0 1 0 3 0 0 0 1 3 0 1 0 0 3 0 0 1 3 3 3 0
+Firing counts: Neuron 1 = 0, Neuron 2 = 2
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 0 0 0 0 1 0 3 3 3 0 1 3 0 3 2 0 3 3 3 1 2 0 0 0 0
+BEFORE W2: 0 3 3 0 0 1 0 3 0 0 0 1 3 0 1 0 0 3 0 0 1 3 3 3 0
+AFTER W1: 0 0 0 0 1 0 3 3 3 0 1 3 0 3 2 0 3 3 3 1 2 0 0 0 0
+AFTER W2: 0 3 3 0 0 1 0 3 0 0 0 1 3 0 1 0 0 3 0 0 1 3 3 3 0
+Firing counts: Neuron 1 = 2, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 0 0 0 0 1 0 3 3 3 0 1 3 0 3 2 0 3 3 3 1 2 0 0 0 0
+BEFORE W2: 0 3 3 0 0 1 0 3 0 0 0 1 3 0 1 0 0 3 0 0 1 3 3 3 0
+AFTER W1: 0 0 0 0 1 0 3 3 3 0 1 3 0 3 2 0 3 3 3 1 2 0 0 0 0
+AFTER W2: 0 3 3 0 0 1 0 3 0 0 0 1 3 0 1 0 0 3 0 0 1 3 3 3 0
+Firing counts: Neuron 1 = 0, Neuron 2 = 2
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ make ablation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_WHITE=01000000100000000010 SPIKE_BLACK=01010100010101000101[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[Cblation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SP[1P[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[Clation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPI[1P[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[Cation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIK[1P[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[Ction W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE[1P[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[Cion W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_[1P[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[Con W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_W[1P[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[Cn W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_WH[1P[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[C W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_WHI[1P[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[Cp W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_WH[1@I[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[C[Cl W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_W[1@H[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[C[C[Co W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_[1@W[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[C[C[C[Ct W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE[1@_[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[C[C[C[C[C- W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIK[1@E[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[C[C[C[C[C[Cd W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPI[1@K[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[C[C[C[C[C[C[Cy W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SP[1@I[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[C[C[C[C[C[C[C[Cn W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 S[1@P[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[Ca W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 [1@S[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[Cm W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0[1@ [A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ci W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=[1@0[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cc W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN[1@=[A
+(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+
+
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 MODE=0 LEAK_EN=0 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=01010100010101000101 SPIKE_WHITE=01000000100000000010 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;loganunger@vivoBOOM: /mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[01;32mloganunger@vivoBOOM[00m:[01;34m/mnt/c/Users/logan/OneDrive/Documents/year-5-winter/ece-274/hw4/test-other-code/triplet-snn[00m$ exit
+[?2004l
+exit
+
+Script done on 2026-03-10 08:07:29-07:00 [COMMAND_EXIT_CODE="0"]
