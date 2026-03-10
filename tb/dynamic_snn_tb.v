@@ -67,9 +67,10 @@ wire             spike1, spike2;
 // NUM_STEPS is derived from pattern length — change pattern width to adjust
 localparam NUM_STEPS = 40;
 
-// Update: Use the preprocessor macros passed via command line flags
+// Use the preprocessor macros passed via command line flags
 localparam [NUM_STEPS-1:0] WHITE = `SPIKE_WHITE;
 localparam [NUM_STEPS-1:0] BLACK = `SPIKE_BLACK;
+
 
 // zero training image
 localparam [24:0] TRAIN_0 = 25'b00000_01110_01010_01110_00000;
