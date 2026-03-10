@@ -64,12 +64,19 @@ reg              train;
 wire [V_BITS-1:0] V1, V2;
 wire             spike1, spike2;
 
+// spike patterns for each color pixel (MSB first)
+// BLACK: doublet bursts (11) with irregular spacing (14 spikes in 40 steps)
+// WHITE: single spikes every ~10 cycles (4 spikes in 40 steps)
+// This pattern demonstrates triplet/burst asymmetry: triplet STDP passes, pair STDP fails
 // NUM_STEPS is derived from pattern length — change pattern width to adjust
-localparam NUM_STEPS = 40;
+// localparam NUM_STEPS = 40;
+// localparam [NUM_STEPS-1:0] WHITE = 40'b1000000000100000000010000000001000000000;
+// localparam [NUM_STEPS-1:0] BLACK = 40'b1100110000001100110000001100110000001100;
 
-// Update: Use the preprocessor macros passed via command line flags
-localparam [NUM_STEPS-1:0] WHITE = `SPIKE_WHITE;
-localparam [NUM_STEPS-1:0] BLACK = `SPIKE_BLACK;
+localparam NUM_STEPS = 40;
+localparam [NUM_STEPS-1:0] WHITE = 40'b0100000000010000000001000000000100000000;
+localparam [NUM_STEPS-1:0] BLACK = 40'b0100100001001000010010000100100001001000;
+
 
 // zero training image
 localparam [24:0] TRAIN_0 = 25'b00000_01110_01010_01110_00000;

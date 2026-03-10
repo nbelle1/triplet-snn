@@ -24,7 +24,7 @@ parameter A2_MINUS  = 4'd3;   // pair-based LTD magnitude
 parameter A3_PLUS   = 4'd1;   // triplet LTP magnitude (modulated by o2)
 parameter A3_MINUS  = 4'd4;   // triplet LTD magnitude (modulated by r2)
 parameter DW_SCALE  = 2;      // right-shift to scale weight updates
-parameter TRACE_INC = 4'd8;   // trace increment for all-to-all mode
+parameter TRACE_INC = 8;      // trace increment for all-to-all mode (unsized to avoid 4-bit overflow in saturating add)
 
 // 4-bit weight arrays (0-15 range for finer STDP granularity)
 reg [3:0] w1 [0:24];

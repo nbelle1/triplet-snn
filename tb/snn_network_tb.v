@@ -11,28 +11,11 @@ reg        train;
 wire [7:0] V1, V2;
 wire       spike1, spike2;
 
-// spike patterns for each color pixel (40 bits each, MSB first)
-// original evenly-spaced patterns (20-bit)
-// localparam [19:0] WHITE = 20'b01000000100000000010;
-// localparam [19:0] BLACK = 20'b01010100010101000101;
-
-// bursty patterns to showcase triplet STDP (pre-post-pre / post-pre-post)
-// BLACK: bursts of 2 every 5 cycles (16 spikes in 40 steps)
-// WHITE: single spikes every 10 cycles (4 spikes in 40 steps)
-`ifndef SPIKE_WHITE
-localparam [39:0] WHITE = 40'b1000000000100000000010000000001000000000;
-`else
-localparam [39:0] WHITE = `SPIKE_WHITE;
-`endif
-`ifndef SPIKE_BLACK
-localparam [39:0] BLACK = 40'b1100110000001100110000001100110000001100;
-`else
-localparam [39:0] BLACK = `SPIKE_BLACK;
-`endif
-
-// experimented with these to make one-pass training work
-//localparam [19:0] WHITE = 20'b01000010000000000000;
-//localparam [19:0] BLACK = 20'b01010100010001000101;
+// spike patterns for each color pixel (MSB first)
+// NUM_STEPS derived from pattern length — change pattern width to adjust
+localparam NUM_STEPS = 20;
+localparam [NUM_STEPS-1:0] WHITE = 20'b01000000100000000010;
+localparam [NUM_STEPS-1:0] BLACK = 20'b01010100010101000101;
 
 // zero training image
 localparam [24:0] TRAIN_0 = 25'b00000_01110_01010_01110_00000;
@@ -75,9 +58,9 @@ task apply_image_timestep;
     begin
         for (p = 0; p < 25; p = p + 1) begin
             if (image[24 - p])
-                S_in[p] = BLACK[39 - step];
+                S_in[p] = BLACK[NUM_STEPS - 1 - step];
             else
-                S_in[p] = WHITE[39 - step];
+                S_in[p] = WHITE[NUM_STEPS - 1 - step];
         end
     end
 endtask
@@ -124,8 +107,8 @@ task run_phase;
         count1 = 0;
         count2 = 0;
 
-        // run 40 timesteps
-        for (step = 0; step < 40; step = step + 1) begin
+        // run NUM_STEPS timesteps
+        for (step = 0; step < NUM_STEPS; step = step + 1) begin
             apply_image_timestep(image, step);
             @(posedge clk);
             #1;
