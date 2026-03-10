@@ -111,7 +111,8 @@ plot-triplet:
 	python3 $(VIZ_DIR)/plot_weights.py triplet
 
 plot-dynamic:
-	python3 $(VIZ_DIR)/plot_weights.py dynamic --make-args W_BITS=$(W_BITS) TRACE_BITS=$(TRACE_BITS) TRIPLET_EN=$(TRIPLET_EN) MODE=$(MODE) LEAK_EN=$(LEAK_EN) SYMMETRIC=$(SYMMETRIC) NUM_EPOCHS=$(NUM_EPOCHS)
+	python3 $(VIZ_DIR)/plot_weights.py dynamic --make-args W_BITS=$(W_BITS) TRACE_BITS=$(TRACE_BITS) TRIPLET_EN=$(TRIPLET_EN) MODE=$(MODE) LEAK_EN=$(LEAK_EN) SYMMETRIC=$(SYMMETRIC) NUM_EPOCHS=$(NUM_EPOCHS) SPIKE_BLACK=$(SPIKE_BLACK) SPIKE_WHITE=$(SPIKE_WHITE)
+
 
 # Clean build artifacts
 clean:
