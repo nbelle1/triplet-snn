@@ -9,7 +9,7 @@ module snn_dynamic #(
     parameter TRIPLET_EN  = 1,  // 1 = triplet STDP, 0 = pair-based only
     parameter TRACE_BITS  = 4,  // trace register width (2 = 2-cycle window, 4 = 4-cycle window)
     parameter LEAK_EN     = 1,  // 1 = LIF (leaky), 0 = IF (no leak, matches original snn_network)
-    parameter SYMMETRIC   = 0   // 1 = symmetric LTP/LTD (A2_MINUS = A2_PLUS), 0 = use asymmetric A params
+    parameter SYMMETRIC   = 1   // 1 = symmetric LTP/LTD (A2_MINUS = A2_PLUS), 0 = use asymmetric A params
 ) (
     input  wire              clk,
     input  wire              rst,

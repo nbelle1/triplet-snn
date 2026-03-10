@@ -31,7 +31,7 @@
 `endif
 
 `ifndef SYMMETRIC
-`define SYMMETRIC 0
+`define SYMMETRIC 1
 `endif
 
 `ifndef NUM_EPOCHS
