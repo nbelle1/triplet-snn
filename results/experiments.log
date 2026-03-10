@@ -1,0 +1,1470 @@
+Script started on 2026-03-09 22:49:50-07:00 [TERM="xterm-256color" TTY="/dev/pts/3" COLUMNS="179" LINES="46"]
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ exitmake ablation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_WHITE=0000000000001000000000000010000000001000 SPIKE_BLACK=0000100001000010000100001000010000100010
+[?2004l
+iverilog -DW_BITS=2 -DTRACE_BITS=2 -DTRIPLET_EN=0 -DMODE=0 -DLEAK_EN=0 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000000000001000000000000010000000001000" "-DSPIKE_BLACK=40'b0000100001000010000100001000010000100010" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=2  TRACE_BITS=2  TRIPLET_EN=0  MODE=0  LEAK_EN=0  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 1 0 0 1 2 0 3 2 3 0 2 2 1 3 3 1 3 0 0 2 3 1 1 0 1
+BEFORE W2: 0 2 3 0 1 2 0 2 0 0 1 2 3 1 2 0 1 1 0 1 2 3 1 3 0
+AFTER W1: 3 3 3 3 3 3 0 0 0 3 3 0 3 0 3 3 0 0 0 3 3 3 3 3 3
+AFTER W2: 0 2 3 0 1 2 0 2 0 0 1 2 3 1 2 0 1 1 0 1 2 3 1 3 0
+Firing counts: Neuron 1 = 3, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 3 3 3 3 3 3 0 0 0 3 3 0 3 0 3 3 0 0 0 3 3 3 3 3 3
+BEFORE W2: 0 2 3 0 1 2 0 2 0 0 1 2 3 1 2 0 1 1 0 1 2 3 1 3 0
+AFTER W1: 3 0 0 3 3 3 3 0 3 3 3 3 0 3 3 3 3 0 3 3 3 0 0 0 3
+AFTER W2: 3 0 0 3 3 3 3 0 3 3 3 3 0 3 3 3 3 0 3 3 3 0 0 0 3
+Firing counts: Neuron 1 = 2, Neuron 2 = 2
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 3 0 0 3 3 3 3 0 3 3 3 3 0 3 3 3 3 0 3 3 3 0 0 0 3
+BEFORE W2: 3 0 0 3 3 3 3 0 3 3 3 3 0 3 3 3 3 0 3 3 3 0 0 0 3
+AFTER W1: 3 0 0 3 3 3 3 0 3 3 3 3 0 3 3 3 3 0 3 3 3 0 0 0 3
+AFTER W2: 3 0 0 3 3 3 3 0 3 3 3 3 0 3 3 3 3 0 3 3 3 0 0 0 3
+Firing counts: Neuron 1 = 3, Neuron 2 = 3
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 3 0 0 3 3 3 3 0 3 3 3 3 0 3 3 3 3 0 3 3 3 0 0 0 3
+BEFORE W2: 3 0 0 3 3 3 3 0 3 3 3 3 0 3 3 3 3 0 3 3 3 0 0 0 3
+AFTER W1: 3 0 0 3 3 3 3 0 3 3 3 3 0 3 3 3 3 0 3 3 3 0 0 0 3
+AFTER W2: 3 0 0 3 3 3 3 0 3 3 3 3 0 3 3 3 3 0 3 3 3 0 0 0 3
+Firing counts: Neuron 1 = 1, Neuron 2 = 1
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_E[27m[7mN[27m[7m=0 SPIKE_WHITE=0000000000001000000000000010000000001000 SPIKE_BLACK=0000100001000010000100001000010000100010[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_WHITE=0000000000001000000000000010000000001000 SPIKE_BLACK=0000100001000010000100001000010000100010
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 MODE=0 LEAK_EN=0 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0000100001000010000100001000010000100010 SPIKE_WHITE=0000000000001000000000000010000000001000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation TRIPLET_EN=0 SPIKE_WHITE=00000000000010000000[27m[7m0[27m[7m0000010000000001000 SPIKE_BLACK=0000100001000010000100001000010000100010[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation TRIPLET_EN=0 SPIKE_WHITE=0000000000001000000000000010000000001000 SPIKE_BLACK=0000100001000010000100001000010000100010
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=0 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000000000001000000000000010000000001000" "-DSPIKE_BLACK=40'b0000100001000010000100001000010000100010" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=0  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 2 0 0 2 6 0 15 12 15 0 6 12 2 15 10 2 15 4 4 6 10 2 2 0 2
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 2, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 2 0 0 2 6 0 15 12 15 0 6 12 2 15 10 2 15 4 4 6 10 2 2 0 2
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 2 0 0 2 6 0 15 12 15 0 6 12 2 15 10 2 15 4 4 6 10 2 2 0 2
+AFTER W2: 0 12 15 0 2 6 0 12 0 0 2 6 15 2 6 0 2 8 0 2 6 15 8 15 0
+Firing counts: Neuron 1 = 0, Neuron 2 = 2
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 2 0 0 2 6 0 15 12 15 0 6 12 2 15 10 2 15 4 4 6 10 2 2 0 2
+BEFORE W2: 0 12 15 0 2 6 0 12 0 0 2 6 15 2 6 0 2 8 0 2 6 15 8 15 0
+AFTER W1: 2 0 0 2 6 0 15 12 15 0 6 12 2 15 10 2 15 4 4 6 10 2 2 0 2
+AFTER W2: 0 12 15 0 2 6 0 12 0 0 2 6 15 2 6 0 2 8 0 2 6 15 8 15 0
+Firing counts: Neuron 1 = 2, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 2 0 0 2 6 0 15 12 15 0 6 12 2 15 10 2 15 4 4 6 10 2 2 0 2
+BEFORE W2: 0 12 15 0 2 6 0 12 0 0 2 6 15 2 6 0 2 8 0 2 6 15 8 15 0
+AFTER W1: 2 0 0 2 6 0 15 12 15 0 6 12 2 15 10 2 15 4 4 6 10 2 2 0 2
+AFTER W2: 0 12 15 0 2 6 0 12 0 0 2 6 15 2 6 0 2 8 0 2 6 15 8 15 0
+Firing counts: Neuron 1 = 1, Neuron 2 = 2
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000000000001000[27m[7m0[27m[7m00000000010000000001000 SPIKE_BLACK=0000100001000010000100001000010000100010[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000000000001000000000000010000000001000 SPIKE_BLACK=0000100001000010000100001000010000100010
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=0 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0000100001000010000100001000010000100010 SPIKE_WHITE=0000000000001000000000000010000000001000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000000000001000000000000010000000001000 SPIKE_BLACK=0000100001000010000100001000010000100010[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [K
+
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[7mmake ablation SPIKE_WHITE=000000000000100000000000001000000[27m[7m0[27m[7m001000 SPIKE_BLACK=0000100001000010000100001000010000100010[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation SPIKE_WHITE=0000000000001000000000000010000000001000 SPIKE_BLACK=0000100001000010000100001000010000100010
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=1 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000000000001000000000000010000000001000" "-DSPIKE_BLACK=40'b0000100001000010000100001000010000100010" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=1  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 2 0 0 2 6 0 15 12 15 0 6 12 2 15 10 2 15 4 4 6 10 2 2 0 2
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 2, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 2 0 0 2 6 0 15 12 15 0 6 12 2 15 10 2 15 4 4 6 10 2 2 0 2
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 2 0 0 2 6 0 15 12 15 0 6 12 2 15 10 2 15 4 4 6 10 2 2 0 2
+AFTER W2: 0 12 15 0 2 6 0 12 0 0 2 6 15 2 6 0 2 8 0 2 6 15 8 15 0
+Firing counts: Neuron 1 = 0, Neuron 2 = 2
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 2 0 0 2 6 0 15 12 15 0 6 12 2 15 10 2 15 4 4 6 10 2 2 0 2
+BEFORE W2: 0 12 15 0 2 6 0 12 0 0 2 6 15 2 6 0 2 8 0 2 6 15 8 15 0
+AFTER W1: 2 0 0 2 6 0 15 12 15 0 6 12 2 15 10 2 15 4 4 6 10 2 2 0 2
+AFTER W2: 0 12 15 0 2 6 0 12 0 0 2 6 15 2 6 0 2 8 0 2 6 15 8 15 0
+Firing counts: Neuron 1 = 2, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 2 0 0 2 6 0 15 12 15 0 6 12 2 15 10 2 15 4 4 6 10 2 2 0 2
+BEFORE W2: 0 12 15 0 2 6 0 12 0 0 2 6 15 2 6 0 2 8 0 2 6 15 8 15 0
+AFTER W1: 2 0 0 2 6 0 15 12 15 0 6 12 2 15 10 2 15 4 4 6 10 2 2 0 2
+AFTER W2: 0 12 15 0 2 6 0 12 0 0 2 6 15 2 6 0 2 8 0 2 6 15 8 15 0
+Firing counts: Neuron 1 = 1, Neuron 2 = 2
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic SPIKE_WHITE=00000000000010000000000000100[27m[7m0[27m[7m0000001000 SPIKE_BLACK=0000100001000010000100001000010000100010[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic SPIKE_WHITE=0000000000001000000000000010000000001000 SPIKE_BLACK=0000100001000010000100001000010000100010
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=1 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0000100001000010000100001000010000100010 SPIKE_WHITE=0000000000001000000000000010000000001000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 [27m[7mS[27m[7mPIKE_WHITE=0100000000010000000001000000000100000000 SPIKE_BLACK=0100100001001000010010000100100001001000[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_WHITE=0100000000010000000001000000000100000000 SPIKE_BLACK=0100100001001000010010000100100001001000[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [K
+
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[7mmake ablation TRIPLET_EN=0 SPIKE_WHITE=01000000000100000000[27m[7m0[27m[7m1000000000100000000 SPIKE_BLACK=0100100001001000010010000100100001001000[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation TRIPLET_EN=0 SPIKE_WHITE=0100000000010000000001000000000100000000 SPIKE_BLACK=0100100001001000010010000100100001001000
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=0 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0100000000010000000001000000000100000000" "-DSPIKE_BLACK=40'b0100100001001000010010000100100001001000" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=0  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 6 2 2 6 10 2 15 11 15 2 10 11 6 15 14 6 15 3 3 10 14 6 6 2 6
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 3, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 6 2 2 6 10 2 15 11 15 2 10 11 6 15 14 6 15 3 3 10 14 6 6 2 6
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 8 2 2 8 12 4 15 11 15 4 12 13 6 15 15 8 15 3 5 12 15 6 6 2 8
+AFTER W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+Firing counts: Neuron 1 = 3, Neuron 2 = 1
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 8 2 2 8 12 4 15 11 15 4 12 13 6 15 15 8 15 3 5 12 15 6 6 2 8
+BEFORE W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+AFTER W1: 8 2 2 8 12 4 15 11 15 4 12 13 6 15 15 8 15 3 5 12 15 6 6 2 8
+AFTER W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 8 2 2 8 12 4 15 11 15 4 12 13 6 15 15 8 15 3 5 12 15 6 6 2 8
+BEFORE W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+AFTER W1: 8 2 2 8 12 4 15 11 15 4 12 13 6 15 15 8 15 3 5 12 15 6 6 2 8
+AFTER W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+Firing counts: Neuron 1 = 4, Neuron 2 = 2
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0100000000010000[27m[7m0[27m[7m00001000000000100000000 SPIKE_BLACK=0100100001001000010010000100100001001000[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0100000000010000000001000000000100000000 SPIKE_BLACK=0100100001001000010010000100100001001000
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=0 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0100100001001000010010000100100001001000 SPIKE_WHITE=0100000000010000000001000000000100000000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation SPIKE_WHITE=010000000001000000000100000000010[27m[7m0[27m[7m000000 SPIKE_BLACK=0100100001001000010010000100100001001000[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation SPIKE_WHITE=0100000000010000000001000000000100000000 SPIKE_BLACK=0100100001001000010010000100100001001000
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=1 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0100000000010000000001000000000100000000" "-DSPIKE_BLACK=40'b0100100001001000010010000100100001001000" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=1  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 6 2 2 6 10 2 13 9 13 2 10 9 6 13 14 6 13 2 2 10 14 6 6 2 6
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 3, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 6 2 2 6 10 2 13 9 13 2 10 9 6 13 14 6 13 2 2 10 14 6 6 2 6
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 8 1 1 8 12 4 15 8 15 4 12 11 5 15 15 8 15 1 4 12 15 5 5 1 8
+AFTER W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+Firing counts: Neuron 1 = 2, Neuron 2 = 3
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 8 1 1 8 12 4 15 8 15 4 12 11 5 15 15 8 15 1 4 12 15 5 5 1 8
+BEFORE W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+AFTER W1: 8 1 1 8 12 4 15 8 15 4 12 11 5 15 15 8 15 1 4 12 15 5 5 1 8
+AFTER W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 8 1 1 8 12 4 15 8 15 4 12 11 5 15 15 8 15 1 4 12 15 5 5 1 8
+BEFORE W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+AFTER W1: 8 1 1 8 12 4 15 8 15 4 12 11 5 15 15 8 15 1 4 12 15 5 5 1 8
+AFTER W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+Firing counts: Neuron 1 = 1, Neuron 2 = 3
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic SPIKE_WHITE=01000000000100000000010000000[27m[7m0[27m[7m0100000000 SPIKE_BLACK=0100100001001000010010000100100001001000[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic SPIKE_WHITE=0100000000010000000001000000000100000000 SPIKE_BLACK=0100100001001000010010000100100001001000
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=1 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0100100001001000010010000100100001001000 SPIKE_WHITE=0100000000010000000001000000000100000000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation TRIPLET_EN=0 SPIKE_WHITE=00100000000010000000[27m[7m0[27m[7m0100000000010000000 SPIKE_BLACK=0010010000100100001001000010010000100100[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation TRIPLET_EN=0 SPIKE_WHITE=0010000000001000000000100000000010000000 SPIKE_BLACK=0010010000100100001001000010010000100100
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=0 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0010000000001000000000100000000010000000" "-DSPIKE_BLACK=40'b0010010000100100001001000010010000100100" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=0  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 6 2 2 6 10 2 15 11 15 2 10 11 6 15 14 6 15 3 3 10 14 6 6 2 6
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 3, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 6 2 2 6 10 2 15 11 15 2 10 11 6 15 14 6 15 3 3 10 14 6 6 2 6
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 8 2 2 8 12 4 15 11 15 4 12 13 6 15 15 8 15 3 5 12 15 6 6 2 8
+AFTER W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+Firing counts: Neuron 1 = 3, Neuron 2 = 1
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 8 2 2 8 12 4 15 11 15 4 12 13 6 15 15 8 15 3 5 12 15 6 6 2 8
+BEFORE W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+AFTER W1: 8 2 2 8 12 4 15 11 15 4 12 13 6 15 15 8 15 3 5 12 15 6 6 2 8
+AFTER W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 8 2 2 8 12 4 15 11 15 4 12 13 6 15 15 8 15 3 5 12 15 6 6 2 8
+BEFORE W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+AFTER W1: 8 2 2 8 12 4 15 11 15 4 12 13 6 15 15 8 15 3 5 12 15 6 6 2 8
+AFTER W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+Firing counts: Neuron 1 = 4, Neuron 2 = 2
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0010000000001000[27m[7m0[27m[7m00000100000000010000000 SPIKE_BLACK=0010010000100100001001000010010000100100[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0010000000001000000000100000000010000000 SPIKE_BLACK=0010010000100100001001000010010000100100
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=0 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0010010000100100001001000010010000100100 SPIKE_WHITE=0010000000001000000000100000000010000000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation SPIKE_WHITE=001000000000100000000010000000001[27m[7m0[27m[7m000000 SPIKE_BLACK=0010010000100100001001000010010000100100[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation SPIKE_WHITE=0010000000001000000000100000000010000000 SPIKE_BLACK=0010010000100100001001000010010000100100
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=1 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0010000000001000000000100000000010000000" "-DSPIKE_BLACK=40'b0010010000100100001001000010010000100100" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=1  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 6 2 2 6 10 2 13 9 13 2 10 9 6 13 14 6 13 2 2 10 14 6 6 2 6
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 3, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 6 2 2 6 10 2 13 9 13 2 10 9 6 13 14 6 13 2 2 10 14 6 6 2 6
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 8 1 1 8 12 4 15 8 15 4 12 11 5 15 15 8 15 1 4 12 15 5 5 1 8
+AFTER W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+Firing counts: Neuron 1 = 2, Neuron 2 = 3
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 8 1 1 8 12 4 15 8 15 4 12 11 5 15 15 8 15 1 4 12 15 5 5 1 8
+BEFORE W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+AFTER W1: 8 1 1 8 12 4 15 8 15 4 12 11 5 15 15 8 15 1 4 12 15 5 5 1 8
+AFTER W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 8 1 1 8 12 4 15 8 15 4 12 11 5 15 15 8 15 1 4 12 15 5 5 1 8
+BEFORE W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+AFTER W1: 8 1 1 8 12 4 15 8 15 4 12 11 5 15 15 8 15 1 4 12 15 5 5 1 8
+AFTER W2: 2 9 13 2 6 10 2 9 2 2 6 10 13 6 10 2 6 5 2 6 10 13 5 13 2
+Firing counts: Neuron 1 = 1, Neuron 2 = 3
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic SPIKE_WHITE=00100000000010000000001000000[27m[7m0[27m[7m0010000000 SPIKE_BLACK=0010010000100100001001000010010000100100[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic SPIKE_WHITE=0010000000001000000000100000000010000000 SPIKE_BLACK=0010010000100100001001000010010000100100
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=1 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0010010000100100001001000010010000100100 SPIKE_WHITE=0010000000001000000000100000000010000000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation TRIPLET_EN=0 SPIKE_WHITE=00001000000010000000[27m[7m1[27m[7m0000000100000001000 SPIKE_BLACK=0001110000000011100000000111000000011100[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation TRIPLET_EN=0 SPIKE_WHITE=0000100000001000000010000000100000001000 SPIKE_BLACK=0001110000000011100000000111000000011100
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=0 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000100000001000000010000000100000001000" "-DSPIKE_BLACK=40'b0001110000000011100000000111000000011100" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=0  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 5 2 2 5 9 2 15 15 15 2 9 15 5 15 13 5 15 12 12 9 13 5 5 2 5
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 5 2 2 5 9 2 15 15 15 2 9 15 5 15 13 5 15 12 12 9 13 5 5 2 5
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 6 5 5 6 10 3 14 13 14 3 10 14 8 14 14 6 14 13 13 10 14 8 8 5 6
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 6 5 5 6 10 3 14 13 14 3 10 14 8 14 14 6 14 13 13 10 14 8 8 5 6
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 6 5 5 6 10 3 14 13 14 3 10 14 8 14 14 6 14 13 13 10 14 8 8 5 6
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 6 5 5 6 10 3 14 13 14 3 10 14 8 14 14 6 14 13 13 10 14 8 8 5 6
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 6 5 5 6 10 3 14 13 14 3 10 14 8 14 14 6 14 13 13 10 14 8 8 5 6
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000100000001000[27m[7m0[27m[7m00010000000100000001000 SPIKE_BLACK=0001110000000011100000000111000000011100[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000100000001000000010000000100000001000 SPIKE_BLACK=0001110000000011100000000111000000011100
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=0 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0001110000000011100000000111000000011100 SPIKE_WHITE=0000100000001000000010000000100000001000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation SPIKE_WHITE=000010000000100000001000000010000[27m[7m0[27m[7m001000 SPIKE_BLACK=0001110000000011100000000111000000011100[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation SPIKE_WHITE=0000100000001000000010000000100000001000 SPIKE_BLACK=0001110000000011100000000111000000011100
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=1 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000100000001000000010000000100000001000" "-DSPIKE_BLACK=40'b0001110000000011100000000111000000011100" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=1  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 5 2 2 5 9 2 15 15 15 2 9 15 5 15 13 5 15 12 12 9 13 5 5 2 5
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 5 2 2 5 9 2 15 15 15 2 9 15 5 15 13 5 15 12 12 9 13 5 5 2 5
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 7 0 0 7 11 4 15 6 15 4 11 15 1 15 15 7 15 6 14 11 15 1 1 0 7
+AFTER W2: 2 14 15 2 6 10 2 14 2 2 6 10 15 6 10 2 6 10 2 6 10 15 10 15 2
+Firing counts: Neuron 1 = 2, Neuron 2 = 2
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 7 0 0 7 11 4 15 6 15 4 11 15 1 15 15 7 15 6 14 11 15 1 1 0 7
+BEFORE W2: 2 14 15 2 6 10 2 14 2 2 6 10 15 6 10 2 6 10 2 6 10 15 10 15 2
+AFTER W1: 7 0 0 7 11 4 15 6 15 4 11 15 1 15 15 7 15 6 14 11 15 1 1 0 7
+AFTER W2: 2 14 15 2 6 10 2 14 2 2 6 10 15 6 10 2 6 10 2 6 10 15 10 15 2
+Firing counts: Neuron 1 = 4, Neuron 2 = 1
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 7 0 0 7 11 4 15 6 15 4 11 15 1 15 15 7 15 6 14 11 15 1 1 0 7
+BEFORE W2: 2 14 15 2 6 10 2 14 2 2 6 10 15 6 10 2 6 10 2 6 10 15 10 15 2
+AFTER W1: 7 0 0 7 11 4 15 6 15 4 11 15 1 15 15 7 15 6 14 11 15 1 1 0 7
+AFTER W2: 2 14 15 2 6 10 2 14 2 2 6 10 15 6 10 2 6 10 2 6 10 15 10 15 2
+Firing counts: Neuron 1 = 1, Neuron 2 = 4
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic SPIKE_WHITE=00001000000010000000100000001[27m[7m0[27m[7m0000001000 SPIKE_BLACK=0001110000000011100000000111000000011100[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic SPIKE_WHITE=0000100000001000000010000000100000001000 SPIKE_BLACK=0001110000000011100000000111000000011100
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=1 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0001110000000011100000000111000000011100 SPIKE_WHITE=0000100000001000000010000000100000001000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation TRIPLET_EN=0 SPIKE_WHITE=00001000000010000000[27m[7m1[27m[7m0000000100000000000 SPIKE_BLACK=0001110000000111000000011100000001110000[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation TRIPLET_EN=0 SPIKE_WHITE=0000100000001000000010000000100000000000 SPIKE_BLACK=0001110000000111000000011100000001110000
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=0 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000100000001000000010000000100000000000" "-DSPIKE_BLACK=40'b0001110000000111000000011100000001110000" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=0  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 5 1 1 5 9 1 15 15 15 1 9 15 5 15 13 5 15 12 12 9 13 5 5 1 5
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 5 1 1 5 9 1 15 15 15 1 9 15 5 15 13 5 15 12 12 9 13 5 5 1 5
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 10 4 4 10 14 6 15 13 15 6 14 15 8 15 15 10 15 13 15 14 15 8 8 4 10
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 10 4 4 10 14 6 15 13 15 6 14 15 8 15 15 10 15 13 15 14 15 8 8 4 10
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 10 4 4 10 14 6 15 13 15 6 14 15 8 15 15 10 15 13 15 14 15 8 8 4 10
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 5, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 10 4 4 10 14 6 15 13 15 6 14 15 8 15 15 10 15 13 15 14 15 8 8 4 10
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 10 4 4 10 14 6 15 13 15 6 14 15 8 15 15 10 15 13 15 14 15 8 8 4 10
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000100000001000[27m[7m0[27m[7m00010000000100000000000 SPIKE_BLACK=0001110000000111000000011100000001110000[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000100000001000000010000000100000000000 SPIKE_BLACK=0001110000000111000000011100000001110000
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=0 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0001110000000111000000011100000001110000 SPIKE_WHITE=0000100000001000000010000000100000000000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation SPIKE_WHITE=000010000000100000001000000010000[27m[7m0[27m[7m000000 SPIKE_BLACK=0001110000000111000000011100000001110000[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation SPIKE_WHITE=0000100000001000000010000000100000000000 SPIKE_BLACK=0001110000000111000000011100000001110000
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=1 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000100000001000000010000000100000000000" "-DSPIKE_BLACK=40'b0001110000000111000000011100000001110000" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=1  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 5 1 1 5 9 1 15 15 15 1 9 15 5 15 13 5 15 12 12 9 13 5 5 1 5
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 5 1 1 5 9 1 15 15 15 1 9 15 5 15 13 5 15 12 12 9 13 5 5 1 5
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 8 0 0 8 12 4 15 6 15 4 12 15 1 15 15 8 15 6 15 12 15 1 1 0 8
+AFTER W2: 0 14 15 0 3 7 0 14 0 0 3 7 15 3 7 0 3 10 0 3 7 15 10 15 0
+Firing counts: Neuron 1 = 2, Neuron 2 = 2
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 8 0 0 8 12 4 15 6 15 4 12 15 1 15 15 8 15 6 15 12 15 1 1 0 8
+BEFORE W2: 0 14 15 0 3 7 0 14 0 0 3 7 15 3 7 0 3 10 0 3 7 15 10 15 0
+AFTER W1: 8 0 0 8 12 4 15 6 15 4 12 15 1 15 15 8 15 6 15 12 15 1 1 0 8
+AFTER W2: 0 14 15 0 3 7 0 14 0 0 3 7 15 3 7 0 3 10 0 3 7 15 10 15 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 8 0 0 8 12 4 15 6 15 4 12 15 1 15 15 8 15 6 15 12 15 1 1 0 8
+BEFORE W2: 0 14 15 0 3 7 0 14 0 0 3 7 15 3 7 0 3 10 0 3 7 15 10 15 0
+AFTER W1: 8 0 0 8 12 4 15 6 15 4 12 15 1 15 15 8 15 6 15 12 15 1 1 0 8
+AFTER W2: 0 14 15 0 3 7 0 14 0 0 3 7 15 3 7 0 3 10 0 3 7 15 10 15 0
+Firing counts: Neuron 1 = 0, Neuron 2 = 4
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic SPIKE_WHITE=00001000000010000000100000001[27m[7m0[27m[7m0000000000 SPIKE_BLACK=0001110000000111000000011100000001110000[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic SPIKE_WHITE=0000100000001000000010000000100000000000 SPIKE_BLACK=0001110000000111000000011100000001110000
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=1 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0001110000000111000000011100000001110000 SPIKE_WHITE=0000100000001000000010000000100000000000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation TRIPLET_EN=0 SPIKE_WHITE=00001000000100000010[27m[7m0[27m[7m0000100000010000000 SPIKE_BLACK=0001110000000011100000000111000000011100[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation TRIPLET_EN=0 SPIKE_WHITE=0000100000010000001000000100000010000000 SPIKE_BLACK=0001110000000011100000000111000000011100
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=0 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000100000010000001000000100000010000000" "-DSPIKE_BLACK=40'b0001110000000011100000000111000000011100" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=0  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 5 1 1 5 9 1 15 15 15 1 9 15 5 15 13 5 15 12 12 9 13 5 5 1 5
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 5 1 1 5 9 1 15 15 15 1 9 15 5 15 13 5 15 12 12 9 13 5 5 1 5
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 13 3 3 13 15 9 15 12 15 9 15 15 7 15 15 13 15 12 15 15 15 7 7 3 13
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 5, Neuron 2 = 0
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 13 3 3 13 15 9 15 12 15 9 15 15 7 15 15 13 15 12 15 15 15 7 7 3 13
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 13 3 3 13 15 9 15 12 15 9 15 15 7 15 15 13 15 12 15 15 15 7 7 3 13
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 6, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 13 3 3 13 15 9 15 12 15 9 15 15 7 15 15 13 15 12 15 15 15 7 7 3 13
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 13 3 3 13 15 9 15 12 15 9 15 15 7 15 15 13 15 12 15 15 15 7 7 3 13
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 5, Neuron 2 = 0
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000100000010000[27m[7m0[27m[7m01000000100000010000000 SPIKE_BLACK=0001110000000011100000000111000000011100[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000100000010000001000000100000010000000 SPIKE_BLACK=0001110000000011100000000111000000011100
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=0 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0001110000000011100000000111000000011100 SPIKE_WHITE=0000100000010000001000000100000010000000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation SPIKE_WHITE=000010000001000000100000010000001[27m[7m0[27m[7m000000 SPIKE_BLACK=0001110000000011100000000111000000011100[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation SPIKE_WHITE=0000100000010000001000000100000010000000 SPIKE_BLACK=0001110000000011100000000111000000011100
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=1 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000100000010000001000000100000010000000" "-DSPIKE_BLACK=40'b0001110000000011100000000111000000011100" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=1  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 5 1 1 5 9 1 15 15 15 1 9 15 5 15 13 5 15 12 12 9 13 5 5 1 5
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 5 1 1 5 9 1 15 15 15 1 9 15 5 15 13 5 15 12 12 9 13 5 5 1 5
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 9 0 0 9 13 5 15 0 15 5 13 15 0 15 15 9 15 0 15 13 15 0 0 0 9
+AFTER W2: 0 11 15 0 4 8 0 11 0 0 4 8 15 4 8 0 4 7 0 4 8 15 7 15 0
+Firing counts: Neuron 1 = 3, Neuron 2 = 1
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 9 0 0 9 13 5 15 0 15 5 13 15 0 15 15 9 15 0 15 13 15 0 0 0 9
+BEFORE W2: 0 11 15 0 4 8 0 11 0 0 4 8 15 4 8 0 4 7 0 4 8 15 7 15 0
+AFTER W1: 9 0 0 9 13 5 15 0 15 5 13 15 0 15 15 9 15 0 15 13 15 0 0 0 9
+AFTER W2: 0 11 15 0 4 8 0 11 0 0 4 8 15 4 8 0 4 7 0 4 8 15 7 15 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 1
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 9 0 0 9 13 5 15 0 15 5 13 15 0 15 15 9 15 0 15 13 15 0 0 0 9
+BEFORE W2: 0 11 15 0 4 8 0 11 0 0 4 8 15 4 8 0 4 7 0 4 8 15 7 15 0
+AFTER W1: 9 0 0 9 13 5 15 0 15 5 13 15 0 15 15 9 15 0 15 13 15 0 0 0 9
+AFTER W2: 0 11 15 0 4 8 0 11 0 0 4 8 15 4 8 0 4 7 0 4 8 15 7 15 0
+Firing counts: Neuron 1 = 1, Neuron 2 = 3
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic SPIKE_WHITE=00001000000100000010000001000[27m[7m0[27m[7m0010000000 SPIKE_BLACK=0001110000000011100000000111000000011100[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic SPIKE_WHITE=0000100000010000001000000100000010000000 SPIKE_BLACK=0001110000000011100000000111000000011100
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=1 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0001110000000011100000000111000000011100 SPIKE_WHITE=0000100000010000001000000100000010000000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation TRIPLET_EN=0 SPIKE_WHITE=00000100000000010000[27m[7m0[27m[7m0000100000000010000 SPIKE_BLACK=0110001100001100011000011000110000110001[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation TRIPLET_EN=0 SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=0110001100001100011000011000110000110001
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=0 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000010000000001000000000100000000010000" "-DSPIKE_BLACK=40'b0110001100001100011000011000110000110001" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=0  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 11 7 7 11 15 7 14 10 14 7 15 10 11 14 15 11 14 3 3 15 15 11 11 7 11
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 11 7 7 11 15 7 14 10 14 7 15 10 11 14 15 11 14 3 3 15 15 11 11 7 11
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 15 2 2 15 15 11 15 5 15 11 15 14 6 15 15 15 15 0 7 15 15 6 6 2 15
+AFTER W2: 0 13 15 0 4 8 0 13 0 0 4 8 15 4 8 0 4 9 0 4 8 15 9 15 0
+Firing counts: Neuron 1 = 2, Neuron 2 = 2
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 15 2 2 15 15 11 15 5 15 11 15 14 6 15 15 15 15 0 7 15 15 6 6 2 15
+BEFORE W2: 0 13 15 0 4 8 0 13 0 0 4 8 15 4 8 0 4 9 0 4 8 15 9 15 0
+AFTER W1: 15 2 2 15 15 11 15 5 15 11 15 14 6 15 15 15 15 0 7 15 15 6 6 2 15
+AFTER W2: 0 13 15 0 4 8 0 13 0 0 4 8 15 4 8 0 4 9 0 4 8 15 9 15 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 15 2 2 15 15 11 15 5 15 11 15 14 6 15 15 15 15 0 7 15 15 6 6 2 15
+BEFORE W2: 0 13 15 0 4 8 0 13 0 0 4 8 15 4 8 0 4 9 0 4 8 15 9 15 0
+AFTER W1: 15 2 2 15 15 11 15 5 15 11 15 14 6 15 15 15 15 0 7 15 15 6 6 2 15
+AFTER W2: 0 13 15 0 4 8 0 13 0 0 4 8 15 4 8 0 4 9 0 4 8 15 9 15 0
+Firing counts: Neuron 1 = 3, Neuron 2 = 3
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000010000000001[27m[7m0[27m[7m00000000100000000010000 SPIKE_BLACK=0110001100001100011000011000110000110001[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=0110001100001100011000011000110000110001
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=0 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0110001100001100011000011000110000110001 SPIKE_WHITE=0000010000000001000000000100000000010000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation SPIKE_WHITE=000001000000000100000000010000000[27m[7m0[27m[7m010000 SPIKE_BLACK=0110001100001100011000011000110000110001[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=0110001100001100011000011000110000110001
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=1 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000010000000001000000000100000000010000" "-DSPIKE_BLACK=40'b0110001100001100011000011000110000110001" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=1  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 9 5 5 9 13 5 6 2 6 5 13 2 9 6 15 9 6 2 2 13 15 9 9 5 9
+AFTER W2: 2 10 14 2 6 10 2 10 2 2 6 10 14 6 10 2 6 6 2 6 10 14 6 14 2
+Firing counts: Neuron 1 = 3, Neuron 2 = 1
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 9 5 5 9 13 5 6 2 6 5 13 2 9 6 15 9 6 2 2 13 15 9 9 5 9
+BEFORE W2: 2 10 14 2 6 10 2 10 2 2 6 10 14 6 10 2 6 6 2 6 10 14 6 14 2
+AFTER W1: 13 2 2 13 15 9 10 2 10 9 15 6 2 10 15 13 10 2 6 15 15 2 2 2 13
+AFTER W2: 6 3 7 6 10 14 6 3 6 6 10 14 7 10 14 6 10 2 6 10 14 7 2 7 6
+Firing counts: Neuron 1 = 2, Neuron 2 = 2
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 13 2 2 13 15 9 10 2 10 9 15 6 2 10 15 13 10 2 6 15 15 2 2 2 13
+BEFORE W2: 6 3 7 6 10 14 6 3 6 6 10 14 7 10 14 6 10 2 6 10 14 7 2 7 6
+AFTER W1: 13 2 2 13 15 9 10 2 10 9 15 6 2 10 15 13 10 2 6 15 15 2 2 2 13
+AFTER W2: 6 3 7 6 10 14 6 3 6 6 10 14 7 10 14 6 10 2 6 10 14 7 2 7 6
+Firing counts: Neuron 1 = 4, Neuron 2 = 3
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 13 2 2 13 15 9 10 2 10 9 15 6 2 10 15 13 10 2 6 15 15 2 2 2 13
+BEFORE W2: 6 3 7 6 10 14 6 3 6 6 10 14 7 10 14 6 10 2 6 10 14 7 2 7 6
+AFTER W1: 13 2 2 13 15 9 10 2 10 9 15 6 2 10 15 13 10 2 6 15 15 2 2 2 13
+AFTER W2: 6 3 7 6 10 14 6 3 6 6 10 14 7 10 14 6 10 2 6 10 14 7 2 7 6
+Firing counts: Neuron 1 = 0, Neuron 2 = 3
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic SPIKE_WHITE=00000100000000010000000001000[27m[7m0[27m[7m0000010000 SPIKE_BLACK=0110001100001100011000011000110000110001[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=0110001100001100011000011000110000110001
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=1 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0110001100001100011000011000110000110001 SPIKE_WHITE=0000010000000001000000000100000000010000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation TRIPLET_EN=0 SPIKE_WHITE=00000100000000010000[27m[7m0[27m[7m0000100000000010000 SPIKE_BLACK=1100001100001100011000110000110000110001[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation TRIPLET_EN=0 SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=1100001100001100011000110000110000110001
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=0 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000010000000001000000000100000000010000" "-DSPIKE_BLACK=40'b1100001100001100011000110000110000110001" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=0  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 11 7 7 11 15 7 13 9 13 7 15 9 11 13 15 11 13 3 3 15 15 11 11 7 11
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 11 7 7 11 15 7 13 9 13 7 15 9 11 13 15 11 13 3 3 15 15 11 11 7 11
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 15 7 7 15 15 13 15 9 15 13 15 15 11 15 15 15 15 5 9 15 15 11 11 7 15
+AFTER W2: 0 11 15 0 2 6 0 11 0 0 2 6 15 2 6 0 2 7 0 2 6 15 7 15 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 1
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 15 7 7 15 15 13 15 9 15 13 15 15 11 15 15 15 15 5 9 15 15 11 11 7 15
+BEFORE W2: 0 11 15 0 2 6 0 11 0 0 2 6 15 2 6 0 2 7 0 2 6 15 7 15 0
+AFTER W1: 15 7 7 15 15 13 15 9 15 13 15 15 11 15 15 15 15 5 9 15 15 11 11 7 15
+AFTER W2: 0 11 15 0 2 6 0 11 0 0 2 6 15 2 6 0 2 7 0 2 6 15 7 15 0
+Firing counts: Neuron 1 = 5, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 15 7 7 15 15 13 15 9 15 13 15 15 11 15 15 15 15 5 9 15 15 11 11 7 15
+BEFORE W2: 0 11 15 0 2 6 0 11 0 0 2 6 15 2 6 0 2 7 0 2 6 15 7 15 0
+AFTER W1: 15 7 7 15 15 13 15 9 15 13 15 15 11 15 15 15 15 5 9 15 15 11 11 7 15
+AFTER W2: 0 11 15 0 2 6 0 11 0 0 2 6 15 2 6 0 2 7 0 2 6 15 7 15 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 2
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000010000000001[27m[7m0[27m[7m00000000100000000010000 SPIKE_BLACK=1100001100001100011000110000110000110001[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=1100001100001100011000110000110000110001
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=0 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=1100001100001100011000110000110000110001 SPIKE_WHITE=0000010000000001000000000100000000010000 OUT_PATH=viz/out.png
+make ablation SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=1100001100001100011000110000110000110001Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=1100001100001100011000110000110000110001
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=1 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000010000000001000000000100000000010000" "-DSPIKE_BLACK=40'b1100001100001100011000110000110000110001" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=1  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 9 5 5 9 13 5 6 2 6 5 13 2 9 6 15 9 6 2 2 13 15 9 9 5 9
+AFTER W2: 2 10 14 2 6 10 2 10 2 2 6 10 14 6 10 2 6 6 2 6 10 14 6 14 2
+Firing counts: Neuron 1 = 3, Neuron 2 = 1
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 9 5 5 9 13 5 6 2 6 5 13 2 9 6 15 9 6 2 2 13 15 9 9 5 9
+BEFORE W2: 2 10 14 2 6 10 2 10 2 2 6 10 14 6 10 2 6 6 2 6 10 14 6 14 2
+AFTER W1: 13 2 2 13 15 9 10 2 10 9 15 6 2 10 15 13 10 2 6 15 15 2 2 2 13
+AFTER W2: 6 3 7 6 10 14 6 3 6 6 10 14 7 10 14 6 10 2 6 10 14 7 2 7 6
+Firing counts: Neuron 1 = 2, Neuron 2 = 2
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 13 2 2 13 15 9 10 2 10 9 15 6 2 10 15 13 10 2 6 15 15 2 2 2 13
+BEFORE W2: 6 3 7 6 10 14 6 3 6 6 10 14 7 10 14 6 10 2 6 10 14 7 2 7 6
+AFTER W1: 13 2 2 13 15 9 10 2 10 9 15 6 2 10 15 13 10 2 6 15 15 2 2 2 13
+AFTER W2: 6 3 7 6 10 14 6 3 6 6 10 14 7 10 14 6 10 2 6 10 14 7 2 7 6
+Firing counts: Neuron 1 = 4, Neuron 2 = 3
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 13 2 2 13 15 9 10 2 10 9 15 6 2 10 15 13 10 2 6 15 15 2 2 2 13
+BEFORE W2: 6 3 7 6 10 14 6 3 6 6 10 14 7 10 14 6 10 2 6 10 14 7 2 7 6
+AFTER W1: 13 2 2 13 15 9 10 2 10 9 15 6 2 10 15 13 10 2 6 15 15 2 2 2 13
+AFTER W2: 6 3 7 6 10 14 6 3 6 6 10 14 7 10 14 6 10 2 6 10 14 7 2 7 6
+Firing counts: Neuron 1 = 1, Neuron 2 = 2
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=1100001100001100011000110000110000110001[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [K
+
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[7mmake plot-dynamic SPIKE_WHITE=00000100000000010000000001000[27m[7m0[27m[7m0000010000 SPIKE_BLACK=1100001100001100011000110000110000110001[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=1100001100001100011000110000110000110001
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=1 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=1100001100001100011000110000110000110001 SPIKE_WHITE=0000010000000001000000000100000000010000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation TRIPLET_EN=0 SPIKE_WHITE=00000100000000010000[27m[7m0[27m[7m0000100000000010000 SPIKE_BLACK=0110001100000110001100001100011000001100[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation TRIPLET_EN=0 SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=0110001100000110001100001100011000001100
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=0 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000010000000001000000000100000000010000" "-DSPIKE_BLACK=40'b0110001100000110001100001100011000001100" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=0  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 11 7 7 11 15 7 13 11 13 7 15 11 11 13 15 11 13 3 3 15 15 11 11 7 11
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 11 7 7 11 15 7 13 11 13 7 15 11 11 13 15 11 13 3 3 15 15 11 11 7 11
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 15 6 6 15 15 15 15 10 15 15 15 15 10 15 15 15 15 2 11 15 15 10 10 6 15
+AFTER W2: 4 9 13 4 8 12 4 9 4 4 8 12 13 8 12 4 8 5 4 8 12 13 5 13 4
+Firing counts: Neuron 1 = 4, Neuron 2 = 2
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 15 6 6 15 15 15 15 10 15 15 15 15 10 15 15 15 15 2 11 15 15 10 10 6 15
+BEFORE W2: 4 9 13 4 8 12 4 9 4 4 8 12 13 8 12 4 8 5 4 8 12 13 5 13 4
+AFTER W1: 15 6 6 15 15 15 15 10 15 15 15 15 10 15 15 15 15 2 11 15 15 10 10 6 15
+AFTER W2: 4 9 13 4 8 12 4 9 4 4 8 12 13 8 12 4 8 5 4 8 12 13 5 13 4
+Firing counts: Neuron 1 = 4, Neuron 2 = 1
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 15 6 6 15 15 15 15 10 15 15 15 15 10 15 15 15 15 2 11 15 15 10 10 6 15
+BEFORE W2: 4 9 13 4 8 12 4 9 4 4 8 12 13 8 12 4 8 5 4 8 12 13 5 13 4
+AFTER W1: 15 6 6 15 15 15 15 10 15 15 15 15 10 15 15 15 15 2 11 15 15 10 10 6 15
+AFTER W2: 4 9 13 4 8 12 4 9 4 4 8 12 13 8 12 4 8 5 4 8 12 13 5 13 4
+Firing counts: Neuron 1 = 4, Neuron 2 = 2
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000010000000001[27m[7m0[27m[7m00000000100000000010000 SPIKE_BLACK=0110001100000110001100001100011000001100[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=0110001100000110001100001100011000001100
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=0 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0110001100000110001100001100011000001100 SPIKE_WHITE=0000010000000001000000000100000000010000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation SPIKE_WHITE=000001000000000100000000010000000[27m[7m0[27m[7m010000 SPIKE_BLACK=0110001100000110001100001100011000001100[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=0110001100000110001100001100011000001100
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=1 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000010000000001000000000100000000010000" "-DSPIKE_BLACK=40'b0110001100000110001100001100011000001100" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=1  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 11 7 7 11 15 7 5 1 5 7 15 1 11 5 15 11 5 0 0 15 15 11 11 7 11
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 11 7 7 11 15 7 5 1 5 7 15 1 11 5 15 11 5 0 0 15 15 11 11 7 11
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 13 0 0 13 15 9 7 0 7 9 15 3 2 7 15 13 7 0 2 15 15 2 2 0 13
+AFTER W2: 0 15 15 0 4 8 0 15 0 0 4 8 15 4 8 0 4 11 0 4 8 15 11 15 0
+Firing counts: Neuron 1 = 1, Neuron 2 = 3
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 13 0 0 13 15 9 7 0 7 9 15 3 2 7 15 13 7 0 2 15 15 2 2 0 13
+BEFORE W2: 0 15 15 0 4 8 0 15 0 0 4 8 15 4 8 0 4 11 0 4 8 15 11 15 0
+AFTER W1: 13 0 0 13 15 9 7 0 7 9 15 3 2 7 15 13 7 0 2 15 15 2 2 0 13
+AFTER W2: 0 15 15 0 4 8 0 15 0 0 4 8 15 4 8 0 4 11 0 4 8 15 11 15 0
+Firing counts: Neuron 1 = 3, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 13 0 0 13 15 9 7 0 7 9 15 3 2 7 15 13 7 0 2 15 15 2 2 0 13
+BEFORE W2: 0 15 15 0 4 8 0 15 0 0 4 8 15 4 8 0 4 11 0 4 8 15 11 15 0
+AFTER W1: 13 0 0 13 15 9 7 0 7 9 15 3 2 7 15 13 7 0 2 15 15 2 2 0 13
+AFTER W2: 0 15 15 0 4 8 0 15 0 0 4 8 15 4 8 0 4 11 0 4 8 15 11 15 0
+Firing counts: Neuron 1 = 0, Neuron 2 = 4
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic SPIKE_WHITE=00000100000000010000000001000[27m[7m0[27m[7m0000010000 SPIKE_BLACK=0110001100000110001100001100011000001100[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=0110001100000110001100001100011000001100
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=1 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0110001100000110001100001100011000001100 SPIKE_WHITE=0000010000000001000000000100000000010000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation TRIPLET_EN=0 SPIKE_WHITE=00000010000000001000[27m[7m0[27m[7m0000010000000001000 SPIKE_BLACK=0110001100001100011000011000110000110001[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation TRIPLET_EN=0 SPIKE_WHITE=0000001000000000100000000010000000001000 SPIKE_BLACK=0110001100001100011000011000110000110001
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=0 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000001000000000100000000010000000001000" "-DSPIKE_BLACK=40'b0110001100001100011000011000110000110001" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=0  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 12 8 8 12 15 8 9 5 9 8 15 5 12 9 15 12 9 0 0 15 15 12 12 8 12
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 12 8 8 12 15 8 9 5 9 8 15 5 12 9 15 12 9 0 0 15 15 12 12 8 12
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 15 5 5 15 15 15 15 2 15 15 15 13 9 15 15 15 15 0 8 15 15 9 9 5 15
+AFTER W2: 8 5 9 8 12 15 8 5 8 8 12 15 9 12 15 8 12 1 8 12 15 9 1 9 8
+Firing counts: Neuron 1 = 4, Neuron 2 = 4
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 15 5 5 15 15 15 15 2 15 15 15 13 9 15 15 15 15 0 8 15 15 9 9 5 15
+BEFORE W2: 8 5 9 8 12 15 8 5 8 8 12 15 9 12 15 8 12 1 8 12 15 9 1 9 8
+AFTER W1: 15 5 5 15 15 15 15 2 15 15 15 13 9 15 15 15 15 0 8 15 15 9 9 5 15
+AFTER W2: 8 5 9 8 12 15 8 5 8 8 12 15 9 12 15 8 12 1 8 12 15 9 1 9 8
+Firing counts: Neuron 1 = 4, Neuron 2 = 3
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 15 5 5 15 15 15 15 2 15 15 15 13 9 15 15 15 15 0 8 15 15 9 9 5 15
+BEFORE W2: 8 5 9 8 12 15 8 5 8 8 12 15 9 12 15 8 12 1 8 12 15 9 1 9 8
+AFTER W1: 15 5 5 15 15 15 15 2 15 15 15 13 9 15 15 15 15 0 8 15 15 9 9 5 15
+AFTER W2: 8 5 9 8 12 15 8 5 8 8 12 15 9 12 15 8 12 1 8 12 15 9 1 9 8
+Firing counts: Neuron 1 = 4, Neuron 2 = 4
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000001000000000[27m[7m1[27m[7m00000000010000000001000 SPIKE_BLACK=0110001100001100011000011000110000110001[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000001000000000100000000010000000001000 SPIKE_BLACK=0110001100001100011000011000110000110001
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=0 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0110001100001100011000011000110000110001 SPIKE_WHITE=0000001000000000100000000010000000001000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation SPIKE_WHITE=000000100000000010000000001000000[27m[7m0[27m[7m001000 SPIKE_BLACK=0110001100001100011000011000110000110001[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation SPIKE_WHITE=0000001000000000100000000010000000001000 SPIKE_BLACK=0110001100001100011000011000110000110001
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=1 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000001000000000100000000010000000001000" "-DSPIKE_BLACK=40'b0110001100001100011000011000110000110001" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=1  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 10 6 6 10 14 6 3 0 3 6 14 0 10 3 15 10 3 0 0 14 15 10 10 6 10
+AFTER W2: 2 10 14 2 6 10 0 6 0 2 6 6 14 2 10 2 2 2 0 6 10 14 6 14 2
+Firing counts: Neuron 1 = 3, Neuron 2 = 1
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 10 6 6 10 14 6 3 0 3 6 14 0 10 3 15 10 3 0 0 14 15 10 10 6 10
+BEFORE W2: 2 10 14 2 6 10 0 6 0 2 6 6 14 2 10 2 2 2 0 6 10 14 6 14 2
+AFTER W1: 14 0 0 14 15 10 7 0 7 10 15 4 3 7 15 14 7 0 4 15 15 3 3 0 14
+AFTER W2: 6 5 8 6 10 14 4 2 4 6 10 10 8 6 14 6 6 2 4 10 14 8 2 8 6
+Firing counts: Neuron 1 = 2, Neuron 2 = 3
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 14 0 0 14 15 10 7 0 7 10 15 4 3 7 15 14 7 0 4 15 15 3 3 0 14
+BEFORE W2: 6 5 8 6 10 14 4 2 4 6 10 10 8 6 14 6 6 2 4 10 14 8 2 8 6
+AFTER W1: 14 0 0 14 15 10 7 0 7 10 15 4 3 7 15 14 7 0 4 15 15 3 3 0 14
+AFTER W2: 6 5 8 6 10 14 4 2 4 6 10 10 8 6 14 6 6 2 4 10 14 8 2 8 6
+Firing counts: Neuron 1 = 3, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 14 0 0 14 15 10 7 0 7 10 15 4 3 7 15 14 7 0 4 15 15 3 3 0 14
+BEFORE W2: 6 5 8 6 10 14 4 2 4 6 10 10 8 6 14 6 6 2 4 10 14 8 2 8 6
+AFTER W1: 14 0 0 14 15 10 7 0 7 10 15 4 3 7 15 14 7 0 4 15 15 3 3 0 14
+AFTER W2: 6 5 8 6 10 14 4 2 4 6 10 10 8 6 14 6 6 2 4 10 14 8 2 8 6
+Firing counts: Neuron 1 = 1, Neuron 2 = 2
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic SPIKE_WHITE=00000010000000001000000000100[27m[7m0[27m[7m0000001000 SPIKE_BLACK=0110001100001100011000011000110000110001[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic SPIKE_WHITE=0000001000000000100000000010000000001000 SPIKE_BLACK=0110001100001100011000011000110000110001
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=1 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=0110001100001100011000011000110000110001 SPIKE_WHITE=0000001000000000100000000010000000001000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation TRIPLET_EN=0 SPIKE_WHITE=00000100000000010000[27m[7m0[27m[7m0000100000000010000 SPIKE_BLACK=1100011000011000011000110001100001100011[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation TRIPLET_EN=0 SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=1100011000011000011000110001100001100011
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=0 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000010000000001000000000100000000010000" "-DSPIKE_BLACK=40'b1100011000011000011000110001100001100011" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=0  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 12 8 8 12 15 8 8 4 8 8 15 4 12 8 15 12 8 0 0 15 15 12 12 8 12
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 12 8 8 12 15 8 8 4 8 8 15 4 12 8 15 12 8 0 0 15 15 12 12 8 12
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 15 9 9 15 15 14 14 5 14 14 15 10 13 14 15 15 14 2 6 15 15 13 13 9 15
+AFTER W2: 4 10 14 4 8 12 4 10 4 4 8 12 14 8 12 4 8 6 4 8 12 14 6 14 4
+Firing counts: Neuron 1 = 4, Neuron 2 = 4
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 15 9 9 15 15 14 14 5 14 14 15 10 13 14 15 15 14 2 6 15 15 13 13 9 15
+BEFORE W2: 4 10 14 4 8 12 4 10 4 4 8 12 14 8 12 4 8 6 4 8 12 14 6 14 4
+AFTER W1: 15 9 9 15 15 14 14 5 14 14 15 10 13 14 15 15 14 2 6 15 15 13 13 9 15
+AFTER W2: 4 10 14 4 8 12 4 10 4 4 8 12 14 8 12 4 8 6 4 8 12 14 6 14 4
+Firing counts: Neuron 1 = 5, Neuron 2 = 2
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 15 9 9 15 15 14 14 5 14 14 15 10 13 14 15 15 14 2 6 15 15 13 13 9 15
+BEFORE W2: 4 10 14 4 8 12 4 10 4 4 8 12 14 8 12 4 8 6 4 8 12 14 6 14 4
+AFTER W1: 15 9 9 15 15 14 14 5 14 14 15 10 13 14 15 15 14 2 6 15 15 13 13 9 15
+AFTER W2: 4 10 14 4 8 12 4 10 4 4 8 12 14 8 12 4 8 6 4 8 12 14 6 14 4
+Firing counts: Neuron 1 = 4, Neuron 2 = 4
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000010000000001[27m[7m0[27m[7m00000000100000000010000 SPIKE_BLACK=1100011000011000011000110001100001100011[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=1100011000011000011000110001100001100011
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=0 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=1100011000011000011000110001100001100011 SPIKE_WHITE=0000010000000001000000000100000000010000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation SPIKE_WHITE=000001000000000100000000010000000[27m[7m0[27m[7m010000 SPIKE_BLACK=1100011000011000011000110001100001100011[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=1100011000011000011000110001100001100011
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=1 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000010000000001000000000100000000010000" "-DSPIKE_BLACK=40'b1100011000011000011000110001100001100011" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=1  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 8 4 4 8 12 4 10 6 10 4 12 6 8 10 15 8 10 5 5 12 15 8 8 4 8
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 8 4 4 8 12 4 10 6 10 4 12 6 8 10 15 8 10 5 5 12 15 8 8 4 8
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 12 0 0 12 15 8 14 0 14 8 15 10 1 14 15 12 14 0 9 15 15 1 1 0 12
+AFTER W2: 4 3 7 4 8 12 4 3 4 4 8 12 7 8 12 4 8 2 4 8 12 7 2 7 4
+Firing counts: Neuron 1 = 2, Neuron 2 = 3
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 12 0 0 12 15 8 14 0 14 8 15 10 1 14 15 12 14 0 9 15 15 1 1 0 12
+BEFORE W2: 4 3 7 4 8 12 4 3 4 4 8 12 7 8 12 4 8 2 4 8 12 7 2 7 4
+AFTER W1: 12 0 0 12 15 8 14 0 14 8 15 10 1 14 15 12 14 0 9 15 15 1 1 0 12
+AFTER W2: 4 3 7 4 8 12 4 3 4 4 8 12 7 8 12 4 8 2 4 8 12 7 2 7 4
+Firing counts: Neuron 1 = 5, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 12 0 0 12 15 8 14 0 14 8 15 10 1 14 15 12 14 0 9 15 15 1 1 0 12
+BEFORE W2: 4 3 7 4 8 12 4 3 4 4 8 12 7 8 12 4 8 2 4 8 12 7 2 7 4
+AFTER W1: 12 0 0 12 15 8 14 0 14 8 15 10 1 14 15 12 14 0 9 15 15 1 1 0 12
+AFTER W2: 4 3 7 4 8 12 4 3 4 4 8 12 7 8 12 4 8 2 4 8 12 7 2 7 4
+Firing counts: Neuron 1 = 1, Neuron 2 = 2
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic SPIKE_WHITE=00000100000000010000000001000[27m[7m0[27m[7m0000010000 SPIKE_BLACK=1100011000011000011000110001100001100011[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic SPIKE_WHITE=0000010000000001000000000100000000010000 SPIKE_BLACK=1100011000011000011000110001100001100011
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=1 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=1100011000011000011000110001100001100011 SPIKE_WHITE=0000010000000001000000000100000000010000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation TRIPLET_EN=0 SPIKE_WHITE=00000010000000001000[27m[7m0[27m[7m0000010000000001000 SPIKE_BLACK=1100001100001100011000110000110000110001[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation TRIPLET_EN=0 SPIKE_WHITE=0000001000000000100000000010000000001000 SPIKE_BLACK=1100001100001100011000110000110000110001
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=0 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000001000000000100000000010000000001000" "-DSPIKE_BLACK=40'b1100001100001100011000110000110000110001" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=0  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 12 8 8 12 15 8 9 5 9 8 15 5 12 9 15 12 9 0 0 15 15 12 12 8 12
+AFTER W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+Firing counts: Neuron 1 = 4, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 12 8 8 12 15 8 9 5 9 8 15 5 12 9 15 12 9 0 0 15 15 12 12 8 12
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 15 5 5 15 15 15 15 2 15 15 15 13 9 15 15 15 15 0 8 15 15 9 9 5 15
+AFTER W2: 8 5 9 8 12 15 8 5 8 8 12 15 9 12 15 8 12 1 8 12 15 9 1 9 8
+Firing counts: Neuron 1 = 4, Neuron 2 = 4
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 15 5 5 15 15 15 15 2 15 15 15 13 9 15 15 15 15 0 8 15 15 9 9 5 15
+BEFORE W2: 8 5 9 8 12 15 8 5 8 8 12 15 9 12 15 8 12 1 8 12 15 9 1 9 8
+AFTER W1: 15 5 5 15 15 15 15 2 15 15 15 13 9 15 15 15 15 0 8 15 15 9 9 5 15
+AFTER W2: 8 5 9 8 12 15 8 5 8 8 12 15 9 12 15 8 12 1 8 12 15 9 1 9 8
+Firing counts: Neuron 1 = 4, Neuron 2 = 3
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 15 5 5 15 15 15 15 2 15 15 15 13 9 15 15 15 15 0 8 15 15 9 9 5 15
+BEFORE W2: 8 5 9 8 12 15 8 5 8 8 12 15 9 12 15 8 12 1 8 12 15 9 1 9 8
+AFTER W1: 15 5 5 15 15 15 15 2 15 15 15 13 9 15 15 15 15 0 8 15 15 9 9 5 15
+AFTER W2: 8 5 9 8 12 15 8 5 8 8 12 15 9 12 15 8 12 1 8 12 15 9 1 9 8
+Firing counts: Neuron 1 = 4, Neuron 2 = 4
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000001000000000[27m[7m1[27m[7m00000000010000000001000 SPIKE_BLACK=1100001100001100011000110000110000110001[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic TRIPLET_EN=0 SPIKE_WHITE=0000001000000000100000000010000000001000 SPIKE_BLACK=1100001100001100011000110000110000110001
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=0 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=1100001100001100011000110000110000110001 SPIKE_WHITE=0000001000000000100000000010000000001000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake ablation SPIKE_WHITE=000000100000000010000000001000000[27m[7m0[27m[7m001000 SPIKE_BLACK=1100001100001100011000110000110000110001[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation SPIKE_WHITE=0000001000000000100000000010000000001000 SPIKE_BLACK=1100001100001100011000110000110000110001
+[?2004l
+iverilog -DW_BITS=4 -DTRACE_BITS=4 -DTRIPLET_EN=1 -DMODE=0 -DLEAK_EN=1 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b0000001000000000100000000010000000001000" "-DSPIKE_BLACK=40'b1100001100001100011000110000110000110001" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=4  TRACE_BITS=4  TRIPLET_EN=1  MODE=0  LEAK_EN=1  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 4 0 0 4 8 0 12 8 12 0 8 8 4 12 12 4 12 0 0 8 12 4 4 0 4
+BEFORE W2: 0 8 12 0 4 8 0 8 0 0 4 8 12 4 8 0 4 4 0 4 8 12 4 12 0
+AFTER W1: 10 6 6 10 14 6 3 0 3 6 14 0 10 3 15 10 3 0 0 14 15 10 10 6 10
+AFTER W2: 2 10 14 2 6 10 0 6 0 2 6 6 14 2 10 2 2 2 0 6 10 14 6 14 2
+Firing counts: Neuron 1 = 3, Neuron 2 = 1
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 10 6 6 10 14 6 3 0 3 6 14 0 10 3 15 10 3 0 0 14 15 10 10 6 10
+BEFORE W2: 2 10 14 2 6 10 0 6 0 2 6 6 14 2 10 2 2 2 0 6 10 14 6 14 2
+AFTER W1: 14 0 0 14 15 10 7 0 7 10 15 4 3 7 15 14 7 0 4 15 15 3 3 0 14
+AFTER W2: 6 5 8 6 10 14 4 2 4 6 10 10 8 6 14 6 6 2 4 10 14 8 2 8 6
+Firing counts: Neuron 1 = 2, Neuron 2 = 3
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 14 0 0 14 15 10 7 0 7 10 15 4 3 7 15 14 7 0 4 15 15 3 3 0 14
+BEFORE W2: 6 5 8 6 10 14 4 2 4 6 10 10 8 6 14 6 6 2 4 10 14 8 2 8 6
+AFTER W1: 14 0 0 14 15 10 7 0 7 10 15 4 3 7 15 14 7 0 4 15 15 3 3 0 14
+AFTER W2: 6 5 8 6 10 14 4 2 4 6 10 10 8 6 14 6 6 2 4 10 14 8 2 8 6
+Firing counts: Neuron 1 = 3, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 14 0 0 14 15 10 7 0 7 10 15 4 3 7 15 14 7 0 4 15 15 3 3 0 14
+BEFORE W2: 6 5 8 6 10 14 4 2 4 6 10 10 8 6 14 6 6 2 4 10 14 8 2 8 6
+AFTER W1: 14 0 0 14 15 10 7 0 7 10 15 4 3 7 15 14 7 0 4 15 15 3 3 0 14
+AFTER W2: 6 5 8 6 10 14 4 2 4 6 10 10 8 6 14 6 6 2 4 10 14 8 2 8 6
+Firing counts: Neuron 1 = 1, Neuron 2 = 2
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [7mmake plot-dynamic SPIKE_WHITE=00000010000000001000000000100[27m[7m0[27m[7m0000001000 SPIKE_BLACK=1100001100001100011000110000110000110001[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make plot-dynamic SPIKE_WHITE=0000001000000000100000000010000000001000 SPIKE_BLACK=1100001100001100011000110000110000110001
+[?2004l
+python3 viz/plot_weights.py dynamic --make-args W_BITS=4 TRACE_BITS=4 TRIPLET_EN=1 MODE=0 LEAK_EN=1 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=1100001100001100011000110000110000110001 SPIKE_WHITE=0000001000000000100000000010000000001000 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ exit
+[?2004l
+exit
+
+Script done on 2026-03-09 23:16:31-07:00 [COMMAND_EXIT_CODE="0"]
+
+
+Script started on 2026-03-10 08:06:04-07:00 [TERM="xterm-256color" TTY="/dev/pts/3" COLUMNS="179" LINES="46"]
+^[[B[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ exitmake ablation-original SPIKE_WHITE=01000000100000000010 SPIKE_BLACK=01000000100000000010[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ exit[K
+
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cmake ablation-original SPIKE_WHITE=01000000100000000010 SPIKE_BLACK=01000000100000000010[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K
+
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cexit[Kmake plot-dynamic SPIKE_WHITE=0000001000000000100000000010000000001000 SPIKE_BLACK=1100001100001100011000110000110000110001[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[Cablation SPIKE_WHITE=0000001000000000100000000010000000[C[C[4P[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[Cplot-dynamic TRIPLET_EN=0 SPIKE_WHITE=00000010000000001[C[C[17@00000001000000000[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[Cablation TRIPLET_EN=0 SPIKE_WHITE=000000100000000010000[C[C[C[C[C[4P[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[Cplot-dynamic TRIPLET_EN=0 SPIKE_WHITE=00000010000000001[C[C[C[C[C[4@0000[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[Cablation TRIPLET_EN=0 SPIKE_WHITE=000000100000000010000[C[C[C[C[C[4P[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[Cplot-dynamic SPIKE_WHITE=000001000000000100000000010000[C[C[C[C[C[C[C[C[C[C[9P SPIKE_BLACK=1100011000011000011000110001100001100011[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[Cablation TRIPLET_EN=0 SPIKE_WHITE=000000100000000010000[C[C[C[C[C[C[C[C[C[C000001000 SPIKE_BLACK=1100001100001100011000110000110000110001[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[Cplot-dynamic TRIPLET_EN=0 SPIKE_WHITE=00000010000000001[C[C[C[C[C[4@0000[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [K
+
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[7make ablation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 S[27m[7mP[27m[7mIKE_WHITE=01000000100000000010 SPIKE_BLACK=01010100010101000101[27m[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ ake ablation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_WHITE=01000000100000000010 SPIKE_BLACK=01010100010101000101[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 S[1@P[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C
+
+
+[?2004l
+iverilog -DW_BITS=2 -DTRACE_BITS=2 -DTRIPLET_EN=0 -DMODE=0 -DLEAK_EN=0 -DSYMMETRIC=1 -DNUM_EPOCHS=1 "-DSPIKE_WHITE=40'b01000000100000000010" "-DSPIKE_BLACK=40'b01010100010101000101" -o dynamic_snn_ablation rtl/snn_dynamic.v tb/dynamic_snn_tb.v
+vvp dynamic_snn_ablation
+VCD info: dumpfile dynamic_snn.vcd opened for output.
+============================================================
+CONFIG: W_BITS=2  TRACE_BITS=2  TRIPLET_EN=0  MODE=0  LEAK_EN=0  SYMMETRIC=1
+CONFIG: NUM_STEPS=40 (from pattern length)  NUM_EPOCHS=1
+============================================================
+============================================================
+Train '0' epoch
+============================================================
+BEFORE W1: 1 0 0 1 2 0 3 2 3 0 2 2 1 3 3 1 3 0 0 2 3 1 1 0 1
+BEFORE W2: 0 2 3 0 1 2 0 2 0 0 1 2 3 1 2 0 1 1 0 1 2 3 1 3 0
+AFTER W1: 0 0 0 0 1 0 3 3 3 0 1 3 0 3 2 0 3 3 3 1 2 0 0 0 0
+AFTER W2: 0 2 3 0 1 2 0 2 0 0 1 2 3 1 2 0 1 1 0 1 2 3 1 3 0
+Firing counts: Neuron 1 = 2, Neuron 2 = 0
+
+============================================================
+Train '1' epoch
+============================================================
+BEFORE W1: 0 0 0 0 1 0 3 3 3 0 1 3 0 3 2 0 3 3 3 1 2 0 0 0 0
+BEFORE W2: 0 2 3 0 1 2 0 2 0 0 1 2 3 1 2 0 1 1 0 1 2 3 1 3 0
+AFTER W1: 0 0 0 0 1 0 3 3 3 0 1 3 0 3 2 0 3 3 3 1 2 0 0 0 0
+AFTER W2: 0 3 3 0 0 1 0 3 0 0 0 1 3 0 1 0 0 3 0 0 1 3 3 3 0
+Firing counts: Neuron 1 = 0, Neuron 2 = 2
+
+============================================================
+Test '0'
+============================================================
+BEFORE W1: 0 0 0 0 1 0 3 3 3 0 1 3 0 3 2 0 3 3 3 1 2 0 0 0 0
+BEFORE W2: 0 3 3 0 0 1 0 3 0 0 0 1 3 0 1 0 0 3 0 0 1 3 3 3 0
+AFTER W1: 0 0 0 0 1 0 3 3 3 0 1 3 0 3 2 0 3 3 3 1 2 0 0 0 0
+AFTER W2: 0 3 3 0 0 1 0 3 0 0 0 1 3 0 1 0 0 3 0 0 1 3 3 3 0
+Firing counts: Neuron 1 = 2, Neuron 2 = 0
+
+============================================================
+Test '1'
+============================================================
+BEFORE W1: 0 0 0 0 1 0 3 3 3 0 1 3 0 3 2 0 3 3 3 1 2 0 0 0 0
+BEFORE W2: 0 3 3 0 0 1 0 3 0 0 0 1 3 0 1 0 0 3 0 0 1 3 3 3 0
+AFTER W1: 0 0 0 0 1 0 3 3 3 0 1 3 0 3 2 0 3 3 3 1 2 0 0 0 0
+AFTER W2: 0 3 3 0 0 1 0 3 0 0 0 1 3 0 1 0 0 3 0 0 1 3 3 3 0
+Firing counts: Neuron 1 = 0, Neuron 2 = 2
+
+============================================================
+Simulation complete.
+============================================================
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ make ablation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_WHITE=01000000100000000010 SPIKE_BLACK=01010100010101000101[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[Cblation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SP[1P[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[Clation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPI[1P[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[Cation W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIK[1P[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[Ction W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE[1P[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[Cion W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_[1P[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[Con W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_W[1P[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[Cn W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_WH[1P[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[C W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_WHI[1P[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[Cp W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_WH[1@I[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[C[Cl W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_W[1@H[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[C[C[Co W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_[1@W[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[C[C[C[Ct W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE[1@_[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[C[C[C[C[C- W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIK[1@E[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[C[C[C[C[C[Cd W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPI[1@K[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[C[C[C[C[C[C[Cy W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SP[1@I[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[C[C[C[C[C[C[C[Cn W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 S[1@P[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[Ca W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 [1@S[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[Cm W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0[1@ [A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ci W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=[1@0[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cc W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN[1@=[A
+(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+
+
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$make plot-dynamic W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SPIKE_WHITE=01000000100000000010 SPIKE_BLACK=01010100010101000101
+python3 viz/plot_weights.py dynamic --make-args W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 MODE=0 LEAK_EN=0 SYMMETRIC=1 NUM_EPOCHS=1 SPIKE_BLACK=01010100010101000101 SPIKE_WHITE=01000000100000000010 OUT_PATH=viz/out.png
+Saved to weight_heatmaps_dynamic.png
+[?2004h(base) ]0;computer_name: project_path[01;32mcomputer_name[00m:[01;34mproject_path[00m$ exit
+[?2004l
+exit
+
+Script done on 2026-03-10 08:07:29-07:00 [COMMAND_EXIT_CODE="0"]
+
