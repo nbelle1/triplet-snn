@@ -107,12 +107,12 @@ After the experimental progression, the final triplet SNN differs from the initi
 **Weighted sum scaling**: 10-bit `wsum_full` accumulator, right-shifted by `W_SCALE = 2` to fit 8-bit membrane.
 
 **STDP Parameters (Winning Configuration)**:
-- `A2_PLUS = 1`, `A2_MINUS = 3` -- pair-based LTP/LTD magnitudes.
-- `A3_PLUS = 1`, `A3_MINUS = 4` -- triplet LTP/LTD magnitudes.
+- `A2_PLUS = 1`, `A2_MINUS = 1` -- pair-based LTP/LTD magnitudes (symmetric, matching original pair STDP).
+- `A3_PLUS = 1`, `A3_MINUS = 4` -- triplet LTP/LTD magnitudes (asymmetric; depression stronger to counteract winner-takes-all feedback).
 - `DW_SCALE = 2` -- right-shift applied to raw STDP deltas before clamping.
 - `TRACE_INC = 8` -- trace increment on spike (all-to-all mode).
 
-**Slow trace decay**: -2 per cycle (changed from -1 to fit within the 40-step window).
+**Slow trace decay**: -2 per cycle for both $r_2$ and $o_2$ (changed from -1 to fit within the 40-step window).
 
 **Scaling and clamping**: Raw potentiation/depression computed in 12 bits, right-shifted by `DW_SCALE`, clamped to 4 bits. Net delta computed as signed value. Final weight clamped to [0, 15].
 
@@ -241,19 +241,12 @@ The 20-timestep window was too short for the triplet traces to build up and inte
 
 This gave the traces enough time to accumulate, decay, and interact across multiple spike events.
 
-### Step 6: Weight Saturation and Asymmetric Depression
-
-With equal A2/A3 parameters, potentiation and depression roughly balanced out -- except that the bursty patterns drove all weights toward maximum. The weight maps saturated to 15 across the board.
-
-**Fix**: Made depression asymmetrically stronger than potentiation in both pair and triplet components. This ensures that uncorrelated synapses get suppressed, while only strongly correlated synapses (those seeing the right triplet motifs) get potentiated.
-
-### Step 7: Parameter Sweep and Winning Configuration
+### Step 6: Parameter Sweep and Winning Configuration
 
 Tested multiple parameter configurations in parallel, varying A2/A3 ratios, thresholds, trace increments, and spike patterns:
 
 **Winning parameters:**
-- `A2_PLUS = 1`, `A2_MINUS = 3` (pair depression 3× stronger than potentiation)
-- `A3_PLUS = 1`, `A3_MINUS = 4` (triplet depression 4× stronger than potentiation)
+- Symmetric pair amplitudes (`A2_PLUS = A2_MINUS = 1`), asymmetric triplet amplitudes (`A3_PLUS = 1`, `A3_MINUS = 4`)
 - `DW_SCALE = 2`, `TRACE_INC = 8`
 - BLACK pattern: `1100110000001100110000001100110000001100` (burst-gap-burst)
 - Slow trace decay: -2 per cycle
@@ -276,4 +269,4 @@ The triplet model achieves perfect 3-0/0-3 classification across all four phases
 
 ### Why the Triplet Rule Wins
 
-The bursty BLACK patterns create pre-post-pre and post-pre-post triplet motifs. The pair-based rule sees each spike pair independently and cannot distinguish between correlated bursts and coincidental timing. The triplet rule's slow traces (`r2`, `o2`) encode the *frequency* of recent spiking, and the asymmetric triplet depression (A3_MINUS=4 >> A3_PLUS=1) selectively suppresses weights for uncorrelated synapses more strongly than the pair-based rule can. Meanwhile, the triplet potentiation term provides a modest boost only when correlated triplets occur. This frequency-dependent modulation gives the triplet rule the finer discrimination needed to classify both digits correctly.
+The bursty BLACK patterns create pre-post-pre and post-pre-post triplet motifs. The pair-based rule sees each spike pair independently and cannot distinguish between correlated bursts and coincidental timing. The triplet rule's slow traces (`r2`, `o2`) encode the *frequency* of recent spiking activity, providing an additional modulation factor that the pair-based rule lacks entirely. The asymmetric triplet amplitudes (`A3_MINUS = 4` >> `A3_PLUS = 1`) are essential: the slow pre trace `r2` accumulates proportionally to input firing rate, so high-activity (BLACK pixel) synapses receive amplified depression that selectively suppresses uncorrelated weights. Meanwhile, the modest triplet potentiation term reinforces only synapses participating in correlated post-pre-post motifs. With symmetric triplet amplitudes, the slow traces instead create a positive feedback loop where the dominant neuron amplifies its own potentiation via `o2`, producing a winner-takes-all effect that worsens classification. The asymmetric configuration counteracts this runaway dynamic while preserving the frequency-dependent modulation that Pfister & Gerstner identify as the key advantage of the triplet model.

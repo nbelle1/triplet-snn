@@ -38,7 +38,7 @@ parameter A2_MINUS  = SYMMETRIC ? A2_PLUS : 4'd3;    // symmetric: LTD = LTP; as
 parameter A3_PLUS   = 4'd1;                          // triplet LTP magnitude (modulated by o2)
 parameter A3_MINUS  = 4'd4;                          // triplet LTD magnitude (modulated by r2)
 parameter DW_SCALE  = TRACE_BITS - 2;                 // right-shift to scale weight updates (scales with trace width)
-parameter TRACE_INC = (1 << (TRACE_BITS - 1));       // trace increment (half of max → 2 decay steps per spike)
+parameter TRACE_INC = (1 << (TRACE_BITS - 1));       // trace increment (half of max; accumulates with bursts)
 
 // weight arrays (parameterized width)
 reg [W_BITS-1:0] w1 [0:24];
