@@ -28,8 +28,7 @@ localparam TRACE_MAX      = (1 << TRACE_BITS) - 1;    // max trace value
 
 // neuron parameters (base values scaled by W_SCALE_FACTOR)
 parameter V_REST      = 6 * W_SCALE_FACTOR;
-// parameter V_THRESHOLD = 65 * W_SCALE_FACTOR;
-parameter V_THRESHOLD = 64 * W_SCALE_FACTOR + 1;
+parameter V_THRESHOLD = 65 * W_SCALE_FACTOR;
 parameter K_SYN       = 1;
 parameter V_LEAK      = LEAK_EN ? 1 * W_SCALE_FACTOR : 0;
 
