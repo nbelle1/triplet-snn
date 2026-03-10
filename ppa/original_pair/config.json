@@ -1,0 +1,12 @@
+{
+  "DESIGN_NAME": "snn_network",
+  "VERILOG_FILES": [
+    "dir::../../rtl/snn_network.v"
+  ],
+  "CLOCK_PERIOD": 25,
+  "CLOCK_PORT": "clk",
+  "VERILOG_DEFINES": [
+    "SYNTHESIS"
+  ],
+  "ERROR_ON_SYNTH_CHECKS": false
+}

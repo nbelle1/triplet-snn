@@ -1,0 +1,18 @@
+{
+  "DESIGN_NAME": "snn_dynamic",
+  "VERILOG_FILES": [
+    "dir::../../rtl/snn_dynamic.v"
+  ],
+  "CLOCK_PERIOD": 25,
+  "CLOCK_PORT": "clk",
+  "VERILOG_DEFINES": [
+    "SYNTHESIS"
+  ],
+  "ERROR_ON_SYNTH_CHECKS": false,
+  "SYNTH_PARAMETERS": [
+    "TRIPLET_EN=1",
+    "LEAK_EN=1",
+    "W_BITS=4",
+    "MODE=0"
+  ]
+}
