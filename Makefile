@@ -74,7 +74,7 @@ TRACE_BITS ?= 4
 TRIPLET_EN ?= 1
 MODE       ?= 0
 LEAK_EN    ?= 1
-SYMMETRIC  ?= 0
+SYMMETRIC  ?= 1
 NUM_EPOCHS ?= 1
 
 # Build -D flags from variables
@@ -110,8 +110,20 @@ plot-triplet:
 plot-dynamic:
 	python3 $(VIZ_DIR)/plot_weights.py dynamic --make-args W_BITS=$(W_BITS) TRACE_BITS=$(TRACE_BITS) TRIPLET_EN=$(TRIPLET_EN) MODE=$(MODE) LEAK_EN=$(LEAK_EN) SYMMETRIC=$(SYMMETRIC) NUM_EPOCHS=$(NUM_EPOCHS)
 
+plot-dynamic-original:
+	$(MAKE) plot-dynamic W_BITS=2 TRACE_BITS=2 TRIPLET_EN=0 LEAK_EN=0 SYMMETRIC=1
+
+plot-dynamic-pair:
+	$(MAKE) plot-dynamic TRIPLET_EN=0
+
+plot-dynamic-triplet:
+	$(MAKE) plot-dynamic
+
+plot-dynamic-nn:
+	$(MAKE) plot-dynamic MODE=1
+
 # Clean build artifacts
 clean:
 	rm -f snn_train snn_test snn_verbose triplet_snn_train triplet_snn_test triplet_snn_verbose dynamic_snn_ablation *.vcd *.png
 
-.PHONY: all train test wave-train wave-test verbose triplet-train triplet-test wave-triplet-train wave-triplet-test triplet-verbose ablation ablation-original ablation-pair ablation-triplet ablation-nn plot plot-triplet plot-dynamic clean
+.PHONY: all train test wave-train wave-test verbose triplet-train triplet-test wave-triplet-train wave-triplet-test triplet-verbose ablation ablation-original ablation-pair ablation-triplet ablation-nn plot plot-triplet plot-dynamic plot-dynamic-original plot-dynamic-pair plot-dynamic-triplet plot-dynamic-nn clean

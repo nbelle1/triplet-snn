@@ -56,16 +56,17 @@ wire [V_BITS-1:0] V1, V2;
 wire             spike1, spike2;
 
 // spike patterns for each color pixel (MSB first)
-// BLACK: bursts of 2 every 5 cycles (16 spikes in 40 steps)
-// WHITE: single spikes every 10 cycles (4 spikes in 40 steps)
+// BLACK: doublet bursts (11) with irregular spacing (14 spikes in 40 steps)
+// WHITE: single spikes every ~10 cycles (4 spikes in 40 steps)
+// This pattern demonstrates triplet/burst asymmetry: triplet STDP passes, pair STDP fails
 // NUM_STEPS is derived from pattern length — change pattern width to adjust
 // localparam NUM_STEPS = 40;
 // localparam [NUM_STEPS-1:0] WHITE = 40'b1000000000100000000010000000001000000000;
 // localparam [NUM_STEPS-1:0] BLACK = 40'b1100110000001100110000001100110000001100;
 
-localparam NUM_STEPS = 20;
-localparam [NUM_STEPS-1:0] WHITE = 20'b01000000100000000010;
-localparam [NUM_STEPS-1:0] BLACK = 20'b01010100010101000101;
+localparam NUM_STEPS = 40;
+localparam [NUM_STEPS-1:0] WHITE = 40'b0100000000010000000001000000000100000000;
+localparam [NUM_STEPS-1:0] BLACK = 40'b0100100001001000010010000100100001001000;
 
 
 // zero training image
