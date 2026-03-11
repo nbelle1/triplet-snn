@@ -27,7 +27,7 @@ Defined in `architectures.json`. Two groups — **baseline** (from reports) and 
 
 ## Prerequisites
 
-1. **LibreLane** — Install from [github.com/efabless/openlane2](https://github.com/efabless/openlane2) (LibreLane is the renamed OpenLane 2). Follow the [Nix-based installation guide](https://openlane2.readthedocs.io/en/latest/getting_started/nix_installation/index.html) to set up the nix shell.
+1. **LibreLane** — Install from [github.com/efabless/openlane2](https://github.com/efabless/openlane2) (LibreLane is the renamed OpenLane 2). Follow the [Nix-based installation guide](https://librelane.readthedocs.io/en/latest/installation/nix_installation/index.html#nix-based-installation) to set up the nix shell.
 
 2. **Sky130 PDK** — Installed automatically by LibreLane/CIEL on first run, or manually via:
    ```bash

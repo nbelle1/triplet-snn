@@ -31,14 +31,20 @@ localparam W_SCALE_FACTOR = (1 << (W_BITS - 2));      // multiplier from origina
 localparam V_BITS         = W_BITS + 6;                // membrane potential width
 localparam WSUM_BITS      = W_BITS + 5;                // weighted sum width (W_MAX * 25)
 localparam TRACE_MAX      = (1 << TRACE_BITS) - 1;    // max trace value
-// Approximate segmented adder: truncate bottom SEG_TRUNC_BITS from each weight
-// before accumulation. This narrows the adder tree from WSUM_BITS to
-// (W_BITS - SEG_TRUNC_BITS + 5) bits, reducing area, power, and critical path.
-// The truncated bits are zero-filled in the result, bounding the error to
-// at most 25 * (2^SEG_TRUNC_BITS - 1) LSBs per weighted sum.
-localparam SEG_TRUNC_BITS = W_BITS / 2;                        // bits to truncate (2 for W_BITS=4)
-localparam SEG_EFF_BITS   = W_BITS - SEG_TRUNC_BITS;           // effective weight bits after truncation
-localparam SEG_WSUM_BITS  = SEG_EFF_BITS + 5;                  // narrowed accumulator width
+// Segmented carry-kill approximate adder (inspired by Lecture 10, slides 32-33).
+// Each weight is split into two halves at bit SEG_SPLIT: the low segment
+// [SEG_SPLIT-1:0] and the high segment [W_BITS-1:SEG_SPLIT] are accumulated
+// by independent adder trees. The carry from the low segment is killed
+// (not propagated to the high segment), breaking the critical path into
+// two shorter chains. The error comes from the lost carry: when the low
+// segment sum overflows SEG_SPLIT bits, the overflow is discarded.
+// Max lost carry = floor(25*(2^SEG_SPLIT - 1) / 2^SEG_SPLIT) = 18 for SEG_SPLIT=2.
+// Max weighted-sum error = 18 * 2^SEG_SPLIT = 72 LSBs (out of 375 full-scale).
+localparam SEG_SPLIT       = W_BITS / 2;                         // carry-kill boundary (2 for W_BITS=4)
+localparam SEG_LO_BITS     = SEG_SPLIT;                          // bits per operand in low segment
+localparam SEG_HI_BITS     = W_BITS - SEG_SPLIT;                 // bits per operand in high segment
+localparam SEG_LO_SUM_BITS = SEG_LO_BITS + 5;                   // low accumulator width (25 operands)
+localparam SEG_HI_SUM_BITS = SEG_HI_BITS + 5;                   // high accumulator width (25 operands)
 
 // neuron parameters (base values scaled by W_SCALE_FACTOR)
 parameter V_REST      = 6 * W_SCALE_FACTOR;
@@ -116,8 +122,10 @@ reg [W_BITS-1:0] lut_dep [0:255];  // depression delta:   indexed by {o1, r2}
 // optimizes them away since they are never read.
 initial begin
     `ifdef SYNTHESIS
-        // Hardcoded LUT data for synthesis (no $readmemh)
-        `include "stdp_lut_data.vh"
+        `ifdef LUT_STDP_EN_FLAG
+            // Hardcoded LUT data for synthesis (no $readmemh)
+            `include "stdp_lut_data.vh"
+        `endif
     `else
         // Simulation: load from .mem files
         $readmemh("lut/stdp_pot.mem", lut_pot);
@@ -132,30 +140,32 @@ end
 wire any_input = |S_in_prev;
 generate
 if (SEG_ADDER_EN) begin : gen_seg_adder
-    // Approximate adder: truncate bottom SEG_TRUNC_BITS from each weight,
-    // then accumulate using a single NARROWER adder tree (SEG_WSUM_BITS wide
-    // instead of WSUM_BITS). The truncated LSBs are zero-filled in the output.
-    // This reduces the number of gates in the adder tree AND shortens carry chains.
-    // With W_BITS=4, SEG_TRUNC_BITS=2: each weight is 2-bit, accumulator is 7-bit
-    // vs exact 4-bit weights / 9-bit accumulator → ~40% fewer adder bits.
-    reg [SEG_WSUM_BITS-1:0] sum_trunc1, sum_trunc2;
-    reg [SEG_EFF_BITS-1:0] trunc_w1, trunc_w2;
+    // Segmented carry-kill approximate adder (Lecture 10, slides 32-33).
+    // Split each weight at bit SEG_SPLIT into low [SEG_SPLIT-1:0] and
+    // high [W_BITS-1:SEG_SPLIT] halves. Each half is accumulated by an
+    // independent adder tree. The carry from the low segment is killed
+    // (not propagated to the high segment), breaking the 9-bit carry chain
+    // into two shorter chains (7-bit each), reducing critical path delay.
+    // Error: lost carry from low segment overflow; max = 72 LSBs / 375 full-scale.
+    reg [SEG_LO_SUM_BITS-1:0] sum_lo1, sum_lo2;
+    reg [SEG_HI_SUM_BITS-1:0] sum_hi1, sum_hi2;
     always @(*) begin
-        sum_trunc1 = 0;
-        sum_trunc2 = 0;
+        sum_lo1 = 0; sum_lo2 = 0;
+        sum_hi1 = 0; sum_hi2 = 0;
         wsum1 = 0;
         wsum2 = 0;
         if (!SPIKE_GATE_EN || any_input) begin
             for (i = 0; i < 25; i = i + 1) begin
-                // Truncate: keep only the top SEG_EFF_BITS of each weight
-                trunc_w1 = w1[i][W_BITS-1:SEG_TRUNC_BITS] & {SEG_EFF_BITS{S_in_prev[i]}};
-                trunc_w2 = w2[i][W_BITS-1:SEG_TRUNC_BITS] & {SEG_EFF_BITS{S_in_prev[i]}};
-                sum_trunc1 = sum_trunc1 + trunc_w1;
-                sum_trunc2 = sum_trunc2 + trunc_w2;
+                // Low segment: accumulate bottom SEG_SPLIT bits of each weight
+                sum_lo1 = sum_lo1 + (w1[i][SEG_LO_BITS-1:0] & {SEG_LO_BITS{S_in_prev[i]}});
+                sum_hi1 = sum_hi1 + (w1[i][W_BITS-1:SEG_LO_BITS] & {SEG_HI_BITS{S_in_prev[i]}});
+                sum_lo2 = sum_lo2 + (w2[i][SEG_LO_BITS-1:0] & {SEG_LO_BITS{S_in_prev[i]}});
+                sum_hi2 = sum_hi2 + (w2[i][W_BITS-1:SEG_LO_BITS] & {SEG_HI_BITS{S_in_prev[i]}});
             end
-            // Zero-fill truncated LSBs to restore scale
-            wsum1 = {sum_trunc1, {SEG_TRUNC_BITS{1'b0}}};
-            wsum2 = {sum_trunc2, {SEG_TRUNC_BITS{1'b0}}};
+            // Carry-kill reconstruction: concatenate high sum and low SEG_SPLIT bits
+            // The carry out of sum_lo (bits above SEG_SPLIT) is discarded
+            wsum1 = {sum_hi1[WSUM_BITS-1-SEG_SPLIT:0], sum_lo1[SEG_SPLIT-1:0]};
+            wsum2 = {sum_hi2[WSUM_BITS-1-SEG_SPLIT:0], sum_lo2[SEG_SPLIT-1:0]};
         end
     end
 end else begin : gen_exact_adder

@@ -3,7 +3,7 @@
   "VERILOG_FILES": [
     "dir::../../rtl/snn_network.v"
   ],
-  "CLOCK_PERIOD": 25,
+  "CLOCK_PERIOD": 15,
   "CLOCK_PORT": "clk",
   "VERILOG_DEFINES": [
     "SYNTHESIS"

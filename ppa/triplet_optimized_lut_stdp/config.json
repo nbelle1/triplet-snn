@@ -3,10 +3,11 @@
   "VERILOG_FILES": [
     "dir::../../rtl/snn_dynamic_optimized.v"
   ],
-  "CLOCK_PERIOD": 25,
+  "CLOCK_PERIOD": 15,
   "CLOCK_PORT": "clk",
   "VERILOG_DEFINES": [
-    "SYNTHESIS"
+    "SYNTHESIS",
+    "LUT_STDP_EN_FLAG"
   ],
   "ERROR_ON_SYNTH_CHECKS": false,
   "SYNTH_PARAMETERS": [

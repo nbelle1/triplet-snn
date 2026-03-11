@@ -127,11 +127,12 @@
         "LUT_STDP_EN": 1
       },
       "verilog_include_dirs": ["../../lut"],
+      "verilog_defines": ["LUT_STDP_EN_FLAG"],
       "make_target": null
     }
   },
   "defaults": {
-    "clock_period": 25,
+    "clock_period": 15,
     "clock_port": "clk",
     "rtl_dir": "../rtl",
     "verilog_defines": ["SYNTHESIS"],
