@@ -1,6 +1,6 @@
 # PPA Analysis — Triplet SNN ASIC Flow
 
-Synthesize and place-and-route the SNN designs using LibreLane (OpenLane-based) targeting Sky130.
+Synthesize the SNN designs using LibreLane (OpenLane-based) targeting Sky130.
 
 ## File Overview
 
@@ -9,38 +9,35 @@ Synthesize and place-and-route the SNN designs using LibreLane (OpenLane-based) 
 | `architectures.json` | Ground truth for all architecture definitions (params, RTL files, groups). Referenced by all notebooks. |
 | `ppa_analysis.ipynb` | Generate LibreLane configs, run synthesis, load PPA metrics, and produce comparison plots. |
 | `arch_regression.ipynb` | Validate functional correctness and compare performance across architectures using simulation. |
-| `dynamic_power_analysis.ipynb` | Measure dynamic power (VCD toggle counts) and temporal metrics (active/idle cycles, convergence, inference latency). |
+| `dynamic_power_analysis.ipynb` | Dynamic power analysis (VCD toggle counts, active/idle cycles, convergence, inference latency). **Work in progress — not yet complete.** |
 | `<arch_key>/config.json` | Per-design LibreLane config (auto-generated from `architectures.json` by the notebook). |
 
 ## Architectures
 
-Defined in `architectures.json`. Two groups — **baseline** (from reports) and **optimized** (new):
+Defined in `architectures.json`. Two groups — **baseline** and **optimized**:
 
 | Key | Label | Group | RTL File | Key Parameters |
 |-----|-------|-------|----------|----------------|
-| `original_pair` | Original Pair | baseline | `snn_network.v` | 2-bit weights, IF, symmetric |
+| `original_pair` | Original Pair | baseline | `snn_network.v` | 2-bit weights, IF neurons, symmetric STDP |
 | `pair` | Pair | baseline | `snn_dynamic.v` | `TRIPLET_EN=0, LEAK_EN=1, W_BITS=4` |
 | `triplet` | Triplet | baseline | `snn_dynamic.v` | `TRIPLET_EN=1, LEAK_EN=1, W_BITS=4` |
-| `triplet_optimized` | Triplet Optimized | optimized | `snn_dynamic_optimized.v` | Same as triplet, optimized RTL |
+| `triplet_optimized` | Triplet Optimized | optimized | `snn_dynamic_optimized.v` | Minor RTL syntax optimizations over triplet baseline (control) |
 | `triplet_optimized_spike_gated` | Triplet Opt. Spike-Gated | optimized | `snn_dynamic_optimized.v` | `SPIKE_GATE_EN=1` |
 | `triplet_optimized_nn` | Triplet Opt. Nearest-Neighbor | optimized | `snn_dynamic_optimized.v` | `MODE=1` |
+| `triplet_optimized_seg_adder` | Triplet Opt. Seg. Adder | optimized | `snn_dynamic_optimized.v` | `SEG_ADDER_EN=1` — approximate segmented carry-kill adder |
+| `triplet_optimized_lut_stdp` | Triplet Opt. LUT-STDP | optimized | `snn_dynamic_optimized.v` | `SPIKE_GATE_EN=1, LUT_STDP_EN=1` — ROM lookup replaces STDP multipliers |
 
 ## Prerequisites
 
 1. **LibreLane** — Install from [github.com/efabless/openlane2](https://github.com/efabless/openlane2) (LibreLane is the renamed OpenLane 2). Follow the [Nix-based installation guide](https://librelane.readthedocs.io/en/latest/installation/nix_installation/index.html#nix-based-installation) to set up the nix shell.
 
-2. **Sky130 PDK** — Installed automatically by LibreLane/CIEL on first run, or manually via:
-   ```bash
-   ciel install sky130A
-   ```
-
-3. **Environment variable** — Set `LIBRELANE_SHELL` to point to your LibreLane nix shell file, e.g.:
+2. **Environment variable** — Set `LIBRELANE_SHELL` to point to your LibreLane nix shell file, e.g.:
    ```bash
    export LIBRELANE_SHELL=/path/to/librelane/shell.nix
    ```
    Alternatively, you can `cd` into the LibreLane repo and run `nix develop` directly.
 
-4. **Python dependencies** — From the repo root:
+3. **Python dependencies** — From the repo root:
    ```bash
    pip install -r requirements.txt
    ```
