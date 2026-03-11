@@ -1,8 +1,3 @@
-// Dynamic-precision Triplet SNN using LIF neurons and Triplet STDP
-// W_BITS parameter controls weight precision (2 = original, 4 = extended)
-// Membrane potential scales automatically with weight precision
-// Supports both all-to-all (MODE=0) and nearest-neighbor (MODE=1) modes
-
 module snn_dynamic #(
     parameter W_BITS      = 4,  // weight bit-width (2 = original precision, 4 = extended)
     parameter MODE        = 0,  // 0 = all-to-all, 1 = nearest-neighbor
@@ -159,7 +154,7 @@ always @(posedge clk or posedge rst) begin
             end
         end
 
-        // --- Lateral inhibition ---
+        // lateral inhibition
         if (!need_reset_1 && spike1_now &&
             (need_reset_2 || !spike2_now)) begin
             if (!need_reset_2)
@@ -171,7 +166,7 @@ always @(posedge clk or posedge rst) begin
                 need_reset_1 <= 1'b1;
         end
 
-        // --- Triplet STDP weight updates ---
+        // triplet weight updates
         if (train) begin
             for (i = 0; i < 25; i = i + 1) begin : stdp_loop
                 reg [11:0] pot_raw1, dep_raw1;
@@ -234,7 +229,7 @@ always @(posedge clk or posedge rst) begin
             end
         end
 
-        // --- Update pre-synaptic traces ---
+        // update presynpatic trace
         for (i = 0; i < 25; i = i + 1) begin : trace_pre_update
             if (S_in[i]) begin
                 if (MODE == 1)
@@ -257,7 +252,7 @@ always @(posedge clk or posedge rst) begin
             end
         end
 
-        // --- Update post-synaptic traces ---
+        // update postsynaptic trace
         if (spike1_now) begin
             if (MODE == 1) begin
                 o1_1 <= TRACE_INC;

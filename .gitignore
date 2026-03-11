@@ -6,3 +6,4 @@ snn_test
 snn_verbose
 .claude/
 .DS_Store
+!results/case*.png

@@ -1,7 +1,3 @@
-// Triplet SNN using LIF neurons and Triplet STDP
-// Based on Pfister & Gerstner (2006) triplet STDP rule
-// Supports both all-to-all (MODE=0) and nearest-neighbor (MODE=1) modes
-
 module triplet_snn (
     input  wire        clk,
     input  wire        rst,
@@ -101,7 +97,7 @@ always @(posedge clk or posedge rst) begin
         end
     end
     else begin
-        // --- LIF neuron 1 update (with leak) ---
+        // neuron 1 update
         if (need_reset_1) begin
             V1 <= V_REST;
             spike1 <= 1'b0;
@@ -123,7 +119,7 @@ always @(posedge clk or posedge rst) begin
             end
         end
 
-        // --- LIF neuron 2 update (with leak) ---
+        // neuron 2 update
         if (need_reset_2) begin
             V2 <= V_REST;
             spike2 <= 1'b0;
@@ -145,7 +141,7 @@ always @(posedge clk or posedge rst) begin
             end
         end
 
-        // --- Lateral inhibition ---
+        // lateral inhibition
         // if neuron 1 fires alone, reset neuron 2 next cycle
         if (!need_reset_1 && spike1_now &&
             (need_reset_2 || !spike2_now)) begin
@@ -159,11 +155,11 @@ always @(posedge clk or posedge rst) begin
                 need_reset_1 <= 1'b1;
         end
 
-        // --- Triplet STDP weight updates ---
-        // Potentiation (on post spike): dw+ = r1[i] * (A2+ + A3+ * (r1[i] * o2) >> 4)
+        // triplet stdp weight updates
+        // Potentiation:
         //   - fast pre trace gates the update
         //   - slow post trace provides triplet modulation
-        // Depression (on pre spike):    dw- = o1 * (A2- + A3- * (o1 * r2[i]) >> 4)
+        // Depression:
         //   - fast post trace gates the update
         //   - slow pre trace provides triplet modulation
         if (train) begin
@@ -226,7 +222,7 @@ always @(posedge clk or posedge rst) begin
             end
         end
 
-        // --- Update pre-synaptic traces ---
+        // update presynaptic trace
         for (i = 0; i < 25; i = i + 1) begin : trace_pre_update
             // fast pre trace (r1): fast decay via >>1, bump on input spike
             if (S_in[i]) begin
@@ -251,8 +247,8 @@ always @(posedge clk or posedge rst) begin
             end
         end
 
-        // --- Update post-synaptic traces ---
-        // Neuron 1
+        // update postsynaptic trace
+        // neuron 1
         if (spike1_now) begin
             if (MODE == 1) begin
                 o1_1 <= TRACE_INC;
@@ -268,7 +264,7 @@ always @(posedge clk or posedge rst) begin
             o2_1 <= (o2_1 > 4'd1) ? o2_1 - 4'd2 : 4'd0;
         end
 
-        // Neuron 2
+        // neuron 2
         if (spike2_now) begin
             if (MODE == 1) begin
                 o1_2 <= TRACE_INC;
