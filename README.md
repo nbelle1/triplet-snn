@@ -130,4 +130,4 @@ make plot-dynamic SPIKE_WHITE=0000100000001000000010000000100000000000 SPIKE_BLA
 
 ## Complete Results
 
-Complete results can be found at the path **`experiments.log`**
+Complete results can be found in the directory **`results/`**.
